@@ -31,4 +31,6 @@
     <string name="passw">Password</string>
     <string name="confirmPassw">Confirm Password</string>
     <string name="email">E-mail Address</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
 </resources>

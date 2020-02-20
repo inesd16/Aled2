@@ -10,8 +10,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-    val goodIdentifier = "admin"
-    val goodPassword = "123"
+    val goodIdentifier = ""
+    val goodPassword = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
             doLogin()
         }
         testButton.setOnClickListener(){
-            val intent = Intent(this, RegistrationActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
 
         }

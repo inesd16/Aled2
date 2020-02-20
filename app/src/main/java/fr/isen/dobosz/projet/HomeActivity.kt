@@ -4,7 +4,8 @@ package fr.isen.dobosz.projet
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import fr.isen.dobosz.projet.R
+import android.view.Menu
+import android.view.MenuInflater
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -20,6 +21,12 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
         }
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.test_menu, menu)
+        return true
     }
 
 }
