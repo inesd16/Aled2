@@ -4,9 +4,9 @@
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_message"
+            android:id="@+id/nav_connect"
             android:icon="@drawable/ic_email"
-            android:title="Message">
+            android:title="Se connecter">
 
         </item>
         <item
@@ -15,21 +15,25 @@
             android:title="Chat">
 
             <item
-                android:id="@+id/nav_profile"
+                android:id="@+id/nav_sign_in"
                 android:icon="@drawable/ic_email"
-                android:title="Profile"></item>
+                android:title="Créer un compte" />
         </item>
     </group>
-    <item android:title="Communicate">
+    <item android:title="Contact">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_about_us"
                 android:icon="@drawable/ic_share"
-                android:title="Service Client"></item>
+                android:title="A propos" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_share"
-                android:title="Contact"></item>
+                android:title="Contact" />
+            <item
+                android:id="@+id/nav_client"
+                android:icon="@drawable/ic_share"
+                android:title="Service Client" />
         </menu>
     </item>
 

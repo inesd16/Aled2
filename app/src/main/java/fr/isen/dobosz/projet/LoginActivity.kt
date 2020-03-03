@@ -23,7 +23,10 @@ class LoginActivity : AppCompatActivity() {
         testButton.setOnClickListener(){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-
+        }
+        newAccountTextView.setOnClickListener(){
+            val intent = Intent(this, RegistrationActivity::class.java)
+            startActivity(intent)
         }
     }
     fun doLogin (){
