@@ -35,4 +35,5 @@
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="contact_data">contact@aled.com</string>
     <string name="newAccount">Vous n\'avez pas encore de compte ?</string>
+    <string name="do_diagnostic">Faire Mon Diagnostic</string>
 </resources>
