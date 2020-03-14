@@ -13,12 +13,25 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
+import fr.isen.dobosz.projet.R.layout.fragment_profile
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+
+
+
+        button.setOnClickListener(){
+            System.out.println("I clicked the button")
+        }
+
+
+
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -55,16 +68,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //R.id.nav_sign_in -> setContentView(R.layout.activity_registration)
             //R.id.nav_sign_in -> supportFragmentManager.beginTransaction().replace(R.layout.activity_registration,ProfileFragment()).commit()
 
-            R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
-            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
+            R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ContactFragment()).commit()
+            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
             //R.id.nav_contact -> Toast.makeText(this,"share", Toast.LENGTH_SHORT).show()
             //R.id.nav_client -> Toast.makeText(this,"send", Toast.LENGTH_SHORT).show()
-
         }
         startActivity(intent)
         drawer_layout.closeDrawer(GravityCompat.START)
-
-
         return true
     }
     override fun onBackPressed() {
@@ -74,7 +84,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.test_menu, menu)
@@ -83,6 +92,3 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 }
 
-private fun NavigationView.setNavigationItemSelectedListener(homeActivity: HomeActivity) {
-
-}

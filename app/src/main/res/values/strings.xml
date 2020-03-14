@@ -36,4 +36,8 @@
     <string name="contact_data">contact@aled.com</string>
     <string name="newAccount">Vous n\'avez pas encore de compte ?</string>
     <string name="do_diagnostic">Faire Mon Diagnostic</string>
+    <string name="titleALEDWeb">Aled Website</string>
+    <string name="titleCustomerService">Service Client</string>
+    <string name="titleContact">Contact</string>
+    <string name="titleAboutUs">Sur nous</string>
 </resources>

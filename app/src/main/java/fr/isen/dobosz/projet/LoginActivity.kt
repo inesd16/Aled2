@@ -3,12 +3,27 @@ package fr.isen.dobosz.projet
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import fr.isen.dobosz.projet.R
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_login.*
+import fr.isen.dobosz.projet.R.layout.activity_login
 
-class LoginActivity : AppCompatActivity() {
+
+class LoginActivity : AppCompatActivity(){
 
     val goodIdentifier = ""
     val goodPassword = ""
@@ -16,19 +31,21 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        //autoLogin()
-        validateButton.setOnClickListener{
+        findViewById<Button>(R.id.validateButton).setOnClickListener{
             doLogin()
         }
-        testButton.setOnClickListener(){
+        findViewById<Button>(R.id.testButton).setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        newAccountTextView.setOnClickListener(){
+
+        newAccountTextView.setOnClickListener{
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
         }
+
     }
+
     fun doLogin (){
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
         sharedPrefLogs.edit().putString("prompt_email", "${usernameEditText.text}").apply()
@@ -54,8 +71,14 @@ class LoginActivity : AppCompatActivity() {
         return (identifier == goodIdentifier && password == goodPassword)
     }
 
+
     fun getValueString(key_name : String): String? {
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
         return sharedPrefLogs.getString(key_name, "")
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.test_menu, menu)
+        return true
     }
 }

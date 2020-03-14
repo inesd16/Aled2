@@ -1,20 +1,15 @@
 package fr.isen.dobosz.projet
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.core.view.isVisible
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -65,8 +60,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //R.id.nav_sign_in -> setContentView(R.layout.activity_registration)
             //R.id.nav_sign_in -> supportFragmentManager.beginTransaction().replace(R.layout.activity_registration,ProfileFragment()).commit()
 
-            R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
-            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
+            R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
+            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
             //R.id.nav_contact -> Toast.makeText(this,"share", Toast.LENGTH_SHORT).show()
             //R.id.nav_client -> Toast.makeText(this,"send", Toast.LENGTH_SHORT).show()
 
