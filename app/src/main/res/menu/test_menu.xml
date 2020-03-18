@@ -1,9 +1,10 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_edit"
-        android:icon="@drawable/ic_edit"
+    <item android:id="@+id/action_user_info"
+        android:icon="@drawable/patient_logo"
         android:title="Edit"
         app:showAsAction="always"></item>
+    <!--
     <item android:id="@+id/action_add"
         android:icon="@drawable/ic_add"
         android:title="ifRoom"
@@ -11,5 +12,5 @@
     <item android:id="@+id/action_delete"
         android:icon="@drawable/ic_delete"
         android:title="Delete"
-        app:showAsAction="never"></item>
+        app:showAsAction="never"></item>-->
 </menu>
