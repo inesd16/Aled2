@@ -28,8 +28,8 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registration)
 
         var database = FirebaseDatabase.getInstance()
-        //var myRef = database.getReferenceFromUrl("https://projettech-958b8.firebaseio.com/user/1tskrn1wx67j79sfIYzR")
-        //myRef.setValue("HelloWorld");
+//        var myRef = database.getReferenceFromUrl("user/Email")
+  //      myRef.setValue("HelloWorld");
         registerButton.setOnClickListener() {
             checkForm()
 

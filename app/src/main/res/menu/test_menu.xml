@@ -3,7 +3,7 @@
     <item android:id="@+id/action_user_info"
         android:icon="@drawable/patient_logo"
         android:title="Edit"
-        app:showAsAction="always"></item>
+        app:showAsAction="ifRoom"></item>
     <!--
     <item android:id="@+id/action_add"
         android:icon="@drawable/ic_add"

@@ -40,4 +40,9 @@
     <string name="titleCustomerService">Service Client</string>
     <string name="titleContact">Contact</string>
     <string name="titleAboutUs">Sur nous</string>
+    <string name="faq">FAQ</string>
+    <string name="webSiteDescription">Medical Desertification is a website where you can do your own diagnosis to help for the organisation of doctor\'s days</string>
+    <string name="contactInfo">Informations</string>
+    <string name="myAccount">Mon compte</string>
+    <string name="generalPolicy">Conditions Générales</string>
 </resources>

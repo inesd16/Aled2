@@ -1,7 +1,9 @@
 package fr.isen.dobosz.projet
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
@@ -20,6 +22,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @SuppressLint("PrivateResource")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /*val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(stateConnection){
+
+        }*/
         //val openDialog = Dialog(this)
         //openDialog.setContentView(R.layout.custom_dialog)
         setContentView(R.layout.activity_main)
