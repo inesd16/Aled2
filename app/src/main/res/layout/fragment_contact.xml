@@ -31,7 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.328"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/aledWebTextView"
@@ -125,7 +126,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.436"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/informationTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/informationTextView"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/informationTextView"
@@ -136,10 +138,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/faqTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomText" />
 
     <TextView
-        android:id="@+id/faqTextView"
+        android:id="@+id/welcomText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
@@ -148,4 +150,5 @@
         app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customerServiceTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

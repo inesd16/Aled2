@@ -1,8 +1,12 @@
 package fr.isen.dobosz.projet
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_registration.*
@@ -13,9 +17,10 @@ import com.google.firebase.database.FirebaseDatabase
 
 class RegistrationActivity : AppCompatActivity() {
     //public var name:String = ""
-    public var password: String = ""
-    public var email: String = ""
+     var password: String = ""
+     var email: String = ""
     private var mAuth: FirebaseAuth? = null
+
 
 
 
@@ -24,17 +29,35 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_registration)
+
 
         var database = FirebaseDatabase.getInstance()
 //        var myRef = database.getReferenceFromUrl("user/Email")
   //      myRef.setValue("HelloWorld");
         registerButton.setOnClickListener() {
             checkForm()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
 
             System.out.println(passwField.getText().toString() + confirmPasswField.getText().toString())
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.user_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            R.id.action_home -> intent = Intent(this, HomeActivity::class.java)
+        }
+        startActivity(intent)
+        return true
+        //return super.onOptionsItemSelected(item)
     }
 
     public override fun onStart() {
@@ -77,7 +100,7 @@ class RegistrationActivity : AppCompatActivity() {
                 if (countNumber && countCapLetter)
                     return true
                 else {
-                    informations.setText("Password must contain at least 1 number and 1 up case")
+                    informations.setText(R.string.stringPasswordInfo)
                     return false
                 }
             }
@@ -105,7 +128,7 @@ class RegistrationActivity : AppCompatActivity() {
             return true
 
         } else {
-            informations.setText("Please enter a correct email address")
+            informations.setText(R.string.emailError)
             return false
         }
     }
@@ -113,13 +136,13 @@ class RegistrationActivity : AppCompatActivity() {
     fun checkNames(): Boolean {
         for (letter in nameField.getText().toString()) {
             if (letter.toString() == " ") {
-                informations.setText("No space on name and family name")
+                informations.setText(R.string.noSpace)
                 return false
             }
         }
         for (letter in surnameField.getText().toString()) {
             if (letter.toString() == " ") {
-                informations.setText("No space on name and family name")
+                informations.setText(R.string.noSpace)
                 return false
             }
         }
@@ -135,7 +158,7 @@ class RegistrationActivity : AppCompatActivity() {
                         password = passwField.getText().toString()
                         email = emailField.getText().toString()
 
-                        mAuth = FirebaseAuth.getInstance();
+                        mAuth = FirebaseAuth.getInstance()
                         mAuth!!.createUserWithEmailAndPassword(
                             email,
                             password
@@ -145,7 +168,7 @@ class RegistrationActivity : AppCompatActivity() {
                             ) { task ->
                                 if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
                                     //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
-                                    informations.setText("Everything is ok")
+                                    informations.setText(R.string.ok)
                                     val user = mAuth!!.currentUser
 
                                     //updateUI(user)
@@ -159,7 +182,7 @@ class RegistrationActivity : AppCompatActivity() {
                                         this@RegistrationActivity, "Authentication failed.",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    informations.setText("Cet eMail est déjà utilisé")
+                                    informations.setText(R.string.emailAlreadyUsed)
                                     //updateUI(null)
                                 }
                                 // ...

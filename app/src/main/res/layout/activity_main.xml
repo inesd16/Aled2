@@ -28,16 +28,8 @@
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/cardview_shadow_end_color">
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:text="Button"
-                android:visibility="visible" />
-        </FrameLayout>
+            android:background="@color/cardview_shadow_end_color"
+            tools:ignore="PrivateResource" />
 
 
     </LinearLayout>

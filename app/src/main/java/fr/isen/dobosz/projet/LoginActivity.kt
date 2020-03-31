@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.nav_header.*
 
 
 class LoginActivity : AppCompatActivity(){
@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
         findViewById<Button>(R.id.validateButton).setOnClickListener{
             doLogin()
 
@@ -60,6 +60,9 @@ class LoginActivity : AppCompatActivity(){
         }
 
     }
+
+
+
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -79,8 +82,8 @@ class LoginActivity : AppCompatActivity(){
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
        } */
-        var password = passwordEditText.getText().toString()
-        var email = emailEditText.getText().toString()
+        val password = passwordEditText.getText().toString()
+        val email = emailEditText.getText().toString()
 
 
         mAuth!!.signInWithEmailAndPassword(email, password)
@@ -114,22 +117,40 @@ fun autoLogin () {
  if (canLog(stringId.toString(), stringPassword.toString())){
      val intent = Intent(this, HomeActivity::class.java)
      intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
      startActivity(intent)
  }
 }
 
-fun canLog (identifier: String, password: String): Boolean{
- return (identifier == goodIdentifier && password == goodPassword)
-}
+    fun canLog (identifier: String, password: String): Boolean{
+     return (identifier == goodIdentifier && password == goodPassword)
+    }
 
 
-fun getValueString(key_name : String): String? {
- val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
- return sharedPrefLogs.getString(key_name, "")
-}
-override fun onCreateOptionsMenu(menu: Menu): Boolean {
- val inflater: MenuInflater = menuInflater
- inflater.inflate(R.menu.test_menu, menu)
- return true
-}
+    fun getValueString(key_name : String): String? {
+     val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
+     return sharedPrefLogs.getString(key_name, "")
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+     val inflater: MenuInflater = menuInflater
+     inflater.inflate(R.menu.user_menu, menu)
+     return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        //var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        when (item.getItemId()) {
+            R.id.log_out -> {with(sharedPrefLogs.edit()) {
+            putBoolean("isConn", false)
+            //putBoolean("saveState",true)
+            commit()
+        }
+                intent = Intent(this, HomeActivity::class.java)
+            }
+        }
+        startActivity(intent)
+        return true
+        //return super.onOptionsItemSelected(item)
+    }
 }

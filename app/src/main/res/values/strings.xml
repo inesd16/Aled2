@@ -45,4 +45,29 @@
     <string name="contactInfo">Informations</string>
     <string name="myAccount">Mon compte</string>
     <string name="generalPolicy">Conditions Générales</string>
+    <string name="welcome">Page d\'accueil\nBienvenue\nNon connecté</string>
+    <string name="welcomeConnected">Page d\'accueil\nBienvenue\nConnecté</string>
+    <string name="feelSick">Si vous êtes malade, ayez un pré-diagnostic en remplissant le formulaire</string>
+    <string name="accessForm">Accéder au formulaire</string>
+    <string name="notAsRealDoctor">En aucun cas les résultats donnés ne remplacent un vrai médecin</string>
+    <string name="testFollowLine">Test de mouvement\nFaites le tour de l\'étoile en commençant par le haut</string>
+    <string name="next">Suivant</string>
+    <string name="edit">Edit</string>
+    <string name="start">Commencez</string>
+    <string name="starToFollow">Etoile à contourner</string>
+    <string name="emergencyCall">Appel d\'urgence</string>
+    <string name="camera">Camera</string>
+    <string name="emergency">C\'est une urgence \nAppuyez sur le bouton !</string>
+    <string name="goHomePage">Aller sur la page d\'accueil</string>
+    <string name="seeMap">Lancer la carte</string>
+    <string name="history">Voir l\'historique</string>
+    <string name="stringPasswordInfo">Password must contain at least 1 number and 1 up case</string>
+    <string name="emailError">Please enter a correct email address</string>
+    <string name="noSpace">No space on name and family name</string>
+    <string name="ok">Everything is OK</string>
+    <string name="emailAlreadyUsed">Cet eMail est déjà utilisé</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="callDoctorNow">Applez un medecin maintenant</string>
 </resources>

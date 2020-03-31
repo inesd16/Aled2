@@ -1,6 +1,8 @@
 package fr.isen.dobosz.projet
 
 
+import android.view.MotionEvent
+import kotlinx.android.synthetic.main.activity_main.*
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -13,14 +15,11 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.MotionEvent
+import android.view.*
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.solver.widgets.Rectangle
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -35,13 +34,14 @@ import java.util.*
 
 //import java.sql.Time
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.OnNavigationItemSelectedListener{
     private val FILE_NAME:String = "ClickPosition.txt"
-    private var newTime:Boolean = true
     //var jsonArray = JSONArray()
     lateinit var gestureDet:GestureDetectorCompat
+    var mVelocityTracker: VelocityTracker? = null
 
     companion object{
+        var newTime:Boolean = true
         var readString:String? = null
         var height:Int = 0
         var width:Int = 0
@@ -51,31 +51,133 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-
-
-        System.out.println("newtime :"+this.newTime)
+        System.out.println("newtime :"+newTime)
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
-        if(stateConnection){
+        if(stateConnection) {
 //            val toolbar = findViewById<Toolbar>(R.id.toolbar)
 //            setSupportActionBar(toolbar)
             setContentView(R.layout.activity_home_connected)
 
-            homeButton.setOnClickListener{
+            super.onCreate(savedInstanceState)
+            homeButton.setOnClickListener {
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
 
+            }
+            findViewById<TextView>(R.id.accessFormTextViewClickable).setOnClickListener{
+                val intent = Intent(this, StarActivity::class.java)
+                startActivity(intent)
             }
 
 
 
-            historyButton.setOnClickListener{
+            layout.setOnTouchListener { v, event ->
+                val action = event.action
+                when(action){
+
+                    MotionEvent.ACTION_DOWN -> {
+                        System.out.println("BUTTON ACTION Down")
+                    }
+
+
+                    MotionEvent.ACTION_MOVE -> {
+
+                        System.out.println("ACTION_MOVE")
+                        // var newTime:Boolean = true
+                        val x = Math.round(event.x)
+                        val y = Math.round(event.y)
+
+                        System.out.println("POSITION")
+                        System.out.println("x : " + x)
+                        System.out.println("y : " + y)
+                        if (newTime) {
+                            val jsonArray = JSONArray()
+                            save(jsonArray, x, y)
+                            newTime = false
+                        }
+
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+                        System.out.println("BUTTON ACTION UP")
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> {
+
+                    }
+
+                    else ->{
+
+                    }
+                }
+                true
+            }
+
+//            sosButton.setOnTouchListener(View.OnTouchListener() {
+//
+//
+//                fun onTouch(v:View, event:MotionEvent):Boolean {
+//                    when(event.getAction()) {
+//                        MotionEvent.ACTION_DOWN ->{
+//
+//
+//                            return true
+//                        }
+//                        MotionEvent.ACTION_UP -> {
+//
+//
+//                            return true
+//
+//                        }
+//                    }
+//                    return false
+//                }
+//                return@OnTouchListener true
+//
+//                }
+
+
+
+
+
+
+
+            historyButton.setOnClickListener(){
 
             }
+
+
+            mapButton.setOnTouchListener(object : View.OnTouchListener{
+                @SuppressLint("ClickableViewAccessibility")
+                override fun onTouch(v: View?, event: MotionEvent?):Boolean {
+                    //Your code here
+                    when(event!!.action){
+                    MotionEvent.ACTION_MOVE -> {
+
+                        System.out.println("ACTION_MOVE")
+                        // var newTime:Boolean = true
+                        val x = Math.round(event.x)
+                        val y = Math.round(event.y)
+
+                        System.out.println("POSITION")
+                        System.out.println("x : " + x)
+                        System.out.println("y : " + y)
+                        if (newTime) {
+                            val jsonArray = JSONArray()
+                            save(jsonArray, x, y)
+                            newTime = false
+                        }
+                    }
+                    }
+
+                    return true
+                }})
             mapButton.setOnClickListener{
 
             }
-            val displayMetrics = DisplayMetrics()
+            /*val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(displayMetrics)
             height = displayMetrics.heightPixels
             width = displayMetrics.widthPixels
@@ -95,17 +197,17 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             var r = Rect()
             r.set(10,10,10,10)
-            c.drawRect(r,p)
-
-
+            c.drawRect(r,p)*/
         }
         else{
+            setTheme(R.style.AppTheme_NoActionBar)
             setContentView(R.layout.activity_main)
 
+            super.onCreate(savedInstanceState)
             val toolbar = findViewById<Toolbar>(R.id.toolbar)
             setSupportActionBar(toolbar)
 
-            val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this,drawer_layout, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+            val toggle = ActionBarDrawerToggle(this,drawer_layout, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
             val navigationView = findViewById<NavigationView>(R.id.nav_view)
             navigationView.setNavigationItemSelectedListener(this)
 
@@ -130,14 +232,14 @@ private fun isExternalStorageWritable():Boolean{
     }
 
 
-    public fun writeFile(){
+    fun writeFile(){
         System.out.println(readString)
-        var state = Environment.getExternalStorageState()
+        val state = Environment.getExternalStorageState()
         if(Environment.MEDIA_MOUNTED.equals((state))){
 
-            var root = Environment.getExternalStorageDirectory()
+            val root = Environment.getExternalStorageDirectory()
 
-            var dir = File(root.absolutePath+"/myAppFile");
+            val dir = File(root.absolutePath+"/myAppFile")
             System.out.println(dir)
             if(!dir.exists()){
                 dir.mkdir()
@@ -147,9 +249,9 @@ private fun isExternalStorageWritable():Boolean{
 
                 System.out.println("exists")
             }
-            var file = File(dir,"clickPos.txt")
+            val file = File(dir,"clickPos.txt")
             try {
-                var fos = FileOutputStream(file)
+                val fos = FileOutputStream(file)
                 fos.write(readString!!.toByteArray())
                 fos.close()
                 System.out.println("SAVED")
@@ -165,20 +267,16 @@ private fun isExternalStorageWritable():Boolean{
 
         }
 
-        else {
-
-
-        }
     }
 
-    public fun readFile(){
+    fun readFile(){
 
-        var myExternalFile:File = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"), "ClickPositionsFile.txt")
+        var myExternalFile = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"), "ClickPositionsFile.txt")
         val filename = "ClickPositionsFile.txt"
         myExternalFile = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"),filename)
-        var fileInputStream = FileInputStream(myExternalFile)
-        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
-        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+        val fileInputStream = FileInputStream(myExternalFile)
+        val inputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader = BufferedReader(inputStreamReader)
         val stringBuilder: StringBuilder = StringBuilder()
         var text: String? = null
         while ({ text = bufferedReader.readLine(); text }() != null) {
@@ -188,9 +286,15 @@ private fun isExternalStorageWritable():Boolean{
         fileInputStream.close()
 
     }
+    fun onCapturedPointerEvent(motionEvent: MotionEvent): Boolean {
+        // Get the coordinates required by your app
+        //val verticalOffset: Float = motionEvent.y
+        // Use the coordinates to update your view and return true if the event was
+        // successfully processed
+        return true
+    }
 
-
-    private fun readPreviousClick():JSONArray{
+    fun readPreviousClick():JSONArray{
 
             val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE)
             val readString = sharedPrefDungeon.getString("backupGameJson", "") ?:""
@@ -202,16 +306,14 @@ private fun isExternalStorageWritable():Boolean{
         return(jsonArray)
     }
 
-    private fun save(jsonArray: JSONArray, x:Int,y:Int){
-
+    fun save(jsonArray: JSONArray, x:Int,y:Int){
         val jsonObj = JSONObject()
         val millis = System.currentTimeMillis()
 
 //Divide millis by 1000 to get the number of seconds.
         //Divide millis by 1000 to get the number of seconds.
-        val seconds = millis / 1000
+       // val seconds = millis / 1000
 
-        var currentTime: Date = Calendar.getInstance().getTime()
         System.out.println(millis)
         jsonObj.put("clickX",x)
         jsonObj.put("clickY",y)
@@ -226,11 +328,86 @@ private fun isExternalStorageWritable():Boolean{
         //System.out.println(jsonArray)
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouch(view: View, event: MotionEvent): Boolean {
+        when (view) {
+            homeButton -> {
+                Log.d("next", "yeyy")
+                when (event.action){
+                    MotionEvent.ACTION_DOWN -> {
+
+                        System.out.println("ACTION_DOWN")
+
+                        // var newTime:Boolean = true
+                        val x = Math.round(event.x)
+                        val y = Math.round(event.y)
+
+                        System.out.println("POSITION")
+                        System.out.println("x : "+x)
+                        System.out.println("y : "+y)
+                        if(newTime){
+                            val jsonArray = JSONArray()
+                            save(jsonArray, x, y)
+                            newTime = false
+                        }
+
+                        else{
+                            save(readPreviousClick(), x,y)
+                        }
+                        //writeFile()
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+
+
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+
+                        System.out.println("ACTION_MOVE")
+                        // var newTime:Boolean = true
+                        val x = Math.round(event.x)
+                        val y = Math.round(event.y)
+
+                        System.out.println("POSITION")
+                        System.out.println("x : "+x)
+                        System.out.println("y : "+y)
+                        if(newTime){
+                            val jsonArray = JSONArray()
+                            save(jsonArray, x, y)
+                            newTime = false
+                        }
+
+                    }
+            }
+            }
+        }
+        return true
+    }
+
+
+     @SuppressLint("Recycle")
+     override fun onTouchEvent(event: MotionEvent): Boolean {
         val action = event.action
         when (action) {
+                MotionEvent.ACTION_UP -> {// Return a VelocityTracker object back to be re-used by others.
+                    System.out.println("ACTION_UP")
+                    System.out.println(mVelocityTracker)
+                    mVelocityTracker?.recycle()
+                    mVelocityTracker = null
+                }
+
             MotionEvent.ACTION_DOWN -> {
+                // Reset the velocity tracker back to its initial state.
+                this.mVelocityTracker?.clear()
+                // If necessary retrieve a new VelocityTracker object to watch the
+                // velocity of a motion.
+                mVelocityTracker = mVelocityTracker ?: VelocityTracker.obtain()
+                // Add a user's movement to the tracker.
+                mVelocityTracker?.addMovement(event)
                 System.out.println("ACTION_DOWN")
+
                 // var newTime:Boolean = true
                 val x = Math.round(event.x)
                 val y = Math.round(event.y)
@@ -261,8 +438,21 @@ private fun isExternalStorageWritable():Boolean{
                 System.out.println("y : "+y)
                 if(newTime){
                     val jsonArray = JSONArray()
+                    jsonArray.put("screen_accueil")
                     save(jsonArray, x, y)
                     newTime = false
+                    mVelocityTracker?.apply {
+                        val pointerId: Int = event.getPointerId(event.actionIndex)
+                        addMovement(event)
+                        // When you want to determine the velocity, call
+                        // computeCurrentVelocity(). Then call getXVelocity()
+                        // and getYVelocity() to retrieve the velocity for each pointer ID.
+                        computeCurrentVelocity(1000)
+                        // Log velocity of pixels per second
+                        // Best practice to use VelocityTrackerCompat where possible.
+                        Log.d("", "X velocity: ${getXVelocity(pointerId)}")
+                        Log.d("", "Y velocity: ${getYVelocity(pointerId)}")
+                    }
                 }
 
                 else{
@@ -270,6 +460,10 @@ private fun isExternalStorageWritable():Boolean{
                 }
                 //writeFile()
             }
+            MotionEvent.ACTION_CANCEL -> {
+                System.out.println("ACTION_CANCEL")
+
+        }
 
             MotionEvent.ACTION_POINTER_DOWN -> {
 
@@ -301,12 +495,13 @@ private fun isExternalStorageWritable():Boolean{
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if(item.getItemId() == R.id.nav_connect){
+//        if(item.getItemId() == R.id.nav_connect){
+//
+//            //setContentView(R.layout.activity_login)
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+//        }
 
-            //setContentView(R.layout.activity_login)
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
         when(item.getItemId()){
             // R.id.nav_connect -> supportFragmentManager.beginTransaction().replace(R.layout.activity_login,MessageFragment()).commit()
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
@@ -336,12 +531,12 @@ private fun isExternalStorageWritable():Boolean{
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.test_menu, menu)
+        inflater.inflate(R.menu.user_menu, menu)
 
         System.out.println("ONCREATEOPTION")
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
         if(!stateConnection){
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -370,8 +565,26 @@ private fun isExternalStorageWritable():Boolean{
         else{
             return true
         }
-        return false
+        //return false
 }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        //var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        when (item.getItemId()) {
+            R.id.log_out -> {with(sharedPrefLogs.edit()) {
+                putBoolean("isConn", false)
+                //putBoolean("saveState",true)
+                commit()
+            }
+                intent = Intent(this, HomeActivity::class.java)
+            }
+        }
+        startActivity(intent)
+        return true
+        //return super.onOptionsItemSelected(item)
+    }
+
 
 }
 

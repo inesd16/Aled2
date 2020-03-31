@@ -7,4 +7,5 @@
     <color name="colorConnectText">#FFFFFF</color>
     <color name="colorLineConnectAndPassword">#948F8F </color>
     <color name="colorBlue">#948F </color>
+    <color name="colorGreen">#7f2 </color>
 </resources>
