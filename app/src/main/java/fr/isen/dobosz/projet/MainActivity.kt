@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
 
-            R.id.nav_chat -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ChatFragment()).commit()
 
             //R.id.nav_sign_in -> setContentView(R.layout.activity_registration)
             //R.id.nav_sign_in -> supportFragmentManager.beginTransaction().replace(R.layout.activity_registration,ProfileFragment()).commit()

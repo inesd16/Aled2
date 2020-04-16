@@ -2,19 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_connect"
-            android:icon="@drawable/ic_email"
-            android:title="@string/connect">
+        <item android:title="@string/account">
+            <menu>
+            <item
+                android:id="@+id/nav_disconnect"
+                android:icon="@drawable/ic_email"
+                android:title="@string/toDisconnect">
+
+            </item>
+
+            <item
+                android:id="@+id/nav_edit_profile"
+                android:icon="@drawable/ic_email"
+                android:title="@string/editProfile">
 
         </item>
 
+            </menu>
+        </item>
+    <item android:title="@string/health">
+        <menu>
             <item
-                android:id="@+id/nav_sign_in"
-                android:icon="@drawable/ic_email"
-                android:title="@string/createAccount" />
-    </group>
+                android:id="@+id/nav_call_doctor"
+                android:icon="@drawable/ic_share"
+                android:title="@string/callDoctor" />
+            <item
+                android:id="@+id/nav_do_diagnosis"
+                android:icon="@drawable/ic_share"
+                android:title="@string/doDiagnosis" />
+        </menu>
+    </item>
     <item android:title="@string/contact">
         <menu>
             <item

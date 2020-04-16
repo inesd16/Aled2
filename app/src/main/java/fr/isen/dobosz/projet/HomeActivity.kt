@@ -3,7 +3,9 @@ package fr.isen.dobosz.projet
 
 import android.view.MotionEvent
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_menu_connected.*
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -17,6 +19,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -26,6 +29,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home_connected.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_registration.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
@@ -58,14 +62,42 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
         if(stateConnection) {
 //            val toolbar = findViewById<Toolbar>(R.id.toolbar)
 //            setSupportActionBar(toolbar)
-            setContentView(R.layout.activity_home_connected)
+
+
+//            setContentView(R.layout.activity_home_connected)
+//
+//            super.onCreate(savedInstanceState)
+
+
+            setTheme(R.style.AppTheme_NoActionBar)
+            setContentView(R.layout.activity_menu_connected)
 
             super.onCreate(savedInstanceState)
-            homeButton.setOnClickListener {
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+            val toolbar_conn = findViewById<Toolbar>(R.id.toolbar_conn)
+            setSupportActionBar(toolbar_conn)
 
-            }
+            val toggle = ActionBarDrawerToggle(this,drawer_layout_conn, toolbar_conn,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+            val navigationView = findViewById<NavigationView>(R.id.nav_view_conn)
+            navigationView.setNavigationItemSelectedListener(this)
+
+            drawer_layout_conn.addDrawerListener(toggle)
+            toggle.syncState()
+
+            if(savedInstanceState == null){
+
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,ChatFragment()).commit()
+                //navigationView.setCheckedItem(R.id.nav_connect)
+                //R.id.nav_connect.setOnClickListener(View.OnClickListener())
+            }/*
+
+
+            //          homeButton.setOnClickListener {
+//                val intent = Intent(this, HomeActivity::class.java)
+//                startActivity(intent)
+//
+//            }
+
+
             findViewById<TextView>(R.id.accessFormTextViewClickable).setOnClickListener{
                 val intent = Intent(this, StarActivity::class.java)
                 startActivity(intent)
@@ -149,35 +181,10 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             }
 
 
-            mapButton.setOnTouchListener(object : View.OnTouchListener{
-                @SuppressLint("ClickableViewAccessibility")
-                override fun onTouch(v: View?, event: MotionEvent?):Boolean {
-                    //Your code here
-                    when(event!!.action){
-                    MotionEvent.ACTION_MOVE -> {
-
-                        System.out.println("ACTION_MOVE")
-                        // var newTime:Boolean = true
-                        val x = Math.round(event.x)
-                        val y = Math.round(event.y)
-
-                        System.out.println("POSITION")
-                        System.out.println("x : " + x)
-                        System.out.println("y : " + y)
-                        if (newTime) {
-                            val jsonArray = JSONArray()
-                            save(jsonArray, x, y)
-                            newTime = false
-                        }
-                    }
-                    }
-
-                    return true
-                }})
             mapButton.setOnClickListener{
 
             }
-            /*val displayMetrics = DisplayMetrics()
+            *//*val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(displayMetrics)
             height = displayMetrics.heightPixels
             width = displayMetrics.widthPixels
@@ -284,7 +291,6 @@ private fun isExternalStorageWritable():Boolean{
         }
         System.out.println("StringBuilder : "+stringBuilder)
         fileInputStream.close()
-
     }
     fun onCapturedPointerEvent(motionEvent: MotionEvent): Boolean {
         // Get the coordinates required by your app
@@ -296,8 +302,8 @@ private fun isExternalStorageWritable():Boolean{
 
     fun readPreviousClick():JSONArray{
 
-            val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE)
-            val readString = sharedPrefDungeon.getString("backupGameJson", "") ?:""
+            val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition",Context.MODE_PRIVATE)
+            val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
         System.out.println(jsonArray)
         Log.d("DungeonCardActivityREAD", jsonArray.toString())
@@ -319,9 +325,9 @@ private fun isExternalStorageWritable():Boolean{
         jsonObj.put("clickY",y)
         jsonObj.put("timeClickedMillis",millis-1585154297320)
         jsonArray.put(jsonObj)
-        val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
-        with(sharedPrefDungeon.edit()) {
-            putString("backupGameJson", jsonArray.toString())
+        val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition",Context.MODE_PRIVATE) ?: return
+        with(sharedPrefPosition.edit()) {
+            putString("backupMicePos", jsonArray.toString())
             //putBoolean("saveState",true)
             commit()
         }
@@ -507,7 +513,7 @@ private fun isExternalStorageWritable():Boolean{
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
 
-            R.id.nav_chat -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ChatFragment()).commit()
+           // R.id.nav_chat -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ChatFragment()).commit()
             R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
             //R.id.nav_sign_in -> setContentView(R.layout.activity_registration)
             //R.id.nav_sign_in -> supportFragmentManager.beginTransaction().replace(R.layout.activity_registration,ProfileFragment()).commit()
@@ -531,13 +537,13 @@ private fun isExternalStorageWritable():Boolean{
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.user_menu, menu)
-
-        System.out.println("ONCREATEOPTION")
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
-        if(!stateConnection){
+        if(stateConnection){
+            inflater.inflate(R.menu.user_menu, menu)
+
+            System.out.println("MAIN SCREEN CONNECTED")
 
         val user = FirebaseAuth.getInstance().currentUser
     /*    if (user != null) { // Name, email address, and profile photo Url
@@ -571,6 +577,7 @@ private fun isExternalStorageWritable():Boolean{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         //var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+
         when (item.getItemId()) {
             R.id.log_out -> {with(sharedPrefLogs.edit()) {
                 putBoolean("isConn", false)

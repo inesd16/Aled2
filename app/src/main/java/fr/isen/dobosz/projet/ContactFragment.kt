@@ -33,15 +33,17 @@ class ContactFragment: AppCompatActivity(){
 
     protected fun sendEmail() {
         Log.i("Send email", "")
-        val TO = arrayOf("someone@gmail.com")
-        val CC = arrayOf("xyz@gmail.com")
+        val TO = arrayOf("contact@aled.com")
+        val CC = arrayOf("ines.dobosz@isen.yncrea.fr")
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO)
         emailIntent.putExtra(Intent.EXTRA_CC, CC)
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here")
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here")  // add name user
+
+
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."))
             finish()

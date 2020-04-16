@@ -1,21 +1,24 @@
 package fr.isen.dobosz.projet
 
+import android.R.attr.password
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType.*
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity() {
 
     val goodIdentifier = ""
     val goodPassword = ""
@@ -27,11 +30,45 @@ class LoginActivity : AppCompatActivity(){
         setContentView(R.layout.activity_login)
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
-        findViewById<Button>(R.id.validateButton).setOnClickListener{
+        findViewById<Button>(R.id.validateButton).setOnClickListener {
             doLogin()
+        }
 
-            val user = FirebaseAuth.getInstance().currentUser
-      /*      if (user != null) { // Name, email address, and profile photo Url
+        var passwShown: Boolean = false
+
+        toggleShowHidePasswButton.layoutParams.height = passwordEditText.height
+        val a: Int = passwordEditText.height
+        toggleShowHidePasswButton.layoutParams.width = a
+
+        findViewById<ImageButton>(R.id.toggleShowHidePasswButton).setOnClickListener() {
+            if (passwShown == false) {
+                passwordEditText.inputType = TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
+                passwShown = true
+                toggleShowHidePasswButton.setBackgroundResource(R.drawable.hide_password)
+                System.out.println("Passw SHOWN")
+
+            } else {
+                passwordEditText.inputType = TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passwShown = false
+                toggleShowHidePasswButton.setBackgroundResource(R.drawable.show_password)
+                System.out.println("Passw HIDDEN")
+
+            }
+
+        }
+
+//
+//            toggleShowHidePasswButton.setOnCheckedChangeListener(){ _, isChecked ->
+//                System.out.println("BUTTON CLICKED")
+//                if(isChecked){
+//                }
+//                else if(!isChecked){
+//
+//                }
+//
+//            }
+        val user = FirebaseAuth.getInstance().currentUser
+        /*      if (user != null) { // Name, email address, and profile photo Url
                 val name = user.getDisplayName()
 
                 val email = user.getEmail()
@@ -48,19 +85,18 @@ class LoginActivity : AppCompatActivity(){
                 val uid = user.uid
             }           */
 
-        }
-        findViewById<Button>(R.id.testButton).setOnClickListener{
+
+        findViewById<Button>(R.id.testButton).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
-        newAccountTextView.setOnClickListener{
+        newAccountTextView.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
         }
 
     }
-
 
 
     override fun onStart() {
@@ -71,10 +107,8 @@ class LoginActivity : AppCompatActivity(){
     }
 
 
-
-
-    fun doLogin (){
-       /* val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
+    fun doLogin() {
+        /* val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
         sharedPrefLogs.edit().putString("prompt_email", "${usernameEditText.text}").apply()
         sharedPrefLogs.edit().putString("prompt_password", "${passwordEditText.text}").apply()
         if (canLog(usernameEditText.text.toString(), passwordEditText.text.toString())) {
@@ -94,60 +128,55 @@ class LoginActivity : AppCompatActivity(){
                     Log.d("login", "signInWithEmail:success")
                     val user = mAuth!!.currentUser
 
-                    val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+                    val sharedPrefLogs: SharedPreferences =
+                        getSharedPreferences("isConnected", Context.MODE_PRIVATE)
                     sharedPrefLogs.edit().putBoolean("isConn", true).apply()
 
-                     val intent = Intent(this, HomeActivity::class.java)
-                     startActivity(intent)
-             //updateUI(user)
-         } else { // If sign in fails, display a message to the user.
-             Log.w("login", "signInWithEmail:failure", task.exception)
-             Toast.makeText(
-                 this@LoginActivity, "Authentication failed.",
-                 Toast.LENGTH_SHORT
-             ).show()
-         }
-         // ...
-     }
-}
-
-fun autoLogin () {
- val stringId : String? = getValueString("prompt_email")
- val stringPassword : String? = getValueString("prompt_password")
- if (canLog(stringId.toString(), stringPassword.toString())){
-     val intent = Intent(this, HomeActivity::class.java)
-     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-     startActivity(intent)
- }
-}
-
-    fun canLog (identifier: String, password: String): Boolean{
-     return (identifier == goodIdentifier && password == goodPassword)
-    }
-
-
-    fun getValueString(key_name : String): String? {
-     val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
-     return sharedPrefLogs.getString(key_name, "")
-    }
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-     val inflater: MenuInflater = menuInflater
-     inflater.inflate(R.menu.user_menu, menu)
-     return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        //var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
-        when (item.getItemId()) {
-            R.id.log_out -> {with(sharedPrefLogs.edit()) {
-            putBoolean("isConn", false)
-            //putBoolean("saveState",true)
-            commit()
-        }
-                intent = Intent(this, HomeActivity::class.java)
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    //updateUI(user)
+                } else { // If sign in fails, display a message to the user.
+                    Log.w("login", "signInWithEmail:failure", task.exception)
+                    Toast.makeText(
+                        this@LoginActivity, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                // ...
             }
+    }
+
+    fun autoLogin() {
+        val stringId: String? = getValueString("prompt_email")
+        val stringPassword: String? = getValueString("prompt_password")
+        if (canLog(stringId.toString(), stringPassword.toString())) {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+        }
+    }
+
+    fun canLog(identifier: String, password: String): Boolean {
+        return (identifier == goodIdentifier && password == goodPassword)
+    }
+
+
+    fun getValueString(key_name: String): String? {
+        val sharedPrefLogs: SharedPreferences =
+            getSharedPreferences("identifiers", Context.MODE_PRIVATE)
+        return sharedPrefLogs.getString(key_name, "")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            R.id.action_home -> intent = Intent(this, HomeActivity::class.java)
         }
         startActivity(intent)
         return true

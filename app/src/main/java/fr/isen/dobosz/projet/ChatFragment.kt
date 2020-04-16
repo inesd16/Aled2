@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import fr.isen.dobosz.projet.R.layout.activity_home_connected
 import fr.isen.dobosz.projet.R.layout.fragment_message
 
 class ChatFragment: Fragment(){
@@ -14,6 +15,6 @@ class ChatFragment: Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(fragment_message, container, false )
+        return inflater.inflate(activity_home_connected, container, false )
     }
 }
