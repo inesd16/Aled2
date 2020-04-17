@@ -2,21 +2,14 @@ package fr.isen.dobosz.projet
 
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.internal.NavigationMenuItemView
-import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.android.synthetic.main.fragment_contact.*
 
 
@@ -28,6 +21,9 @@ class ContactFragment: AppCompatActivity(){
         setContentView(R.layout.fragment_contact)
         emailTextView.setOnClickListener{
             sendEmail()
+        }
+        nameTextView.setOnClickListener(){
+            openWebURL("https://boushoku.alwaysdata.net/")
         }
     }
 
@@ -66,4 +62,9 @@ class ContactFragment: AppCompatActivity(){
         inflater.inflate(R.menu.home_menu, menu)
             return true
         }
+
+    fun openWebURL(inURL: String?) {
+        val browse = Intent(Intent.ACTION_VIEW, Uri.parse(inURL))
+        startActivity(browse)
+    }
 }

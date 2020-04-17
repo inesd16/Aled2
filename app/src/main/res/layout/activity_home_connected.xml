@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeConnectedActivity"
-    android:theme="@style/AppTheme">
+    android:background="@drawable/background"
+    android:theme="@style/AppTheme"
+    tools:context=".HomeConnectedActivity">
 
 
     <ImageButton
@@ -25,13 +26,13 @@
         android:id="@+id/sosTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="24dp"
         android:text="@string/emergency"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/connectedTitle" />
 
     <TextView
         android:id="@+id/connectedTitle"
@@ -65,11 +66,11 @@
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:background="#8CB5D5"
+            android:contentDescription="@string/history"
             android:orientation="horizontal"
             android:src="@drawable/news_logo"
             tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="578dp"
-            android:contentDescription="@string/history" />
+            tools:layout_editor_absoluteY="578dp" />
 
         <ImageButton
             android:id="@+id/homeButton"
@@ -88,11 +89,11 @@
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="#8CB5D5"
+            android:contentDescription="@string/seeMap"
             android:orientation="horizontal"
             android:src="@drawable/map_logo"
             tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="578dp"
-            android:contentDescription="@string/seeMap" />
+            tools:layout_editor_absoluteY="578dp" />
 
     </LinearLayout>
 
@@ -102,12 +103,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:clickable="true"
+        android:focusable="true"
         android:text="@string/accessForm"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fellSickTextView"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/fellSickTextView" />
 
     <TextView
         android:id="@+id/fellSickTextView"

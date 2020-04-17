@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Medical Desertification</string>
-    <string name="connection">Connexon</string>
+    <string name="connection">Connexion</string>
     <string name="subscribe">S\'inscrire</string>
     <string name="this_is_imageview">Image</string>
     <string name="prompt_email">Nom d\'utilisateur</string>
@@ -28,7 +28,7 @@
     <string name="picture">Prendre une photo</string>
     <string name="number_tel">Numéro</string>
     <string name="registration">Registration</string>
-    <string name="register">Register</string>
+    <string name="register">Inscrivez - vous !</string>
     <string name="passw">Password</string>
     <string name="confirmPassw">Confirm Password</string>
     <string name="email">E-mail Address</string>
@@ -87,6 +87,13 @@
     <string name="about">A propos</string>
     <string name="clientService">Service Client</string>
     <string name="customerService">Service Client</string>
+    <string name="callWithoutConn">Appelez d\'urgence sans être connecté</string>
+    <string name="app_name_website">Medical Desertification Website</string>
+    <string name="phoneContact">+33 6 12 34 56 78</string>
+    <string name="sosDescription">Appuyez pour appeler un médecin immédiatement</string>
+    <string name="ines_email">ines.dobosz@hotmail.fr</string>
+    <string name="azerty">azerty</string>
+    <string name="showHideDescription">Afficher / Cacher le mot de passe</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>

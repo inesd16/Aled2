@@ -8,18 +8,15 @@
     tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/connectionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="175dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="168dp"
         android:text="@string/connection"
         android:textColor="@color/colorConnect"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:background="@color/colorPrimary"
+        android:padding="2dp"
         android:text="@string/apply"
         android:textColor="@color/colorConnectText"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +40,7 @@
         android:id="@+id/testButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inscrivez - vous ! "
+        android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.23"
@@ -57,11 +55,12 @@
         android:layout_marginTop="52dp"
         android:ems="10"
         android:hint="@string/email"
-        android:inputType="textPersonName"
-        android:text="ines.dobosz@hotmail.fr"
+        android:inputType="textEmailAddress"
+        android:text="@string/ines_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/connectionText"
+        android:autofillHints="@string/email" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -69,24 +68,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textVisiblePassword|textPassword"
-        android:password="true"
-        android:text="azerty"
+        android:hint="@string/passw"
+        android:inputType="textPassword"
+        android:text="@string/azerty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        android:autofillHints="@string/passw" />
 
     <TextView
         android:id="@+id/newAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="48dp"
         android:clickable="true"
-        android:text="@string/newAccount"
+        android:focusable="true"
+        android:text="@string/callWithoutConn"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.394"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testButton" />
 
@@ -94,10 +94,10 @@
         android:id="@+id/sosButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:onClick="@string/confirmPassw"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/sosDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newAccountTextView"
         app:srcCompat="@drawable/heartsosresized" />
@@ -112,6 +112,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/passwordEditText"
         app:layout_constraintTop_toTopOf="@+id/passwordEditText"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:contentDescription="@string/showHideDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

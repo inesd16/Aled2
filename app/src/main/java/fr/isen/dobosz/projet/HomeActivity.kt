@@ -1,25 +1,15 @@
 package fr.isen.dobosz.projet
 
 
-import android.view.MotionEvent
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_menu_connected.*
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.Environment
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -29,19 +19,19 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home_connected.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_registration.*
+import kotlinx.android.synthetic.main.activity_menu_connected.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
-import java.util.*
+import javax.annotation.Nullable
 
 
 //import java.sql.Time
 
 class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.OnNavigationItemSelectedListener{
-    private val FILE_NAME:String = "ClickPosition.txt"
+    //private val FILE_NAME:String = "ClickPosition.txt"
     //var jsonArray = JSONArray()
-    lateinit var gestureDet:GestureDetectorCompat
+    //lateinit var gestureDet:GestureDetectorCompat
     var mVelocityTracker: VelocityTracker? = null
 
     companion object{
@@ -58,7 +48,7 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
         System.out.println("newtime :"+newTime)
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
         if(stateConnection) {
 //            val toolbar = findViewById<Toolbar>(R.id.toolbar)
 //            setSupportActionBar(toolbar)
@@ -176,9 +166,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
 
 
-            historyButton.setOnClickListener(){
-
-            }
 
 
             mapButton.setOnClickListener{
@@ -205,6 +192,11 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             var r = Rect()
             r.set(10,10,10,10)
             c.drawRect(r,p)*/
+//            var hisB = findViewById<Button>(R.id.historyButton)
+//            historyButton.setOnClickListener(){}
+
+
+
         }
         else{
             setTheme(R.style.AppTheme_NoActionBar)
@@ -239,7 +231,7 @@ private fun isExternalStorageWritable():Boolean{
     }
 
 
-    fun writeFile(){
+    /*fun writeFile(){
         System.out.println(readString)
         val state = Environment.getExternalStorageState()
         if(Environment.MEDIA_MOUNTED.equals((state))){
@@ -274,9 +266,9 @@ private fun isExternalStorageWritable():Boolean{
 
         }
 
-    }
+    }*/
 
-    fun readFile(){
+   /* fun readFile(){
 
         var myExternalFile = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"), "ClickPositionsFile.txt")
         val filename = "ClickPositionsFile.txt"
@@ -298,7 +290,7 @@ private fun isExternalStorageWritable():Boolean{
         // Use the coordinates to update your view and return true if the event was
         // successfully processed
         return true
-    }
+    }*/
 
     fun readPreviousClick():JSONArray{
 
@@ -545,7 +537,7 @@ private fun isExternalStorageWritable():Boolean{
 
             System.out.println("MAIN SCREEN CONNECTED")
 
-        val user = FirebaseAuth.getInstance().currentUser
+        //val user = FirebaseAuth.getInstance().currentUser
     /*    if (user != null) { // Name, email address, and profile photo Url
             System.out.println("USER NON NULL")
             val name = user.getDisplayName()
@@ -591,6 +583,7 @@ private fun isExternalStorageWritable():Boolean{
         return true
         //return super.onOptionsItemSelected(item)
     }
+
 
 
 }
