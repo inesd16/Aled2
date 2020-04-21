@@ -10,10 +10,10 @@ import android.hardware.Camera
 import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
 import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
@@ -28,8 +28,7 @@ import fr.isen.dobosz.projet.HomeActivity.Companion.newTime
 import kotlinx.android.synthetic.main.activity_star.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,7 +42,10 @@ class StarActivity : AppCompatActivity() {
         var gpsRequestCode = 2
         var callRequestCode = 3
         var videoRequestCode = 4
+        var audioRequestCode = 5
         var writeESRequestCode = 9
+        var readESRequestCode = 10
+
     }
     private var mCamera: Camera? = null
     private var mPreview: CameraPreview? = null
@@ -66,18 +68,41 @@ class StarActivity : AppCompatActivity() {
             val preview: FrameLayout = findViewById(R.id.camera_preview)
             preview.addView(it)
         }
-        requestPermission(Manifest.permission.CAMERA, cameraRequestCode) {
+
+
+        requestPermission(Manifest.permission.RECORD_AUDIO, audioRequestCode) {
 
         }
+        if(isWriteStoragePermissionGranted()){
+            System.out.println("PERMISSION")
+            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, writeESRequestCode) {
+
+            }
+
+        }
+        if(isReadStoragePermissionGranted()){
+            System.out.println("PERMISSION")
+            requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
+            }
+        }
+
         emergencyCallButton.setOnClickListener{
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.CALL_PHONE),callRequestCode)
-            } else {
+            requestPermission(Manifest.permission.CALL_PHONE, callRequestCode){
                 startCall()
             }
         }
+
+        nextButton.setOnClickListener(){
+            val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
+            val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
+            writeFile(readString,"", this)
+            read()
+        }
         var isRecording = false
         videoButton.setOnClickListener{
+            requestPermission(Manifest.permission.CAMERA, cameraRequestCode){
+                System.out.println("permission ok")
+
 //            if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 //                ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
 //                    writeESRequestCode)
@@ -85,6 +110,7 @@ class StarActivity : AppCompatActivity() {
                 //recordVideo()
 
                 if (isRecording) {
+                    System.out.println("RECPRDINF")
                     // stop recording and release camera
                     mediaRecorder?.stop() // stop the recording
                     mediaRecorder?.release()// release the MediaRecorder object
@@ -95,8 +121,23 @@ class StarActivity : AppCompatActivity() {
                     videoButton.setText("capture")
                     isRecording = false
                 } else {
+
+                    System.out.println("NOT RECORDING")
+//                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.CAMERA),StarActivity.cameraRequestCode
+//                        )
+//                    }
+//                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.RECORD_AUDIO),StarActivity.audioRequestCode
+//                        )
+//                    }
+
                     // initialize video camera
                     if (prepareVideoRecorder()) {
+
+
+
+                        System.out.println("PREPARE RECORDING")
                         // Camera is available and unlocked, MediaRecorder is prepared,
                         // now you can start recording
                         mediaRecorder?.start()
@@ -105,22 +146,23 @@ class StarActivity : AppCompatActivity() {
                         //setCaptureButtonText("Stop")
                         videoButton.setText("stop")
                         isRecording = true
+
                     } else {
                         // prepare didn't work, release the camera
                         mediaRecorder?.release()
                         // inform user
                     }
                 }
+        }
           //  }
         }
 
 
-        starImageView.setOnTouchListener { v, event ->
+        starImageView.setOnTouchListener { _, event ->
             val action = event.action
             when(action){
 
                 MotionEvent.ACTION_DOWN -> {
-                    System.out.println("BUTTON ACTION Down")
                     startTextColor.setTextColor(getResources().getColor(R.color.colorConnect))
                     // var newTime:Boolean = true
                     val x = Math.round(event.x)
@@ -132,14 +174,13 @@ class StarActivity : AppCompatActivity() {
                                   // is new time (click down)
                     val jsonArray = JSONArray() //create new
                     jsonArray.put("etoile") //from starAct
-                    save(jsonArray, x, y)
+                    saveInJSON(jsonArray, x, y)
                     newTimeStar = false
 
                 }
 
                 MotionEvent.ACTION_MOVE -> {
 
-                    System.out.println("ACTION_MOVE")
                     // var newTime:Boolean = true
                     val x = Math.round(event.x)
                     val y = Math.round(event.y)
@@ -148,11 +189,10 @@ class StarActivity : AppCompatActivity() {
                     System.out.println("x : " + x)
                     System.out.println("y : " + y)
 
-                    save(readPreviousClick(), x,y)
+                    saveInJSON(readPreviousClick(), x,y)
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    System.out.println("BUTTON ACTION UP")
                     startTextColor.setTextColor(getResources().getColor(R.color.colorGreen))
                     // var newTime:Boolean = true
                     val x = Math.round(event.x)
@@ -162,7 +202,7 @@ class StarActivity : AppCompatActivity() {
                     System.out.println("x : " + x)
                     System.out.println("y : " + y)
 
-                    save(readPreviousClick(), x,y)
+                    saveInJSON(readPreviousClick(), x,y)
                     nextButton.visibility = View.VISIBLE
                 }
 
@@ -193,18 +233,16 @@ class StarActivity : AppCompatActivity() {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
-        val mediaStorageDir = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-            "MyCameraApp"
-        )
+        val mediaStorageDir = File(getExternalFilesDir("videoDir"),"MyCameraApp")
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
+        System.out.println("DIR "+mediaStorageDir)
         // Create the storage directory if it does not exist
         mediaStorageDir.apply {
             if (!exists()) {
                 if (!mkdirs()) {
-                    System.out.println("MyCameraApp"+ "failed to create directory")
+                    System.out.println("MyCameraApp "+ "failed to create directory")
                     return null
                 }
             }
@@ -245,13 +283,13 @@ class StarActivity : AppCompatActivity() {
         val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
         System.out.println(jsonArray)
-        Log.d("DungeonCardActivityREAD", jsonArray.toString())
+        //Log.d("DungeonCardActivityREAD", jsonArray.toString())
         //System.out.println(jsonArray)
         //System.out.println("READ"+readString)
         return(jsonArray)
     }
 
-    fun save(jsonArray: JSONArray, x:Int,y:Int){
+    fun saveInJSON(jsonArray: JSONArray, x:Int,y:Int){
         val jsonObj = JSONObject()
         val millis = System.currentTimeMillis()
 
@@ -290,12 +328,12 @@ class StarActivity : AppCompatActivity() {
                 System.out.println("y : "+y)
                 if(newTime){
                     val jsonArray = JSONArray()
-                    save(jsonArray, x, y)
+                    saveInJSON(jsonArray, x, y)
                     newTime = false
                 }
 
                 else{
-                    save(readPreviousClick(), x,y)
+                    saveInJSON(readPreviousClick(), x,y)
                 }
                 //writeFile()
             }
@@ -312,13 +350,13 @@ class StarActivity : AppCompatActivity() {
                 if(newTime){
                     val jsonArray = JSONArray()
                     jsonArray.put("screen_accueil")
-                    save(jsonArray, x, y)
+                    saveInJSON(jsonArray, x, y)
                     newTimeStar = false
 
                 }
 
                 else{
-                    save(readPreviousClick(), x,y)
+                    saveInJSON(readPreviousClick(), x,y)
                 }
                 //writeFile()
             }
@@ -339,14 +377,13 @@ class StarActivity : AppCompatActivity() {
                 System.out.println("y : "+y)
                 if(newTimeStar){
                     val jsonArray = JSONArray()
-                    save(jsonArray, x, y)
+                    saveInJSON(jsonArray, x, y)
                     newTimeStar = false
                 }
 
                 else{
-                    save(readPreviousClick(), x,y)
+                    saveInJSON(readPreviousClick(), x,y)
                 }
-                //writeFile()
             }
 
 
@@ -372,18 +409,135 @@ class StarActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        when (requestCode) {
+            9 ->{Log.d("TAG", "External storage2")
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
+                    //resume tasks needing this permission
+                    //downloadPdfFile();
+                }else{
+                    //progress.dismiss();
+                }
+            }
+            10 -> {
+                Log.d("TAG", "External storage1")
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
+                    //resume tasks needing this permission
+                    //SharePdfFile();
+                }else{
+                    //progress.dismiss();
+                }
+            }
+
+        }
             if (requestCode == cameraRequestCode) {
-                startCall()
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
+                    //resume tasks needing this permission
+                    //SharePdfFile();
+                    startCall()
+                }
                 System.out.println("PERMISSION CAMERA")
             }
-        if(requestCode == writeESRequestCode) {
-                //recordVideo()
-                System.out.println("PERMISSION CAMERA")
-            }
+//        if(requestCode == writeESRequestCode) {
+//            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
+//                //resume tasks needing this permission
+//                //recordVideo()
+//            }
+//                System.out.println("PERMISSION CAMERA")
+//            }
 
 
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    fun writeFile(coords1: String, coords2: String, context: Context){
+        System.out.println("WRiTEFile"+coords1)
+        //System.out.println("WRiTEFile"+HomeActivity.readString)
+        val state = Environment.getExternalStorageState()
+        var success = true
+        //val rootTest = Environment.getExternalStorageDirectory()
+        val root = getExternalFilesDir("DataToSend")
+
+        if(Environment.MEDIA_MOUNTED.equals((state))){
+            val dir = File(root!!.absolutePath+"/clickPos.txt")
+            System.out.println(dir.toString())
+            if(!dir.exists()){
+                success = dir.mkdir()
+                System.out.println("does not exists yet")
+            }
+            else{
+                System.out.println("exists")
+            }
+            if (success) {
+                val file = File(dir, "clickPos.txt")
+                System.out.println("success true")
+                try {
+                    file.createNewFile()
+                    val fOut = FileOutputStream(file)
+                    val myOutWriter =  OutputStreamWriter(fOut)
+                    myOutWriter.append(coords1)
+                    System.out.println("MYTEXT "+myOutWriter.toString())
+
+                    val outputStreamWriter = OutputStreamWriter(context.openFileOutput("clickPos.txt", Context.MODE_PRIVATE))
+                    outputStreamWriter.write(coords1)
+                    outputStreamWriter.close()
+
+                    /*val fos = FileOutputStream(file)
+                    fos.write(readString!!.toByteArray())
+                    fos.close()*/
+                    //File(dir.name).writeText(coords1)
+                    //File(dir.name).writeText(coords2)
+                    System.out.println("SAVED")
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+        fun read(){
+    requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
+
+            val root = getExternalFilesDir("DataToSend")
+            val dir = File(root!!.absolutePath+"/clickPos.txt")
+
+
+            //Read text from file
+            val text = StringBuilder();
+
+            val iStream = openFileInput(dir.toString())
+
+
+
+            try {
+                val br = BufferedReader(FileReader(dir));
+                val line:String = ""
+
+                while ((br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close()
+            }catch (e : IOException) {
+                //You'll need to add proper error handling here
+            }
+
+        }
+
+       /*     //System.out.println("Empty "+dir.readText().isEmpty())
+            try{
+                val readString = dir.readText()
+                val jsonObj = JSONObject(readString)
+                System.out.println("TEXTE LU DANS FICHIER "+readString)
+            }catch(e:Exception){
+                e.printStackTrace()
+            }*/
     }
 
     fun startCall(){
@@ -418,7 +572,7 @@ class StarActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == videoRequestCode && resultCode == Activity.RESULT_OK) {
-
+            System.out.println("PERMISSION VIDEO")
             //video_view.setVideoUri(videoUri)
             //video_view.start()
 
@@ -456,10 +610,12 @@ class StarActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun prepareVideoRecorder(): Boolean {
         mediaRecorder = MediaRecorder()
+        System.out.println("MEDIARECORDER "+mediaRecorder)
+        System.out.println("CAMERA "+mCamera)
 
         mCamera?.let { camera ->
             // Step 1: Unlock and set camera to MediaRecorder
-            camera?.unlock()
+            camera.unlock()
 
             mediaRecorder?.run {
                 setCamera(camera)
@@ -519,7 +675,55 @@ class StarActivity : AppCompatActivity() {
         mCamera?.release() // release the camera for other applications
         mCamera = null
     }
+
+    fun isReadStoragePermissionGranted():Boolean {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted1");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked1");
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), readESRequestCode);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted1");
+            return true;
+        }
+    }
+
+    fun isWriteStoragePermissionGranted():Boolean {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted2");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked2");
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writeESRequestCode);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted2");
+            return true;
+        }
+    }
+
+
+
+
 }
+
+
+
+
+
+
 
 /** A basic Camera preview class */
 @SuppressLint("ViewConstructor")
@@ -580,4 +784,7 @@ class CameraPreview(
             }
         }
     }
+
+
+
 }

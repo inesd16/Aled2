@@ -1,6 +1,5 @@
 package fr.isen.dobosz.projet
 
-import android.R.attr.password
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -34,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
             doLogin()
         }
 
-        var passwShown: Boolean = false
+        var passwShown = false
 
         toggleShowHidePasswButton.layoutParams.height = passwordEditText.height
         val a: Int = passwordEditText.height
@@ -45,46 +44,17 @@ class LoginActivity : AppCompatActivity() {
                 passwordEditText.inputType = TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
                 passwShown = true
                 toggleShowHidePasswButton.setBackgroundResource(R.drawable.hide_password)
-                System.out.println("Passw SHOWN")
 
             } else {
                 passwordEditText.inputType = TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 passwShown = false
                 toggleShowHidePasswButton.setBackgroundResource(R.drawable.show_password)
-                System.out.println("Passw HIDDEN")
 
             }
 
         }
 
-//
-//            toggleShowHidePasswButton.setOnCheckedChangeListener(){ _, isChecked ->
-//                System.out.println("BUTTON CLICKED")
-//                if(isChecked){
-//                }
-//                else if(!isChecked){
-//
-//                }
-//
-//            }
-        val user = FirebaseAuth.getInstance().currentUser
-        /*      if (user != null) { // Name, email address, and profile photo Url
-                val name = user.getDisplayName()
-
-                val email = user.getEmail()
-                val photoUrl = user.getPhotoUrl()
-                nameUserTextView.setText(name)
-                emailUserTextView.setText(email)
-                imageUser.setImageURI(photoUrl)
-                // Check if user's email is verified
-                val emailVerified = user.isEmailVerified
-                System.out.println(emailVerified)
-                // The user's ID, unique to the Firebase project. Do NOT use this value to
-// authenticate with your backend server, if you have one. Use
-// FirebaseUser.getIdToken() instead.
-                val uid = user.uid
-            }           */
-
+        //val user = FirebaseAuth.getInstance().currentUser
 
         findViewById<Button>(R.id.testButton).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -99,23 +69,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth!!.currentUser
-        //updateUI(currentUser)
-    }
 
 
     fun doLogin() {
-        /* val sharedPrefLogs : SharedPreferences = getSharedPreferences("identifiers", Context.MODE_PRIVATE)
-        sharedPrefLogs.edit().putString("prompt_email", "${usernameEditText.text}").apply()
-        sharedPrefLogs.edit().putString("prompt_password", "${passwordEditText.text}").apply()
-        if (canLog(usernameEditText.text.toString(), passwordEditText.text.toString())) {
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-       } */
         val password = passwordEditText.getText().toString()
         val email = emailEditText.getText().toString()
 
@@ -180,6 +136,5 @@ class LoginActivity : AppCompatActivity() {
         }
         startActivity(intent)
         return true
-        //return super.onOptionsItemSelected(item)
     }
 }

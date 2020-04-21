@@ -1,29 +1,31 @@
 package fr.isen.dobosz.projet
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.*
-import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GestureDetectorCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home_connected.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu_connected.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.*
-import javax.annotation.Nullable
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 
 
 //import java.sql.Time
@@ -49,6 +51,14 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
         System.out.println("newtime :"+newTime)
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
+            )
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.readESRequestCode
+            )
+        }
         if(stateConnection) {
 //            val toolbar = findViewById<Toolbar>(R.id.toolbar)
 //            setSupportActionBar(toolbar)
@@ -57,7 +67,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 //            setContentView(R.layout.activity_home_connected)
 //
 //            super.onCreate(savedInstanceState)
-
 
             setTheme(R.style.AppTheme_NoActionBar)
             setContentView(R.layout.activity_menu_connected)
@@ -75,7 +84,7 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
             if(savedInstanceState == null){
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,ChatFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,HomeConnectedFragment()).commit()
                 //navigationView.setCheckedItem(R.id.nav_connect)
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
             }/*
@@ -384,6 +393,7 @@ private fun isExternalStorageWritable():Boolean{
         return true
     }
 
+/*
 
      @SuppressLint("Recycle")
      override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -391,19 +401,9 @@ private fun isExternalStorageWritable():Boolean{
         when (action) {
                 MotionEvent.ACTION_UP -> {// Return a VelocityTracker object back to be re-used by others.
                     System.out.println("ACTION_UP")
-                    System.out.println(mVelocityTracker)
-                    mVelocityTracker?.recycle()
-                    mVelocityTracker = null
                 }
 
             MotionEvent.ACTION_DOWN -> {
-                // Reset the velocity tracker back to its initial state.
-                this.mVelocityTracker?.clear()
-                // If necessary retrieve a new VelocityTracker object to watch the
-                // velocity of a motion.
-                mVelocityTracker = mVelocityTracker ?: VelocityTracker.obtain()
-                // Add a user's movement to the tracker.
-                mVelocityTracker?.addMovement(event)
                 System.out.println("ACTION_DOWN")
 
                 // var newTime:Boolean = true
@@ -439,18 +439,6 @@ private fun isExternalStorageWritable():Boolean{
                     jsonArray.put("screen_accueil")
                     save(jsonArray, x, y)
                     newTime = false
-                    mVelocityTracker?.apply {
-                        val pointerId: Int = event.getPointerId(event.actionIndex)
-                        addMovement(event)
-                        // When you want to determine the velocity, call
-                        // computeCurrentVelocity(). Then call getXVelocity()
-                        // and getYVelocity() to retrieve the velocity for each pointer ID.
-                        computeCurrentVelocity(1000)
-                        // Log velocity of pixels per second
-                        // Best practice to use VelocityTrackerCompat where possible.
-                        Log.d("", "X velocity: ${getXVelocity(pointerId)}")
-                        Log.d("", "Y velocity: ${getYVelocity(pointerId)}")
-                    }
                 }
 
                 else{
@@ -490,6 +478,7 @@ private fun isExternalStorageWritable():Boolean{
         }
         return true
     }
+*/
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -583,6 +572,69 @@ private fun isExternalStorageWritable():Boolean{
         return true
         //return super.onOptionsItemSelected(item)
     }
+    fun writeFile(coords1: String, coords2: String){
+        System.out.println(readString)
+        val state = Environment.getExternalStorageState()
+        var success = true
+        val root = Environment.getExternalStorageDirectory()
+
+        if(Environment.MEDIA_MOUNTED.equals((state))){
+            val dir = File(root.absolutePath+"/myAppFile")
+            System.out.println(dir)
+            if(!dir.exists()){
+                success = dir.mkdir()
+                System.out.println("does not exists yet")
+            }
+            else{
+                System.out.println("exists")
+            }
+            if (success) {
+                //val file = File(dir, "clickPos.txt")
+                try {
+                    /*val fos = FileOutputStream(file)
+                    fos.write(readString!!.toByteArray())
+                    fos.close()*/
+                    File(dir.name).writeText(coords1)
+                    File(dir.name).writeText(coords2)
+                    System.out.println("SAVED")
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+//
+//    fun save(){ //write in the save file
+//        if(fNameField.text.toString().isNotEmpty() &&
+//            nameField.text.toString().isNotEmpty() &&
+//            dateField.text.toString().isNotEmpty()){
+//            Toast.makeText(this,R.string.register, Toast.LENGTH_LONG).show()
+//
+//            val jsonObj =  JSONObject()
+//            jsonObj.put(kfirstName, fNameField.text.toString())
+//            jsonObj.put(kName, nameField.text.toString())
+//            jsonObj.put(kBirth, dateField.text.toString())
+//            val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFileName)
+//            file.writeText(jsonObj.toString())
+//        }
+//        else
+//            Toast.makeText(this,R.string.fields_empty, Toast.LENGTH_LONG).show()
+//    }
+//    fun read(){
+//        val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFileName)
+//        val readString = file.readText()
+//        val jsonObj = JSONObject(readString)
+//
+//        val dateString = jsonObj.getString(SaveActivity.kBirth)
+//
+//        val components = dateString.split("/")
+//        Toast.makeText(this,jsonObj.getString(SaveActivity.kBirth), Toast.LENGTH_LONG).show()
+//        var age = getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())
+//        field_age.setText("Vous avez ${age} ans")
+//        //Toast.makeText(this,"vous avez ${age} ans", Toast.LENGTH_LONG).show()
+//    }
 
 
 
