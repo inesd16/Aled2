@@ -232,41 +232,38 @@ private fun isExternalStorageWritable():Boolean{
     }
 
 
-    fun writeFile(){
+    fun writeFile(coords1: String, coords2: String){
         System.out.println(readString)
         val state = Environment.getExternalStorageState()
+        var success = true
+        val root = Environment.getExternalStorageDirectory()
+
         if(Environment.MEDIA_MOUNTED.equals((state))){
-
-            val root = Environment.getExternalStorageDirectory()
-
             val dir = File(root.absolutePath+"/myAppFile")
             System.out.println(dir)
             if(!dir.exists()){
-                dir.mkdir()
+                success = dir.mkdir()
                 System.out.println("does not exists yet")
             }
             else{
-
                 System.out.println("exists")
             }
-            val file = File(dir,"clickPos.txt")
-            try {
-                val fos = FileOutputStream(file)
-                fos.write(readString!!.toByteArray())
-                fos.close()
-                System.out.println("SAVED")
-
+            if (success) {
+                val file = File(dir, "clickPos.txt")
+                try {
+                    /*val fos = FileOutputStream(file)
+                    fos.write(readString!!.toByteArray())
+                    fos.close()*/
+                    File(dir.name).writeText(coords1)
+                    File(dir.name).writeText(coords2)
+                    System.out.println("SAVED")
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
-            catch(e: FileNotFoundException){
-                e.printStackTrace()
-            }
-            catch(e: IOException){
-                e.printStackTrace()
-            }
-
-
         }
-
     }
 
     fun readFile(){
