@@ -52,7 +52,7 @@
     <string name="feelSick">Remplir le formulaire pour avoir un pré-diagnostic :</string>
     <string name="accessForm">Accéder au formulaire</string>
     <string name="notAsRealDoctor">En aucun cas les résultats donnés ne remplacent un vrai médecin</string>
-    <string name="testFollowLine">Test de mouvement\nFaites le tour de l\'étoile en commençant par le haut</string>
+    <string name="testFollowLine"><u>Etape 1</u> : Test de mouvement\nFaites le tour de l\'étoile en commençant par le haut</string>
     <string name="next">Suivant</string>
     <string name="edit">Edit</string>
     <string name="start">Commencez</string>
@@ -85,6 +85,7 @@
     <string name="createAccount">Créer un compte</string>
     <string name="contact">Contact</string>
     <string name="about">A propos</string>
+    <string name="policy">Mentions Légales</string>
     <string name="clientService">Service Client</string>
     <string name="customerService">Service Client</string>
     <string name="callWithoutConn">Appelez d\'urgence sans être connecté</string>
@@ -94,6 +95,8 @@
     <string name="ines_email">ines.dobosz@hotmail.fr</string>
     <string name="azerty">azerty</string>
     <string name="showHideDescription">Afficher / Cacher le mot de passe</string>
+    <string name="yourInfo">Vos Informations personnelles</string>
+    <string name="form">Formulaire</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>

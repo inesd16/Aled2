@@ -34,7 +34,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
     //private val FILE_NAME:String = "ClickPosition.txt"
     //var jsonArray = JSONArray()
     //lateinit var gestureDet:GestureDetectorCompat
-    var mVelocityTracker: VelocityTracker? = null
 
     companion object{
         var newTime:Boolean = true
@@ -48,9 +47,10 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        System.out.println("newtime :"+newTime)
+
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        System.out.println("conn"+stateConnection)
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
             )
@@ -59,15 +59,9 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.readESRequestCode
             )
         }
+
+
         if(stateConnection) {
-//            val toolbar = findViewById<Toolbar>(R.id.toolbar)
-//            setSupportActionBar(toolbar)
-
-
-//            setContentView(R.layout.activity_home_connected)
-//
-//            super.onCreate(savedInstanceState)
-
             setTheme(R.style.AppTheme_NoActionBar)
             setContentView(R.layout.activity_menu_connected)
 
@@ -104,47 +98,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
 
 
-            layout.setOnTouchListener { v, event ->
-                val action = event.action
-                when(action){
-
-                    MotionEvent.ACTION_DOWN -> {
-                        System.out.println("BUTTON ACTION Down")
-                    }
-
-
-                    MotionEvent.ACTION_MOVE -> {
-
-                        System.out.println("ACTION_MOVE")
-                        // var newTime:Boolean = true
-                        val x = Math.round(event.x)
-                        val y = Math.round(event.y)
-
-                        System.out.println("POSITION")
-                        System.out.println("x : " + x)
-                        System.out.println("y : " + y)
-                        if (newTime) {
-                            val jsonArray = JSONArray()
-                            save(jsonArray, x, y)
-                            newTime = false
-                        }
-
-                    }
-
-                    MotionEvent.ACTION_UP -> {
-                        System.out.println("BUTTON ACTION UP")
-                    }
-
-                    MotionEvent.ACTION_CANCEL -> {
-
-                    }
-
-                    else ->{
-
-                    }
-                }
-                true
-            }
 
 //            sosButton.setOnTouchListener(View.OnTouchListener() {
 //
@@ -180,29 +133,7 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             mapButton.setOnClickListener{
 
             }
-            *//*val displayMetrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(displayMetrics)
-            height = displayMetrics.heightPixels
-            width = displayMetrics.widthPixels
-            System.out.println("X Y : "+height+" "+width)
-            var b = Bitmap.createBitmap(9*width/10, 4*height/5, Bitmap.Config.ARGB_8888);
-            var c = Canvas(b);
-            var p = Paint();
-
-            // Dessiner l'intérieur d'une figure
-            p.setStyle(Paint.Style.FILL);
-
-            // Dessiner ses contours
-            p.setStyle(Paint.Style.STROKE);
-
-            // Dessiner les deux
-            p.setStyle(Paint.Style.FILL_AND_STROKE);
-
-            var r = Rect()
-            r.set(10,10,10,10)
-            c.drawRect(r,p)*/
-//            var hisB = findViewById<Button>(R.id.historyButton)
-//            historyButton.setOnClickListener(){}
+            */
 
 
 
@@ -482,28 +413,23 @@ private fun isExternalStorageWritable():Boolean{
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        if(item.getItemId() == R.id.nav_connect){
-//
-//            //setContentView(R.layout.activity_login)
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//        }
-
         when(item.getItemId()){
-            // R.id.nav_connect -> supportFragmentManager.beginTransaction().replace(R.layout.activity_login,MessageFragment()).commit()
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
-
-           // R.id.nav_chat -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ChatFragment()).commit()
+            R.id.nav_do_diagnosis -> intent = Intent(this,StarActivity::class.java)
+            R.id.nav_disconnect ->{val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+                with(sharedPrefLogs.edit()) {
+            putBoolean("isConn", false)
+            commit()
+        }
+            intent = Intent(this, HomeActivity::class.java)
+        }
+            R.id.nav_edit_profile -> intent = Intent(this, UserInfoActivity::class.java)
             R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
-            //R.id.nav_sign_in -> setContentView(R.layout.activity_registration)
-            //R.id.nav_sign_in -> supportFragmentManager.beginTransaction().replace(R.layout.activity_registration,ProfileFragment()).commit()
-
+            R.id.policy -> {}
             R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
-                //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ContactFragment()).commit()
             R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
-            //R.id.nav_contact -> Toast.makeText(this,"share", Toast.LENGTH_SHORT).show()
-            //R.id.nav_client -> Toast.makeText(this,"send", Toast.LENGTH_SHORT).show()
+            R.id.nav_client -> {}
         }
         startActivity(intent)
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -523,8 +449,6 @@ private fun isExternalStorageWritable():Boolean{
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
         if(stateConnection){
             inflater.inflate(R.menu.user_menu, menu)
-
-            System.out.println("MAIN SCREEN CONNECTED")
 
         //val user = FirebaseAuth.getInstance().currentUser
     /*    if (user != null) { // Name, email address, and profile photo Url
@@ -567,6 +491,7 @@ private fun isExternalStorageWritable():Boolean{
             }
                 intent = Intent(this, HomeActivity::class.java)
             }
+            R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
         }
         startActivity(intent)
         return true

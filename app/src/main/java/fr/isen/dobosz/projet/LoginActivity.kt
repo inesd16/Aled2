@@ -90,6 +90,11 @@ class LoginActivity : AppCompatActivity() {
 
                     val intent = Intent(this, HomeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    System.out.println(user!!.displayName)
+                    System.out.println(user!!.displayName)
+                    System.out.println(user!!.displayName)
+                    System.out.println(user!!.displayName)
+                    System.out.println(user!!.displayName)
                     startActivity(intent)
                     //updateUI(user)
                 } else { // If sign in fails, display a message to the user.

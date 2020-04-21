@@ -18,9 +18,9 @@
     <item android:title="@string/contact">
         <menu>
             <item
-                android:id="@+id/nav_about_us"
+                android:id="@+id/policy"
                 android:icon="@drawable/ic_share"
-                android:title="@string/about" />
+                android:title="@string/generalPolicy" />
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_share"

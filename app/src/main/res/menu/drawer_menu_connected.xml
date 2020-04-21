@@ -6,14 +6,14 @@
             <menu>
             <item
                 android:id="@+id/nav_disconnect"
-                android:icon="@drawable/ic_email"
+                android:icon="@drawable/log_out"
                 android:title="@string/toDisconnect">
 
             </item>
 
             <item
                 android:id="@+id/nav_edit_profile"
-                android:icon="@drawable/ic_email"
+                android:icon="@drawable/ic_edit"
                 android:title="@string/editProfile">
 
         </item>
@@ -24,11 +24,11 @@
         <menu>
             <item
                 android:id="@+id/nav_call_doctor"
-                android:icon="@drawable/ic_share"
+                android:icon="@drawable/common_full_open_on_phone"
                 android:title="@string/callDoctor" />
             <item
                 android:id="@+id/nav_do_diagnosis"
-                android:icon="@drawable/ic_share"
+                android:icon="@drawable/form_logo"
                 android:title="@string/doDiagnosis" />
         </menu>
     </item>

@@ -10,7 +10,71 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="81dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="81dp"
         android:text="@string/modifyContactInfo"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="47dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourInfoText" />
+
+    <TextView
+        android:id="@+id/yourInfoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/yourInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="#7FC7E4"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/historyButton"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="#8CB5D5"
+            android:contentDescription="@string/history"
+            android:orientation="horizontal"
+            android:src="@drawable/news_logo"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="578dp" />
+
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#8CB5D5"
+            android:contentDescription="@string/goHomePage"
+            android:orientation="horizontal"
+            android:src="@drawable/house" />
+
+        <ImageButton
+            android:id="@+id/mapButton"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="#8CB5D5"
+            android:contentDescription="@string/seeMap"
+            android:orientation="horizontal"
+            android:src="@drawable/map_logo"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="578dp" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
