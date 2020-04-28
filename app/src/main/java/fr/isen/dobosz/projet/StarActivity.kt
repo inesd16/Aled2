@@ -28,9 +28,12 @@ import fr.isen.dobosz.projet.HomeActivity.Companion.newTime
 import kotlinx.android.synthetic.main.activity_star.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class StarActivity : AppCompatActivity() {
@@ -45,8 +48,10 @@ class StarActivity : AppCompatActivity() {
         var audioRequestCode = 5
         var writeESRequestCode = 9
         var readESRequestCode = 10
-
     }
+    var posArray = ArrayList<String>()
+    var nmbOfMoveOnStarImage:Int = 0
+
     private var mCamera: Camera? = null
     private var mPreview: CameraPreview? = null
      var mediaRecorder: MediaRecorder? = null
@@ -55,9 +60,10 @@ class StarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_star)
 
+
         // Create an instance of Camera
         mCamera = getCameraInstance()
-
+        //mCamera!!.parameters.verticalViewAngle
         mPreview = mCamera?.let {
             // Create our Preview view
             CameraPreview(this, it)
@@ -68,20 +74,15 @@ class StarActivity : AppCompatActivity() {
             val preview: FrameLayout = findViewById(R.id.camera_preview)
             preview.addView(it)
         }
-
-
         requestPermission(Manifest.permission.RECORD_AUDIO, audioRequestCode) {
-
         }
         if(isWriteStoragePermissionGranted()){
-            System.out.println("PERMISSION")
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, writeESRequestCode) {
 
             }
 
         }
         if(isReadStoragePermissionGranted()){
-            System.out.println("PERMISSION")
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
             }
         }
@@ -94,20 +95,15 @@ class StarActivity : AppCompatActivity() {
 
         nextButton.setOnClickListener(){
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
-            val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
-            writeFile(readString,"", this)
+            val readString = sharedPrefPosition.getString("backupMicePos", "") ?:"" //posArray
+            writeFile(posArray.toString(),"", this)
             read()
         }
+
         var isRecording = false
         videoButton.setOnClickListener{
             requestPermission(Manifest.permission.CAMERA, cameraRequestCode){
                 System.out.println("permission ok")
-
-//            if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//                    writeESRequestCode)
-//            } else {
-                //recordVideo()
 
                 if (isRecording) {
                     System.out.println("RECPRDINF")
@@ -119,24 +115,12 @@ class StarActivity : AppCompatActivity() {
                     // inform the user that recording has stopped
                     //setCaptureButtonText("Capture")
                     videoButton.setText("capture")
+                    //videoView.setVideoURI()
                     isRecording = false
                 } else {
 
                     System.out.println("NOT RECORDING")
-//                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.CAMERA),StarActivity.cameraRequestCode
-//                        )
-//                    }
-//                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.RECORD_AUDIO),StarActivity.audioRequestCode
-//                        )
-//                    }
-
-                    // initialize video camera
                     if (prepareVideoRecorder()) {
-
-
-
                         System.out.println("PREPARE RECORDING")
                         // Camera is available and unlocked, MediaRecorder is prepared,
                         // now you can start recording
@@ -160,6 +144,7 @@ class StarActivity : AppCompatActivity() {
 
         starImageView.setOnTouchListener { _, event ->
             val action = event.action
+            System.out.println("DIMENSION IMAGE x y : "+starImageView.width+" "+starImageView.height)
             when(action){
 
                 MotionEvent.ACTION_DOWN -> {
@@ -171,11 +156,24 @@ class StarActivity : AppCompatActivity() {
                     System.out.println("POSITION")
                     System.out.println("x : " + x)
                     System.out.println("y : " + y)
-                                  // is new time (click down)
-                    val jsonArray = JSONArray() //create new
-                    jsonArray.put("etoile") //from starAct
-                    saveInJSON(jsonArray, x, y)
-                    newTimeStar = false
+                    System.out.println("NEwtIME "+newTimeStar)
+                    val jsonArrayVoid = JSONArray()
+                    if(newTimeStar){
+                        // is very first time (click down)
+                        val jsonArray = JSONArray() //create new
+                        val jsonObj = JSONObject()
+                        jsonArray.put("etoile") //from starAct
+                        jsonObj.put("image_x", starImageView.width)
+                        jsonObj.put("image_y", starImageView.height)
+                        jsonArray.put(jsonObj) //put dimensions
+                        posArray.add(nmbOfMoveOnStarImage++,jsonArray.toString()) //Have to put image info
+                        saveInJSON(jsonArrayVoid, x, y)
+                        newTimeStar = false
+                    }
+                    else{
+                        saveInJSON(jsonArrayVoid,x,y)
+                        //saveInJSON(readPreviousClick(),x,y)
+                    }
 
                 }
 
@@ -198,13 +196,16 @@ class StarActivity : AppCompatActivity() {
                     val x = Math.round(event.x)
                     val y = Math.round(event.y)
 
-                    System.out.println("POSITION")
-                    System.out.println("x : " + x)
-                    System.out.println("y : " + y)
-
-                    saveInJSON(readPreviousClick(), x,y)
+                    //saveInJSON(readPreviousClick(), x,y)
                     nextButton.visibility = View.VISIBLE
+                    val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
+                    val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
+                    System.out.println("READSTRING "+readString)
+                    posArray.add(nmbOfMoveOnStarImage,readString) //pos array contient toutes les series de move -> {sharedPrefPos1,sharedPrefPos2 ..}
+                    nmbOfMoveOnStarImage++
+                    System.out.println(posArray) //pour vérifier
                 }
+
 
                 MotionEvent.ACTION_CANCEL -> {
 
@@ -282,9 +283,9 @@ class StarActivity : AppCompatActivity() {
         val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
         val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
-        System.out.println(jsonArray)
-        //Log.d("DungeonCardActivityREAD", jsonArray.toString())
-        //System.out.println(jsonArray)
+        System.out.println("PREVIOUS CLICK"+jsonArray) //pour vérifier
+        //System.out.println(posArray) //pour vérifier
+
         //System.out.println("READ"+readString)
         return(jsonArray)
     }
@@ -293,14 +294,14 @@ class StarActivity : AppCompatActivity() {
         val jsonObj = JSONObject()
         val millis = System.currentTimeMillis()
 
-//Divide millis by 1000 to get the number of seconds.
+        //Divide millis by 1000 to get the number of seconds.
         //Divide millis by 1000 to get the number of seconds.
         //val seconds = millis / 1000
 
         System.out.println(millis)
-        jsonObj.put("clickX",x)
-        jsonObj.put("clickY",y)
-        jsonObj.put("timeClickedMillis",millis-1585154297320)
+        jsonObj.put("X",x)
+        jsonObj.put("Y",y)
+        jsonObj.put("t",millis-1588007005463)
         jsonArray.put(jsonObj)
         val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE) ?: return
         with(sharedPrefPosition.edit()) {
@@ -322,10 +323,10 @@ class StarActivity : AppCompatActivity() {
                 // var newTime:Boolean = true
                 val x = Math.round(event.x)
                 val y = Math.round(event.y)
-
-                System.out.println("POSITION")
-                System.out.println("x : "+x)
-                System.out.println("y : "+y)
+//
+//                System.out.println("POSITION")
+//                System.out.println("x : "+x)
+//                System.out.println("y : "+y)
                 if(newTime){
                     val jsonArray = JSONArray()
                     saveInJSON(jsonArray, x, y)
@@ -343,10 +344,10 @@ class StarActivity : AppCompatActivity() {
                 // var newTime:Boolean = true
                 val x = Math.round(event.x)
                 val y = Math.round(event.y)
-
-                System.out.println("POSITION")
-                System.out.println("x : "+x)
-                System.out.println("y : "+y)
+//
+//                System.out.println("POSITION")
+//                System.out.println("x : "+x)
+//                System.out.println("y : "+y)
                 if(newTime){
                     val jsonArray = JSONArray()
                     jsonArray.put("screen_accueil")
@@ -478,14 +479,16 @@ class StarActivity : AppCompatActivity() {
                 System.out.println("success true")
                 try {
                     file.createNewFile()
-                    val fOut = FileOutputStream(file)
+                    file.writeText(coords1)
+                    //System.out.println(file.readText())
+                   /* val fOut = FileOutputStream(file)
                     val myOutWriter =  OutputStreamWriter(fOut)
                     myOutWriter.append(coords1)
                     System.out.println("MYTEXT "+myOutWriter.toString())
 
                     val outputStreamWriter = OutputStreamWriter(context.openFileOutput("clickPos.txt", Context.MODE_PRIVATE))
                     outputStreamWriter.write(coords1)
-                    outputStreamWriter.close()
+                    outputStreamWriter.close()*/
 
                     /*val fos = FileOutputStream(file)
                     fos.write(readString!!.toByteArray())
@@ -494,8 +497,10 @@ class StarActivity : AppCompatActivity() {
                     //File(dir.name).writeText(coords2)
                     System.out.println("SAVED")
                 } catch (e: FileNotFoundException) {
+                    System.out.println("E1")
                     e.printStackTrace()
                 } catch (e: IOException) {
+                    System.out.println("E2")
                     e.printStackTrace()
                 }
             }
@@ -506,27 +511,35 @@ class StarActivity : AppCompatActivity() {
 
             val root = getExternalFilesDir("DataToSend")
             val dir = File(root!!.absolutePath+"/clickPos.txt")
+            val file = File(dir, "clickPos.txt")
+
+            val read = file.readText()
+            System.out.println("VALEUR READ "+read)
+
+        //Read text from file
+
+           // val iStream = openFileInput(dir.toString())
 
 
-            //Read text from file
-            val text = StringBuilder();
-
-            val iStream = openFileInput(dir.toString())
-
-
-
+/*
+        val text = StringBuilder();
             try {
-                val br = BufferedReader(FileReader(dir));
+               // val a = dir.readText()
+                //System.out.println("VALEUR READ"+a)
+                val br = BufferedReader(FileReader(dir))
                 val line:String = ""
 
                 while ((br.readLine()) != null) {
-                    text.append(line);
-                    text.append('\n');
+                    text.append(line)
+                    text.append('\n')
                 }
                 br.close()
+                System.out.println("VALEUR READ "+text)
             }catch (e : IOException) {
+                System.out.println("ERREUR")
+                e.printStackTrace()
                 //You'll need to add proper error handling here
-            }
+            }*/
 
         }
 
@@ -536,7 +549,6 @@ class StarActivity : AppCompatActivity() {
                 val jsonObj = JSONObject(readString)
                 System.out.println("TEXTE LU DANS FICHIER "+readString)
             }catch(e:Exception){
-                e.printStackTrace()
             }*/
     }
 
@@ -575,7 +587,6 @@ class StarActivity : AppCompatActivity() {
             System.out.println("PERMISSION VIDEO")
             //video_view.setVideoUri(videoUri)
             //video_view.start()
-
             //addToGallery()
 
         }
@@ -633,10 +644,15 @@ class StarActivity : AppCompatActivity() {
 
                         // Step 5: Set the preview output
                 setPreviewDisplay(mPreview?.holder?.surface)
+                try{
+                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+                    setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT)
 
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-                setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT)
+                }
+                catch(e:Exception){
+                    e.printStackTrace()
+                }
 
 
                 // Step 6: Prepare configured MediaRecorder

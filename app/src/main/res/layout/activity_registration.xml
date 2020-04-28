@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbarSize="4dp"
     tools:layout_editor_absoluteX="1dp"
     tools:layout_editor_absoluteY="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/consLayoutinScroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="2000dp"
+        android:background="#FFFFFF"
         tools:context=".RegistrationActivity">
 
         <EditText
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:ems="10"
-            android:hint="Réponse"
+            android:hint="@string/answer"
             android:inputType="textPersonName"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,11 +35,12 @@
             android:id="@+id/birthText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
             android:text="@string/date_of_birth"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPasswField" />
 
@@ -87,11 +89,12 @@
             android:id="@+id/surnameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:text="@string/surname"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/surnameField"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameField" />
 
@@ -99,12 +102,13 @@
             android:id="@+id/eMailText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
             android:text="@string/email"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/emailField"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/surnameField" />
 
@@ -112,11 +116,12 @@
             android:id="@+id/passwText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
             android:text="@string/passw"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailField" />
 
@@ -124,11 +129,12 @@
             android:id="@+id/passwConfText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
             android:text="@string/confirmPassw"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwField" />
 
@@ -136,13 +142,15 @@
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/register"
+            android:text="@string/registration"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintHorizontal_bias="0.939"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secretQuestionEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/acceptDiagnosisCheckBox"
+            app:layout_constraintVertical_bias="1.0" />
 
         <EditText
             android:id="@+id/nameField"
@@ -177,6 +185,7 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
+            android:text="ab.c@de.fg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.32"
             app:layout_constraintStart_toStartOf="parent"
@@ -189,6 +198,7 @@
             android:ems="10"
             android:hint="@string/passw"
             android:inputType="textPassword"
+            android:text="Azertyuiop1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.32"
             app:layout_constraintStart_toStartOf="parent"
@@ -201,6 +211,7 @@
             android:ems="10"
             android:hint="@string/confirmPassw"
             android:inputType="textPassword"
+            android:text="Azertyuiop1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.323"
             app:layout_constraintStart_toStartOf="parent"
@@ -221,9 +232,14 @@
             android:id="@+id/informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/registerButton"
+            app:layout_constraintHorizontal_bias="0.02"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateText" />
+            app:layout_constraintTop_toBottomOf="@+id/acceptDiagnosisCheckBox" />
 
         <Spinner
             android:id="@+id/secretQuestionSpinner"
@@ -236,15 +252,55 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/secretQuestionText" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip"
+        <Switch
+            android:id="@+id/genderSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginEnd="10dp"
+            android:checked="false"
+            android:fontFamily="@font/alike"
+            android:shadowColor="#4C3B3B"
+            android:shadowRadius="55"
+            android:showText="true"
+            android:switchPadding="5dp"
+            android:text="Sexe"
+            android:textAlignment="textStart"
+            android:textColor="#605959"
+            android:textOff="H"
+            android:textOn="F"
+            android:thumb="@drawable/thumb_gender"
+            android:thumbTextPadding="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/nameField"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/nameField"
-            app:layout_constraintTop_toBottomOf="@+id/registrationTitle" />
+            app:layout_constraintTop_toTopOf="@+id/nameField"
+            app:track="@drawable/track_gender" />
+
+        <CheckBox
+            android:id="@+id/acceptDiagnosisCheckBox"
+            android:layout_width="366dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/acceptDiagnosis"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/acceptPolicyCheckBox" />
+
+        <CheckBox
+            android:id="@+id/acceptPolicyCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/acceptPolicy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secretQuestionEdit" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+</ScrollView>

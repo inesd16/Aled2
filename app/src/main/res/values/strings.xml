@@ -22,16 +22,16 @@
     <string name="on_start_state">Application en fonctionnement</string>
     <string name="disconnect">Déconnexion</string>
     <string name="name">Prénom</string>
-    <string name="surname">Nome de famille</string>
+    <string name="surname">Nom de famille</string>
     <string name="date_of_birth">Date de naissance</string>
     <string name="informations">Accéder aux informations</string>
     <string name="picture">Prendre une photo</string>
     <string name="number_tel">Numéro</string>
-    <string name="registration">Registration</string>
+    <string name="registration">Enregistrement</string>
     <string name="register">Inscrivez - vous !</string>
-    <string name="passw">Password</string>
-    <string name="confirmPassw">Confirm Password</string>
-    <string name="email">E-mail Address</string>
+    <string name="passw">Mot de passe</string>
+    <string name="confirmPassw">Confirmer le mot de passe</string>
+    <string name="email">Adresse E-mail</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="contact_data">contact@aled.com</string>
@@ -42,7 +42,7 @@
     <string name="titleContact">Contact</string>
     <string name="titleAboutUs">Sur nous</string>
     <string name="faq">Questions fréquentes</string>
-<!--    <string name="webSiteDescription">Medical Desertification is a website where you can do your own diagnosis to help for the organisation of doctor\'s days</string>-->
+    <!--    <string name="webSiteDescription">Medical Desertification is a website where you can do your own diagnosis to help for the organisation of doctor\'s days</string>-->
     <string name="webSiteDescription">Medical Desertification est un site web sur lequel vous pouvez faire votre propre diagnostic. Cela prévient la pénurie de médecin en vous permettant d\'avoir un pre-diagnostic rapide, gratuit, et aide dans l\'organisation de la journée de visites à domicile. </string>
     <string name="contactInfo">Informations</string>
     <string name="myAccount">Mon compte</string>
@@ -97,6 +97,21 @@
     <string name="showHideDescription">Afficher / Cacher le mot de passe</string>
     <string name="yourInfo">Vos Informations personnelles</string>
     <string name="form">Formulaire</string>
+    <string name="answer">Réponse</string>
+    <string name="male">Homme</string>
+    <string name="gender">Genre</string>
+    <string name="newPassw">Ecrire le nouveau mot de passe</string>
+    <string name="changePassw"><u>Changer votre mot de passe</u></string>
+    <string name="formerPassw">Ancien mot de passe</string>
+    <string name="confirmNewPassw">Confirmer le nouveau mot de passe</string>
+    <string name="confirm">Confirmer</string>
+    <string name="PersInfo">Infos Personnelles</string>
+    <string name="medicalInfo">Infos Médicales</string>
+    <string name="changePersonalInfo"><u>Modifier vos informations personnelles</u></string>
+    <string name="passwEditedSuccessfully">Mot de passe modifié avec succès</string>
+    <string name="acceptPolicy">J\'accepte la <colorBlue>Politique de Confidentialité</colorBlue></string>
+    <string name="acceptDiagnosis">J\'accepte qu\'un pré-diagnostic ne remplace pas un médecin</string>
+    <string name="acceptConditions">Veuillez accepter les conditions</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>

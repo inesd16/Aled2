@@ -50,7 +50,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
-        System.out.println("conn"+stateConnection)
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
             )
@@ -237,7 +236,7 @@ private fun isExternalStorageWritable():Boolean{
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition",Context.MODE_PRIVATE)
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
-        System.out.println(jsonArray)
+        System.out.println("jsonArray"+jsonArray)
         Log.d("DungeonCardActivityREAD", jsonArray.toString())
         //System.out.println(jsonArray)
         //System.out.println("READ"+readString)
@@ -274,8 +273,6 @@ private fun isExternalStorageWritable():Boolean{
                 Log.d("next", "yeyy")
                 when (event.action){
                     MotionEvent.ACTION_DOWN -> {
-
-                        System.out.println("ACTION_DOWN")
 
                         // var newTime:Boolean = true
                         val x = Math.round(event.x)
@@ -428,7 +425,7 @@ private fun isExternalStorageWritable():Boolean{
             R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
             R.id.policy -> {}
             R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
-            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
+            //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
             R.id.nav_client -> {}
         }
         startActivity(intent)
