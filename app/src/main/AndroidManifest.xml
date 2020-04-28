@@ -16,6 +16,9 @@
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
+    <uses-feature
+        android:name="android.hardware.Camera.CameraInfo"
+        android:required="true" />
 
     <application
         android:icon="@drawable/avatar"
