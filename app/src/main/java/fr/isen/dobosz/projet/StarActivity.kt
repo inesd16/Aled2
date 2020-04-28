@@ -51,6 +51,8 @@ class StarActivity : AppCompatActivity() {
     }
     var posArray = ArrayList<String>()
     var nmbOfMoveOnStarImage:Int = 0
+    var firstRedPoint:Boolean = false
+    var secondRedPoint:Boolean = false
 
     private var mCamera: Camera? = null
     private var mPreview: CameraPreview? = null
@@ -63,7 +65,7 @@ class StarActivity : AppCompatActivity() {
 
         // Create an instance of Camera
         mCamera = getCameraInstance()
-        //mCamera!!.parameters.verticalViewAngle
+        mCamera!!.setDisplayOrientation(90)
         mPreview = mCamera?.let {
             // Create our Preview view
             CameraPreview(this, it)
@@ -148,10 +150,13 @@ class StarActivity : AppCompatActivity() {
             when(action){
 
                 MotionEvent.ACTION_DOWN -> {
-                    startTextColor.setTextColor(getResources().getColor(R.color.colorConnect))
                     // var newTime:Boolean = true
                     val x = Math.round(event.x)
                     val y = Math.round(event.y)
+
+                    if(0<x && x<100 && 0<y && y<100){
+                        firstRedPoint = true
+                        startTextColor.setTextColor(getResources().getColor(R.color.colorConnect))
 
                     System.out.println("POSITION")
                     System.out.println("x : " + x)
@@ -169,42 +174,56 @@ class StarActivity : AppCompatActivity() {
                         posArray.add(nmbOfMoveOnStarImage++,jsonArray.toString()) //Have to put image info
                         saveInJSON(jsonArrayVoid, x, y)
                         newTimeStar = false
+                    } else{
+                            saveInJSON(jsonArrayVoid,x,y)
+                            //saveInJSON(readPreviousClick(),x,y)
+                        }
                     }
-                    else{
-                        saveInJSON(jsonArrayVoid,x,y)
-                        //saveInJSON(readPreviousClick(),x,y)
+                    else {
+                        firstRedPoint = false
+                        startTextColor.setTextColor(resources.getColor(R.color.colorPrimaryDark))
                     }
 
                 }
 
                 MotionEvent.ACTION_MOVE -> {
+                    System.out.println("firstRedPoint"+firstRedPoint)
 
-                    // var newTime:Boolean = true
-                    val x = Math.round(event.x)
-                    val y = Math.round(event.y)
+                    if(firstRedPoint){
+                        // var newTime:Boolean = true
+                        val x = Math.round(event.x)
+                        val y = Math.round(event.y)
 
-                    System.out.println("POSITION")
-                    System.out.println("x : " + x)
-                    System.out.println("y : " + y)
+                        System.out.println("POSITION")
+                        System.out.println("x : " + x)
+                        System.out.println("y : " + y)
 
-                    saveInJSON(readPreviousClick(), x,y)
+                        saveInJSON(readPreviousClick(), x,y)
+
+                    }
+
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    startTextColor.setTextColor(getResources().getColor(R.color.colorGreen))
+
+                   if(firstRedPoint){
+
                     // var newTime:Boolean = true
                     val x = Math.round(event.x)
                     val y = Math.round(event.y)
-
-                    //saveInJSON(readPreviousClick(), x,y)
-                    nextButton.visibility = View.VISIBLE
-                    val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
-                    val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
-                    System.out.println("READSTRING "+readString)
-                    posArray.add(nmbOfMoveOnStarImage,readString) //pos array contient toutes les series de move -> {sharedPrefPos1,sharedPrefPos2 ..}
-                    nmbOfMoveOnStarImage++
-                    System.out.println(posArray) //pour vérifier
+                    if(starImageView.width-100<x && x<starImageView.width && starImageView.height-100<y && y<starImageView.height){
+                        startTextColor.setTextColor(getResources().getColor(R.color.colorGreen))
+                        //saveInJSON(readPreviousClick(), x,y)
+                        val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
+                        val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
+                        nextButton.visibility = View.VISIBLE
+                        System.out.println("READSTRING "+readString)
+                        posArray.add(nmbOfMoveOnStarImage,readString) //pos array contient toutes les series de move -> {sharedPrefPos1,sharedPrefPos2 ..}
+                        nmbOfMoveOnStarImage++
+                        System.out.println(posArray) //pour vérifier
+                   }
                 }
+            }
 
 
                 MotionEvent.ACTION_CANCEL -> {
@@ -702,31 +721,31 @@ class StarActivity : AppCompatActivity() {
 
                 Log.v("TAG","Permission is revoked1");
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), readESRequestCode);
-                return false;
+                return false
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("TAG","Permission is granted1");
-            return true;
+            Log.v("TAG","Permission is granted1")
+            return true
         }
     }
 
     fun isWriteStoragePermissionGranted():Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v("TAG","Permission is granted2");
-                return true;
+                Log.v("TAG","Permission is granted2")
+                return true
             } else {
 
-                Log.v("TAG","Permission is revoked2");
+                Log.v("TAG","Permission is revoked2")
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writeESRequestCode);
-                return false;
+                return false
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("TAG","Permission is granted2");
-            return true;
+            Log.v("TAG","Permission is granted2")
+            return true
         }
     }
 
