@@ -14,7 +14,7 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <uses-feature
-        android:name="android.hardware.Camera2"
+        android:name="android.hardware.camera2"
         android:required="true" />
 
     <application

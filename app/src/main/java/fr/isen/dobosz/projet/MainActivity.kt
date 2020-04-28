@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(item.getItemId()){
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
-            R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
-            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
+            //R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
+            //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
 
         }
         startActivity(intent)

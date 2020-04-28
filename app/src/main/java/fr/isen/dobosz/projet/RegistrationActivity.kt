@@ -1,26 +1,26 @@
 package fr.isen.dobosz.projet
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.translationMatrix
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_registration.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -35,18 +35,45 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     private var mAuth: FirebaseAuth? = null
 
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_registration)
+
+        val spannable = SpannableString(acceptPolicyCheckBox.getText())
+
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                // We display a Toast. You could do anything you want here.
+                Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
+              /*  val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)*/
+            }
+        }
+        spannable.setSpan(clickableSpan, 10, acceptPolicyCheckBox.getText().length, 0)
+        spannable.setSpan(ForegroundColorSpan(Color.CYAN), 10, acceptPolicyCheckBox.getText().length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        //spannable.setSpan(clickableSpan, 10, 19, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+
+        acceptPolicyCheckBox.setText(spannable, TextView.BufferType.SPANNABLE)
+        // this step is mandated for the url and clickable styles.
+        acceptPolicyCheckBox.movementMethod = LinkMovementMethod.getInstance()
+
+        acceptPolicyCheckBox.text = spannable
+
+
+        //styledString.setSpan(clickableSpan, 10, acceptPolicyCheckBox.getText().length, 0)
+
+
         initializeSpinner()
         dateText.setOnFocusChangeListener { view, hasFocus ->
             if(hasFocus) {
                 dateText.clearFocus()
                 val dialog = DatePickerDialog(this,
-                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                         onDateChoose(year, month, dayOfMonth)
                     },
                     1970,
@@ -54,6 +81,18 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                     1)
                 dialog.show()
             }
+        }
+        //genderSwitch.setThumbResource(R.drawable.avatar)
+        //genderSwitch.setThumbResource(R.id.female)
+        genderSwitch.setOnClickListener(){
+            if(genderSwitch.isChecked){
+                System.out.println("ischecked "+genderSwitch.text)
+            }
+            if(!genderSwitch.isChecked){
+                System.out.println("isNOTchecked "+genderSwitch.text)
+
+            }
+
         }
 
 
@@ -189,54 +228,65 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         return true
     }
 
+    fun checkBoxes():Boolean{
+        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked){
+            informations.setText(R.string.acceptConditions)
+            return true
+        }
+        return false
+    }
+
 
     fun checkForm(): Boolean{
         if (checkFields()) {
-            System.out.println("FIELDS NOT EMPTY")
             if (checkNames()) {
-
-                System.out.println("NAMES OK")
                 if (checkMail()) {
-                    System.out.println("email OK")
                     if (checkPasswords()) {
-                        System.out.println("passw OK")
                         if (checkSecretAnswer()) {
+                            if (checkBoxes()) {
+
                             System.out.println("SAnswer OK")
                             // change activity
-//                            password = passwField.getText().toString()
-//                            email = emailField.getText().toString()
-//
-//                            mAuth = FirebaseAuth.getInstance()
-//                            mAuth!!.createUserWithEmailAndPassword(
-//                                email,
-//                                password
-//                            )
-//                                .addOnCompleteListener(
-//                                    this
-//                                ) { task ->
-//                                    if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
-//                                        //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
-//                                        informations.setText(R.string.ok)
-//                                        val user = mAuth!!.currentUser
-//
-//                                        //updateUI(user)
-//                                    } else { // If sign in fails, display a message to the user.
-//                                        val TAG = "EmailPassword"
-//                                        Log.w(
-//                                            TAG, "createUserWithEmail:failure",
-//                                            task.exception
-//                                        )
-//                                        Toast.makeText(
-//                                            this@RegistrationActivity, "Authentication failed.",
-//                                            Toast.LENGTH_SHORT
-//                                        ).show()
-//                                        informations.setText(R.string.emailAlreadyUsed)
-//                                        //updateUI(null)
-                                    //}
-                                    // ...
-                                //}
+                            password = passwField.getText().toString()
+                            email = emailField.getText().toString()
+
+                            mAuth = FirebaseAuth.getInstance()
+                            mAuth!!.createUserWithEmailAndPassword(
+                                email,
+                                password
+                            )
+                                .addOnCompleteListener(
+                                    this
+                                ) { task ->
+                                    if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
+                                        //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
+                                        informations.setText(R.string.ok)
+                                        val user = mAuth!!.currentUser
+
+                                        //updateUI(user)
+                                    } else { // If sign in fails, display a message to the user.
+                                        val TAG = "EmailPassword"
+                                        Log.w(
+                                            TAG, "createUserWithEmail:failure",
+                                            task.exception
+                                        )
+                                        Toast.makeText(
+                                            this@RegistrationActivity, "Authentication failed.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        informations.setText(R.string.emailAlreadyUsed)
+                                        //updateUI(null)
+                                    }
+
+                                }
+
+                            Toast.makeText(
+                                this,
+                                "Vous avez bien été inscrit", Toast.LENGTH_LONG
+                            ).show()
                             saveNewUser()
                             return true
+                        }
                         }
                     }
                 }
@@ -264,9 +314,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     fun onDateChoose(year: Int, month: Int, day: Int) {
         dateText.setText(String.format("%02d/%02d/%04d",day,month+1,year))
-        Toast.makeText(this,
-            "date : ${dateText.text.toString()}",
-            Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "date : ${dateText.text.toString()}", Toast.LENGTH_LONG).show()
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -284,22 +332,25 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
         jsonObj.put("name",nameField.getText().toString())
         jsonObj.put("surname",surnameField.getText())
-        jsonObj.put("email",surnameField.getText())
+        jsonObj.put("email",emailField.getText())
         val hash = passwField.text.toString().hashCode()
 
         System.out.println("HASH"+hash)
-        //jsonObj.put("password",hash)
+        jsonObj.put("password",hash)
         jsonObj.put("birthDate",dateText.getText())
         jsonObj.put("secretQuestion",secretQuestionSpinner.selectedItem)
         jsonObj.put("secretAnswer",secretQuestionEdit.getText())
-        jsonArray.put(jsonObj)
+        if(genderSwitch.isChecked)      jsonObj.put("Gender",genderSwitch.textOn)
+        if(!genderSwitch.isChecked)     jsonObj.put("Gender",genderSwitch.textOff)
+
+        jsonArray.put(jsonObj) //just to register in sharedPref
         val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE) ?: return
         with(sharedNewUser.edit()) {
             putString("userInfo", jsonArray.toString())
             //putBoolean("saveState",true)
             commit()
         }
-        System.out.println("JSON"+sharedNewUser)
+        System.out.println("JSON"+jsonArray.toString())
     }
 
     fun String.toSHA(): String {

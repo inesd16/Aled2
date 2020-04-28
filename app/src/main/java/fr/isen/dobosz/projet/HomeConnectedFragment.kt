@@ -33,7 +33,8 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
         val form: TextView = view.findViewById(R.id.accessFormTextViewClickable)
         form.setOnClickListener(){
         val intent = Intent(activity!!.application, StarActivity::class.java)
-        startActivity(intent) }
+        startActivity(intent)
+        }
 
 
         val layout:View = view.findViewById(R.id.layout)
@@ -155,7 +156,7 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
 
         jsonObj.put("clickX",x)
         jsonObj.put("clickY",y)
-        jsonObj.put("timeClickedMillis",millis-1585154297320-2306884067)
+        jsonObj.put("timeClickedMillis",millis)
         jsonArray.put(jsonObj)
         val sharedPrefPosition = this.activity!!.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE) ?: return
         with(sharedPrefPosition.edit()) {
@@ -170,7 +171,7 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
         val sharedPrefPosition = this.activity!!.getSharedPreferences("sharedPrefPosition",Context.MODE_PRIVATE)
         val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
-//        System.out.println(jsonArray)
+       System.out.println(jsonArray)
         return(jsonArray)
     }
 
