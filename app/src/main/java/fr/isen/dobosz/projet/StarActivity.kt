@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
@@ -23,8 +22,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import fr.isen.dobosz.projet.HomeActivity.Companion.newTime
 import kotlinx.android.synthetic.main.activity_star.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -52,9 +49,10 @@ class StarActivity : AppCompatActivity() {
     var posArray = ArrayList<String>()
     var nmbOfMoveOnStarImage:Int = 0
     var firstRedPoint:Boolean = false
-    var secondRedPoint:Boolean = false
+    //var secondRedPoint:Boolean = false
 
     private var mCamera: Camera? = null
+    val camFront:Int = Camera.CameraInfo.CAMERA_FACING_FRONT
     private var mPreview: CameraPreview? = null
      var mediaRecorder: MediaRecorder? = null
 
@@ -64,7 +62,7 @@ class StarActivity : AppCompatActivity() {
 
 
         // Create an instance of Camera
-        mCamera = getCameraInstance()
+        mCamera = getCameraInstance(camFront)
         mCamera!!.setDisplayOrientation(90)
         mPreview = mCamera?.let {
             // Create our Preview view
@@ -96,9 +94,12 @@ class StarActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener(){
+//            info.facing = mCamera.CameraInfo.CAMERA_FACING_FRONT
+//            mCamera.CameraInfo().facing
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:"" //posArray
             writeFile(posArray.toString(),"", this)
+            videoButton.performClick()
             read()
         }
 
@@ -107,39 +108,40 @@ class StarActivity : AppCompatActivity() {
             requestPermission(Manifest.permission.CAMERA, cameraRequestCode){
                 System.out.println("permission ok")
 
-                if (isRecording) {
-                    System.out.println("RECPRDINF")
-                    // stop recording and release camera
-                    mediaRecorder?.stop() // stop the recording
-                    mediaRecorder?.release()// release the MediaRecorder object
-                    mCamera?.lock() // take camera access back from MediaRecorder
+        if (isRecording) {
+            System.out.println("RECPRDINF")
+            // stop recording and release camera
+            mediaRecorder?.stop() // stop the recording
+            mediaRecorder?.release()// release the MediaRecorder object
+            mCamera?.lock() // take camera access back from MediaRecorder
 
-                    // inform the user that recording has stopped
-                    //setCaptureButtonText("Capture")
-                    videoButton.setText("capture")
-                    //videoView.setVideoURI()
-                    isRecording = false
-                } else {
+            // inform the user that recording has stopped
+            //setCaptureButtonText("Capture")
+            videoButton.setText("capture")
+            //videoView.setVideoURI()
+            isRecording = false
+        } else {
 
-                    System.out.println("NOT RECORDING")
-                    if (prepareVideoRecorder()) {
-                        System.out.println("PREPARE RECORDING")
-                        // Camera is available and unlocked, MediaRecorder is prepared,
-                        // now you can start recording
-                        mediaRecorder?.start()
+            System.out.println("NOT RECORDING")
+            if (prepareVideoRecorder()) {
+                System.out.println("PREPARE RECORDING")
+                // Camera is available and unlocked, MediaRecorder is prepared,
+                // now you can start recording
+                mediaRecorder?.start()
 
-                        // inform the user that recording has started
-                        //setCaptureButtonText("Stop")
-                        videoButton.setText("stop")
-                        isRecording = true
+                // inform the user that recording has started
+                //setCaptureButtonText("Stop")
+                videoButton.setText("stop")
+                isRecording = true
 
-                    } else {
-                        // prepare didn't work, release the camera
-                        mediaRecorder?.release()
-                        // inform user
-                    }
-                }
+            } else {
+                // prepare didn't work, release the camera
+                mediaRecorder?.release()
+                // inform user
+            }
         }
+
+    }
           //  }
         }
 
@@ -156,6 +158,8 @@ class StarActivity : AppCompatActivity() {
 
                     if(0<x && x<100 && 0<y && y<100){
                         firstRedPoint = true
+                        if(!isRecording) //if not recording, begin
+                            videoButton.performClick() // Video launched when clicked on fisrt red button
                         startTextColor.setTextColor(getResources().getColor(R.color.colorConnect))
 
                     System.out.println("POSITION")
@@ -223,6 +227,10 @@ class StarActivity : AppCompatActivity() {
                         System.out.println(posArray) //pour vérifier
                    }
                 }
+                    else{
+                       startTextColor.setTextColor(resources.getColor(R.color.colorPrimaryDark))
+
+                   }
             }
 
 
@@ -275,27 +283,14 @@ class StarActivity : AppCompatActivity() {
                 File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
             }
             MEDIA_TYPE_VIDEO -> {
-                File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
+                File("${mediaStorageDir.path}${File.separator}VID_Behavious_Analysis.mp4")
+                //File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
             }
             else -> null
         }
     }
 
 
-//    private fun dispatchTakeVideoIntent() {
-//        Intent(MediaStore.ACTION_VIDEO_CAPTURE).also { takeVideoIntent ->
-//            takeVideoIntent.resolveActivity(packageManager)?.also {
-//                startActivityForResult(takeVideoIntent, cameraRequestCode)
-//            }
-//        }
-//    }
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-//        super.onActivityResult(requestCode, resultCode,intent)
-//        if (requestCode == cameraRequestCode && resultCode == RESULT_OK) {
-//            val videoUri: Uri = intent.data!!
-//            videoView.setVideoURI(videoUri)
-//        }
-//    }
 
     fun readPreviousClick():JSONArray{
 
@@ -330,6 +325,7 @@ class StarActivity : AppCompatActivity() {
         }
         //System.out.println(jsonArray)
     }
+/*
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val action = event.action
@@ -411,10 +407,8 @@ class StarActivity : AppCompatActivity() {
         }
         return true
     }
+*/
 
-    fun checkStar(){
-
-    }
 
     fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
         if(ContextCompat.checkSelfPermission(this, permissionToRequest) != PackageManager.PERMISSION_GRANTED) {
@@ -540,35 +534,7 @@ class StarActivity : AppCompatActivity() {
            // val iStream = openFileInput(dir.toString())
 
 
-/*
-        val text = StringBuilder();
-            try {
-               // val a = dir.readText()
-                //System.out.println("VALEUR READ"+a)
-                val br = BufferedReader(FileReader(dir))
-                val line:String = ""
-
-                while ((br.readLine()) != null) {
-                    text.append(line)
-                    text.append('\n')
-                }
-                br.close()
-                System.out.println("VALEUR READ "+text)
-            }catch (e : IOException) {
-                System.out.println("ERREUR")
-                e.printStackTrace()
-                //You'll need to add proper error handling here
-            }*/
-
         }
-
-       /*     //System.out.println("Empty "+dir.readText().isEmpty())
-            try{
-                val readString = dir.readText()
-                val jsonObj = JSONObject(readString)
-                System.out.println("TEXTE LU DANS FICHIER "+readString)
-            }catch(e:Exception){
-            }*/
     }
 
     fun startCall(){
@@ -580,7 +546,7 @@ class StarActivity : AppCompatActivity() {
 
     /** Check if this device has a camera */
     private fun checkCameraHardware(context: Context): Boolean {
-        if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+        if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)) {
             // this device has a camera
             return true
         } else {
@@ -589,9 +555,9 @@ class StarActivity : AppCompatActivity() {
         }
     }
     /** A safe way to get an instance of the Camera object. */
-    fun getCameraInstance(): Camera? {
+    fun getCameraInstance(camFront : Int): Camera? {
         return try {
-            Camera.open() // attempt to get a Camera instance
+            Camera.open(camFront) // attempt to get a Camera instance
         } catch (e: Exception) {
             // Camera is not available (in use or does not exist)
             null // returns null if camera is unavailable
@@ -610,36 +576,13 @@ class StarActivity : AppCompatActivity() {
 
         }
     }
-    fun addToGallery(){
-        val mediaScan = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-        val file = File(videoPath)
-        val uri = Uri.fromFile(file)
-        mediaScan.setData(uri)
-        this.sendBroadcast(mediaScan)
 
-    }
 
-    fun createVideoFile(): File {
-        val fileName = "Video"
-        val storageDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()+"/Video")
-        if(!storageDir.exists()){
-            storageDir.mkdir()
-        }
-        return File.createTempFile(fileName,".mp4",storageDir)
-    }
-    fun recordVideo(){
-        val videoFile: File = createVideoFile()
-        videoPath = videoFile.absolutePath
-        if(videoFile != null){
-            videoUri = FileProvider.getUriForFile(this,"com.video.record.fileprovider",videoFile)
-        }
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,videoUri)
-        startActivityForResult(intent,videoRequestCode)
-    }
     @SuppressLint("NewApi")
     private fun prepareVideoRecorder(): Boolean {
         mediaRecorder = MediaRecorder()
+    mCamera!!.Size(200,200)
+       // mediaRecorder!!.setVideoSize(200,200)
         System.out.println("MEDIARECORDER "+mediaRecorder)
         System.out.println("CAMERA "+mCamera)
 
@@ -655,7 +598,7 @@ class StarActivity : AppCompatActivity() {
                 setVideoSource(MediaRecorder.VideoSource.CAMERA)
 
                 // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-                setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH))
+                setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH, CamcorderProfile.QUALITY_HIGH))
 
                 // Step 4: Set output file
                 //setOutputFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
