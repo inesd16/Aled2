@@ -63,7 +63,7 @@ class StarActivity : AppCompatActivity() {
 
         // Create an instance of Camera
         mCamera = getCameraInstance()
-        mCamera!!.parameters.verticalViewAngle
+        //mCamera!!.parameters.verticalViewAngle
         mPreview = mCamera?.let {
             // Create our Preview view
             CameraPreview(this, it)
