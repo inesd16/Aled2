@@ -89,37 +89,90 @@
         app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
 
-    <EditText
-        android:id="@+id/dateEditText"
+    <Button
+        android:id="@+id/confirmButton"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:inputType="date"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintTop_toBottomOf="@+id/changePicButton"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Switch
+        android:id="@+id/genderSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="32dp"
+        android:checked="false"
+        android:fontFamily="@font/alike"
+        android:shadowColor="#4C3B3B"
+        android:shadowRadius="55"
+        android:showText="true"
+        android:switchPadding="5dp"
+        android:text="Sexe"
+        android:textAlignment="textStart"
+        android:textColor="#605959"
+        android:textOff="H"
+        android:textOn="F"
+        android:thumb="@drawable/thumb_gender"
+        android:thumbTextPadding="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/confirmButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
+        app:track="@drawable/track_gender" />
 
     <TextView
-        android:id="@+id/dateText"
+        android:id="@+id/phoneNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
-        android:text="@string/date_of_birth"
+        android:text="@string/phoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
-    <Button
-        android:id="@+id/confirmButton"
+    <EditText
+        android:id="@+id/phoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="44dp"
-        android:text="@string/confirm"
+        android:ems="10"
+        android:inputType="textPersonName|phone"
+        android:maxLength="10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateEditText" />
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+
+    <ImageButton
+        android:id="@+id/changePicButton"
+        android:layout_width="188dp"
+        android:layout_height="154dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/changePic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderSwitch" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        android:text="TextView"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/confirmButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePicButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

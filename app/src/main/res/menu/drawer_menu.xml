@@ -5,14 +5,14 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_connect"
-            android:icon="@drawable/ic_email"
+            android:icon="@drawable/signin"
             android:title="@string/connect">
 
         </item>
 
             <item
                 android:id="@+id/nav_sign_in"
-                android:icon="@drawable/ic_email"
+                android:icon="@drawable/create_account"
                 android:title="@string/createAccount" />
     </group>
     <item android:title="@string/contact">

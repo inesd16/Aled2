@@ -113,6 +113,19 @@
     <string name="acceptPolicy">J\'accepte la <colorBlue>Politique de Confidentialité</colorBlue></string>
     <string name="acceptDiagnosis">J\'accepte qu\'un pré-diagnostic ne remplace pas un médecin</string>
     <string name="acceptConditions">Veuillez accepter les conditions</string>
+    <string name="connectWithFacialRecognation">Se Connecter avec Reconnaissance Faciale</string>
+    <string name="height">Taille (cm)</string>
+    <string name="weight">Poids</string>
+    <string name="changeMedicalInfo">Modifier vos informations médicales</string>
+    <string name="phoneNumber">Numéro de téléphone</string>
+    <string name="secuNumber">Numéro de sécurité sociale</string>
+    <string name="changePic">Changer votre photo</string>
+    <string name="privatePolicy">Politique de Confidentialité</string>
+    <string name="privatePolicyText">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="generalConditionsText">" Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</string>
+    <string name="incorrectSecuNo">Numéro de Sécurite sociale incorrect\nIl n\'a pas été modifié</string>
+    <string name="incorrectPhoneNo">Numéro de téléphone sociale incorrect\nIl n\'a pas été modifié</string>
+    <string name="allEdited">Tous les champs remplis ont été modifiés</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>
@@ -120,4 +133,7 @@
         <item>Quel est le nom de mon premier animal domestique ?</item>
         <item>Quel est le nom de mon professeur de primaire ?</item>
     </string-array>
+    <integer-array name="height">
+        <item>1</item>
+    </integer-array>
 </resources>
