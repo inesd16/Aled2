@@ -8,12 +8,12 @@
 
     <TextView
         android:id="@+id/info"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="10dp"
         android:shadowColor="#9E1616"
-        android:text="@string/"
         android:textStyle="italic"
         android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/confirmButton"
@@ -37,20 +37,21 @@
         android:id="@+id/dateEditText"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.212"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+        app:layout_constraintTop_toBottomOf="@+id/dateText"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:text="@string/date_of_birth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
@@ -71,7 +72,7 @@
         android:id="@+id/weightText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="@string/height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.646"
@@ -93,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="15dp"
         android:text="@string/weight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/secuEditText" />
@@ -112,26 +113,40 @@
         android:id="@+id/secuNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="24dp"
         android:text="@string/secuNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePersonalInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/selectFiledsToEdit" />
 
     <EditText
         android:id="@+id/secuEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="156dp"
         android:ems="10"
-        android:hint="2 97 11 92 072 278 04"
+        android:hint="@string/secuNoHint"
         android:inputType="number"
         android:maxLength="15"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secuNumberText" />
+        app:layout_constraintTop_toBottomOf="@+id/secuNumberText"
+        android:autofillHints=""
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/selectFiledsToEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/selectFiledsToEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePersonalInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,11 +27,6 @@ import java.io.IOException
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [EditPersInfoActivity.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditPersInfoActivity : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -50,7 +45,7 @@ class EditPersInfoActivity : Fragment() {
             val dir = File(root!!.absolutePath)
             val file = File(dir, "ProfilePic.jpg")
             try{
-            var picButt = view.findViewById<ImageButton>(R.id.changePicButton)
+            val picButt = view.findViewById<ImageButton>(R.id.changePicButton)
                 picButt.setImageURI(Uri.parse(file.toString()))
             } catch(e:Exception){
                 e.printStackTrace()
@@ -70,21 +65,32 @@ class EditPersInfoActivity : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_edit_pers_info_activity, container, false)
 
-        var confirmButton:Button = view.findViewById<Button>(R.id.confirmButton)
+        var sex:String? = null
+        val gender: Switch = view.findViewById(R.id.genderSwitch)
+        gender.setOnClickListener() {
+            if (gender.isChecked) {
+                System.out.println("ischecked " + gender.text)
+                sex = "F"
+            }
+            else if (!gender.isChecked) {
+                System.out.println("isNOTchecked " + gender.text)
+                sex = "H"
+            }
+        }
+        val confirmButton:Button = view.findViewById<Button>(R.id.confirmButton)
         confirmButton.setOnClickListener() {
 
             val name: EditText = view.findViewById(R.id.nameEditText)
             val surname: EditText = view.findViewById(R.id.surnameEditText)
             val email: EditText = view.findViewById(R.id.emailEditText)
             val phoneNo: EditText = view.findViewById(R.id.phoneNumber)
-            val gender: Switch = view.findViewById(R.id.genderSwitch)
             val info: TextView = view.findViewById(R.id.info)
 
             val sharedSaveNewUser: SharedPreferences =
                 this.activity!!.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE)
             val readString = sharedSaveNewUser.getString("userInfo", "") ?: ""
 //            val jsonArray = JSONArray(readString)
-            var jsonObj = JSONObject(readString)
+            val jsonObj = JSONObject(readString)
 
             if (!name.getText().toString().equals("")) {
                 jsonObj.put("name", name.getText())
@@ -106,15 +112,10 @@ class EditPersInfoActivity : Fragment() {
                     view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
                 }
             }
-            gender.setOnClickListener() {
-                if (gender.isChecked) {
-                    System.out.println("ischecked " + gender.text)
-                    jsonObj.put("Gender", gender.textOn)
-                }
-                if (!gender.isChecked) {
-                    System.out.println("isNOTchecked " + gender.text)
-                    jsonObj.put("Gender", gender.textOff)
-                }
+
+            if(sex !=null){
+                jsonObj.put("Gender", sex)
+                view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
             }
 
             System.out.println("JSON APRES MODIF : " + jsonObj)
@@ -127,8 +128,9 @@ class EditPersInfoActivity : Fragment() {
             System.out.println(jsonObj.toString())
         }
 
+
         read(view)
-        var picButton: ImageButton = view.findViewById(R.id.changePicButton)
+        val picButton: ImageButton = view.findViewById(R.id.changePicButton)
         picButton.setOnClickListener(){
             onChangePhoto()
         }
@@ -145,7 +147,7 @@ class EditPersInfoActivity : Fragment() {
 
 
             val imageFileName = "profilePic.jpg"
-            var bytearrayoutputstream = ByteArrayOutputStream()
+            val bytearrayoutputstream = ByteArrayOutputStream()
             val state = Environment.getExternalStorageState()
             var success = true
             val root = context!!.getExternalFilesDir("ProfileInfo")
@@ -164,15 +166,12 @@ class EditPersInfoActivity : Fragment() {
                         success = dir.mkdir()
                         //System.out.println("does not exists yet")
                     }
-                    else{
-                        //System.out.println("exists")
-                    }
                     if (success) {
                         val file = File(dir, imageFileName)
                         //System.out.println("success true")
                         try {
                             file.createNewFile()
-                            var a = dirTake.readBytes()
+                            //var a = dirTake.readBytes()
                             file.writeBytes(dirTake.readBytes())
                             System.out.println("SAVED")
                         } catch (e: FileNotFoundException) {
@@ -197,9 +196,6 @@ class EditPersInfoActivity : Fragment() {
                         if(!dir.exists()){
                             success = dir.mkdir()
                             //System.out.println("does not exists yet")
-                        }
-                        else{
-                            //System.out.println("exists")
                         }
                         if (success) {
                             val file = File(dir, imageFileName)
@@ -232,7 +228,7 @@ class EditPersInfoActivity : Fragment() {
         val galleryIntent = Intent(Intent.ACTION_PICK)
         galleryIntent.type = "image/*"
 
-        val cameraIntent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
        // val cameraIntent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val intentChooser = Intent.createChooser(galleryIntent, "Choose your picture library")
         //var picture = Intent.EXTRA_INITIAL_INTENTS

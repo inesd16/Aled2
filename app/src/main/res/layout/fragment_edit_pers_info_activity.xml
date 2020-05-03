@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1">
@@ -28,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePersonalInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/selectFiledsToEdit" />
 
     <EditText
         android:id="@+id/nameEditText"
@@ -39,7 +40,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.252"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameText" />
+        app:layout_constraintTop_toBottomOf="@+id/nameText"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/surnameText"
@@ -63,7 +66,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.252"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surnameText" />
+        app:layout_constraintTop_toBottomOf="@+id/surnameText"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/emailText"
@@ -86,7 +91,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.252"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+        app:layout_constraintTop_toBottomOf="@+id/emailText"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor" />
 
 
     <Button
@@ -111,13 +118,11 @@
         android:fontFamily="@font/alike"
         android:shadowColor="#4C3B3B"
         android:shadowRadius="55"
-        android:showText="true"
         android:switchPadding="5dp"
-        android:text="Sexe"
         android:textAlignment="textStart"
         android:textColor="#605959"
-        android:textOff="H"
-        android:textOn="F"
+        android:textOff="@string/menTextOff"
+        android:textOn="@string/womenTextOn"
         android:thumb="@drawable/thumb_gender"
         android:thumbTextPadding="15dp"
         app:layout_constraintEnd_toStartOf="@+id/confirmButton"
@@ -148,7 +153,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText"
+        android:autofillHints="06 98 30 57 32"
+        tools:ignore="LabelFor" />
 
     <ImageButton
         android:id="@+id/changePicButton"
@@ -159,7 +166,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.184"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genderSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/genderSwitch"
+        android:contentDescription="@string/yourProfilePic" />
 
     <TextView
         android:id="@+id/info"
@@ -168,11 +176,23 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
-        android:text="TextView"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/confirmButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePicButton" />
+
+    <TextView
+        android:id="@+id/selectFiledsToEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/selectFiledsToEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePersonalInfo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

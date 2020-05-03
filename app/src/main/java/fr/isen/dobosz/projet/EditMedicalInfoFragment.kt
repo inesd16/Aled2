@@ -1,5 +1,6 @@
 package fr.isen.dobosz.projet
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_edit_medical_info.*
 import org.json.JSONObject
@@ -20,8 +20,8 @@ import java.util.*
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-var weightValues = arrayOfNulls<String>(151)
-var heightValues = arrayOfNulls<String>(151)
+var weightValues = arrayOfNulls<String>(152)
+var heightValues = arrayOfNulls<String>(152)
 var weightChanged:Boolean = false
 var heightChanged:Boolean = false
 /**
@@ -41,8 +41,10 @@ class EditMedicalInfoFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        var i = 0
-        while (i<=150){
+        var i = 1
+        weightValues.set(0,"Choisir")
+        heightValues.set(0,"Choisir")
+        while (i<=151){
             weightValues.set(i,i.toString()+" kg")
             heightValues.set(i,(i+70).toString()+" cm")
             i++
@@ -50,23 +52,23 @@ class EditMedicalInfoFragment : Fragment() {
 
     }
 
-    fun initializeSpinners(view:View,wSpin :Spinner,hSpin:Spinner) {
+    fun initializeSpinners(wSpin :Spinner,hSpin:Spinner) {
 
         // Create an ArrayAdapter using a simple spinner layout and languages array
         val aaWeight = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, weightValues)
         // Set layout to use when the list of choices appear
         aaWeight.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Set Adapter to Spinner
-        wSpin?.setAdapter(aaWeight)
-        wSpin?.setSelection(70)
+        wSpin.setAdapter(aaWeight)
+        //wSpin.setSelection(70)
 
         // Create an ArrayAdapter using a simple spinner layout and languages array
         val aaHeight = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, heightValues)
         // Set layout to use when the list of choices appear
         aaHeight.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Set Adapter to Spinner
-        hSpin?.setAdapter(aaHeight)
-        hSpin?.setSelection(90)
+        hSpin.setAdapter(aaHeight)
+        //hSpin.setSelection(90)
     }
 
     override fun onCreateView(
@@ -74,44 +76,14 @@ class EditMedicalInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_edit_medical_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_edit_medical_info, container, false)
 
         val wSpin = view.findViewById<Spinner>(R.id.weightSpinner)
         val hSpin = view.findViewById<Spinner>(R.id.heightSpinner)
 
 
-
-
-
-        wSpin.setOnItemSelectedListener(
-            object : OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?, view: View, position: Int, id: Long
-                ) {
-                    weightChanged = true
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    System.out.println("Spinner1: unselected")
-                }
-            })
-        hSpin.setOnItemSelectedListener(
-            object : OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?, view: View, position: Int, id: Long
-                ) {
-                    heightChanged = true
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    System.out.println("Spinner1: unselected")
-                }
-            })
-
-
-
-        initializeSpinners(view, wSpin ,hSpin)
-        var date = view.findViewById<EditText>(R.id.dateEditText)
+        initializeSpinners(wSpin ,hSpin)
+        val date = view.findViewById<EditText>(R.id.dateEditText)
         date.setOnFocusChangeListener { _, hasFocus ->
             if(hasFocus) {
                 date.clearFocus()
@@ -134,27 +106,27 @@ class EditMedicalInfoFragment : Fragment() {
             }
         }
 
-        var confirmButton:Button = view.findViewById<Button>(R.id.confirmButton)
+        val confirmButton:Button = view.findViewById<Button>(R.id.confirmButton)
         confirmButton.setOnClickListener() {
 
-            var secuEditText:EditText = view.findViewById(R.id.secuEditText)
+            val secuEditText:EditText = view.findViewById(R.id.secuEditText)
 
-            System.out.println("SECu & Date "+secuEditText.getText() + date.getText())
             val sharedSaveNewUser: SharedPreferences = this.activity!!.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE)
             val readString = sharedSaveNewUser.getString("userInfo", "") ?: ""
 //            val jsonArray = JSONArray(readString)
-            var jsonObj = JSONObject(readString)
+            val jsonObj = JSONObject(readString)
 
+            view.findViewById<TextView>(R.id.info).setText(R.string.nothingEdited)
 
             if(!date.getText().toString().equals("")){
                 jsonObj.put("birthDate",date.getText())
                 view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
             }
-            if(weightChanged){
+            if(wSpin.selectedItemId.toInt() != 0){
                 jsonObj.put("weight",wSpin.selectedItem)
                 view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
             }
-            if(heightChanged){
+            if(hSpin.selectedItemId.toInt() != 0){
                 jsonObj.put("height",hSpin.selectedItem)
                 view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
             }
@@ -189,6 +161,7 @@ class EditMedicalInfoFragment : Fragment() {
         dateEditText.setText(String.format("%02d/%02d/%04d",day,month+1,year))
         //Toast.makeText(this, "date : ${dateText.text.toString()}", Toast.LENGTH_LONG).show()
     }
+    @SuppressLint("SimpleDateFormat")
     fun getAge(year: Int, month: Int, day: Int): Int {
         val currentDate = Date()
         val formatter = SimpleDateFormat("dd/MM/yyyy")
