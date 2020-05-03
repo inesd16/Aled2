@@ -37,7 +37,7 @@
         app:layout_constraintVertical_bias="0.207" />
 
     <Button
-        android:id="@+id/testButton"
+        android:id="@+id/goRegisterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
@@ -80,26 +80,27 @@
         android:id="@+id/newAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="20dp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/callWithoutConn"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testButton" />
+        app:layout_constraintTop_toBottomOf="@+id/connectWithFacialRecognationButton" />
 
     <ImageButton
         android:id="@+id/sosButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/sosDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newAccountTextView"
+        app:layout_constraintVertical_bias="0.048"
         app:srcCompat="@drawable/heartsosresized" />
 
     <ImageButton
@@ -114,5 +115,17 @@
         app:layout_constraintTop_toTopOf="@+id/passwordEditText"
         app:layout_constraintVertical_bias="1.0"
         android:contentDescription="@string/showHideDescription" />
+
+    <Button
+        android:id="@+id/connectWithFacialRecognationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_view"
+        android:text="@string/connectWithFacialRecognation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goRegisterButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

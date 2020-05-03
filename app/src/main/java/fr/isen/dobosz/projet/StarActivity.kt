@@ -63,7 +63,7 @@ class StarActivity : AppCompatActivity() {
 
         // Create an instance of Camera
         mCamera = getCameraInstance(camFront)
-        mCamera!!.setDisplayOrientation(90)
+        //mCamera!!.setDisplayOrientation(90)
         mPreview = mCamera?.let {
             // Create our Preview view
             CameraPreview(this, it)
@@ -470,7 +470,7 @@ class StarActivity : AppCompatActivity() {
     }
 
     fun writeFile(coords1: String, coords2: String, context: Context){
-        System.out.println("WRiTEFile"+coords1)
+        //System.out.println("WRiTEFile"+coords1)
         //System.out.println("WRiTEFile"+HomeActivity.readString)
         val state = Environment.getExternalStorageState()
         var success = true
@@ -478,7 +478,7 @@ class StarActivity : AppCompatActivity() {
         val root = getExternalFilesDir("DataToSend")
 
         if(Environment.MEDIA_MOUNTED.equals((state))){
-            val dir = File(root!!.absolutePath+"/clickPos.txt")
+            val dir = File(root!!.absolutePath)
             System.out.println(dir.toString())
             if(!dir.exists()){
                 success = dir.mkdir()
@@ -523,7 +523,7 @@ class StarActivity : AppCompatActivity() {
     requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
 
             val root = getExternalFilesDir("DataToSend")
-            val dir = File(root!!.absolutePath+"/clickPos.txt")
+            val dir = File(root!!.absolutePath)
             val file = File(dir, "clickPos.txt")
 
             val read = file.readText()
@@ -581,7 +581,7 @@ class StarActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun prepareVideoRecorder(): Boolean {
         mediaRecorder = MediaRecorder()
-    mCamera!!.Size(200,200)
+    //mCamera!!.Size(200,200)
        // mediaRecorder!!.setVideoSize(200,200)
         System.out.println("MEDIARECORDER "+mediaRecorder)
         System.out.println("CAMERA "+mCamera)

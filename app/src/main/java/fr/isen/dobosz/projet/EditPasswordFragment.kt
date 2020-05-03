@@ -8,9 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.android.synthetic.main.fragment_edit_password.*
-import org.json.JSONArray
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,8 +46,10 @@ class EditPasswordFragment : Fragment() {
         confirmButton.setOnClickListener() {
             val sharedSaveNewUser: SharedPreferences = this.activity!!.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE)
             val readString = sharedSaveNewUser.getString("userInfo", "") ?: ""
-            val jsonArray = JSONArray(readString)
-            var jsonObj = jsonArray.getJSONObject(0)
+            //var jsonArray = JSONArray(readString)
+           // var jsonObj = jsonArray.getJSONObject(0)
+            var jsonObj = JSONObject(readString)
+            System.out.println("JSONOBJET "+jsonObj)
             var passw = jsonObj.getInt("password")
             var nom = jsonObj.getString("name")
             System.out.println(nom)
@@ -62,13 +63,15 @@ class EditPasswordFragment : Fragment() {
                 System.out.println("PASSW OK")
 
                 jsonObj.put("password", newPasswEditText.text.toString().hashCode())
-                jsonArray.put(jsonObj)
-                System.out.println("JSON APRES MODIF : "+jsonArray)
+
+                System.out.println("JSON APRES MODIF : "+jsonObj)
                 with(sharedSaveNewUser.edit()) {
-                    putString("userInfo", jsonArray.toString())
+                    putString("userInfo", jsonObj.toString())
                     //putBoolean("saveState",true)
                     commit()
                 }
+
+                passwEdited.setText(R.string.passwEditedSuccessfully)
                 passwEdited.visibility = View.VISIBLE
 
             }
@@ -95,7 +98,6 @@ class EditPasswordFragment : Fragment() {
                 return false
             } else { //password are the same
 
-                System.out.println("passsame")
 
                 var countNumber = false //passw does not contain number
                 var countCapLetter = false //passw does not capital letter
@@ -114,12 +116,11 @@ class EditPasswordFragment : Fragment() {
                     }
                 }
                 if (countNumber && countCapLetter){
-                    System.out.println("PASSOK")
                     return true
 
                 }
                 else {
-                    informations.setText(R.string.stringPasswordInfo)
+                    passwEdited.setText(R.string.stringPasswordInfo)
                     return false
                 }
             }

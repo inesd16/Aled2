@@ -22,17 +22,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_registration.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
 
 
 class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-    //public var name:String = ""
      var password: String = ""
      var email: String = ""
     private var mAuth: FirebaseAuth? = null
+
+    var weightValues = arrayOfNulls<String>(151)
+    var heightValues = arrayOfNulls<String>(151)
+    var age:Int? = null
+
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -41,6 +46,12 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_registration)
+        var i = 0
+        while (i<=150){
+            weightValues.set(i,i.toString()+" kg")
+            heightValues.set(i,(i+70).toString()+" cm")
+            i++
+        }
 
         val spannable = SpannableString(acceptPolicyCheckBox.getText())
 
@@ -48,8 +59,8 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             override fun onClick(widget: View) {
                 // We display a Toast. You could do anything you want here.
                 Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
-              /*  val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)*/
+                val intent:Intent = Intent(this@RegistrationActivity, Policy::class.java)
+                startActivity(intent)
             }
         }
         spannable.setSpan(clickableSpan, 10, acceptPolicyCheckBox.getText().length, 0)
@@ -68,13 +79,28 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         //styledString.setSpan(clickableSpan, 10, acceptPolicyCheckBox.getText().length, 0)
 
 
-        initializeSpinner()
+        initializeSpinners()
         dateText.setOnFocusChangeListener { view, hasFocus ->
             if(hasFocus) {
                 dateText.clearFocus()
                 val dialog = DatePickerDialog(this,
                     DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                        onDateChoose(year, month, dayOfMonth)
+                        if(getAge(year, month, dayOfMonth)==-1){
+                            Toast.makeText(
+                                this,
+                                "La date n'est pas correcte",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            ageText.setText("X")
+                            ageText.visibility = View.VISIBLE
+
+                        }
+                        else{
+                            ageText.setText((getAge(year, month, dayOfMonth).toString())+" ans")
+                            ageText.visibility = View.VISIBLE
+                            onDateChoose(year, month, dayOfMonth)
+                        }
+
                     },
                     1970,
                     1,
@@ -90,7 +116,6 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             }
             if(!genderSwitch.isChecked){
                 System.out.println("isNOTchecked "+genderSwitch.text)
-
             }
 
         }
@@ -110,7 +135,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.user_menu, menu)
+        inflater.inflate(R.menu.home_menu, menu)
         return true
     }
 
@@ -232,6 +257,9 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         }
         return false
     }
+    fun checkBirthDate():Boolean{
+        return(age!!>0)
+    }
 
 
     fun checkForm(): Boolean{
@@ -241,48 +269,50 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                     if (checkPasswords()) {
                         if (checkSecretAnswer()) {
                             if (checkBoxes()) {
+                                if (checkBirthDate()){
 
-                            System.out.println("SAnswer OK")
-                            // change activity
-                            password = passwField.getText().toString()
-                            email = emailField.getText().toString()
+                                System.out.println("SAnswer OK")
+                                // change activity
+                                password = passwField.getText().toString()
+                                email = emailField.getText().toString()
 
-                            mAuth = FirebaseAuth.getInstance()
-                            mAuth!!.createUserWithEmailAndPassword(
-                                email,
-                                password
-                            )
-                                .addOnCompleteListener(
-                                    this
-                                ) { task ->
-                                    if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
-                                        //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
-                                        informations.setText(R.string.ok)
-                                        val user = mAuth!!.currentUser
+                                mAuth = FirebaseAuth.getInstance()
+                                mAuth!!.createUserWithEmailAndPassword(
+                                    email,
+                                    password
+                                )
+                                    .addOnCompleteListener(
+                                        this
+                                    ) { task ->
+                                        if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
+                                            //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
+                                            informations.setText(R.string.ok)
+                                            val user = mAuth!!.currentUser
 
-                                        //updateUI(user)
-                                    } else { // If sign in fails, display a message to the user.
-                                        val TAG = "EmailPassword"
-                                        Log.w(
-                                            TAG, "createUserWithEmail:failure",
-                                            task.exception
-                                        )
-                                        Toast.makeText(
-                                            this@RegistrationActivity, "Authentication failed.",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        informations.setText(R.string.emailAlreadyUsed)
-                                        //updateUI(null)
+                                            //updateUI(user)
+                                        } else { // If sign in fails, display a message to the user.
+                                            val TAG = "EmailPassword"
+                                            Log.w(
+                                                TAG, "createUserWithEmail:failure",
+                                                task.exception
+                                            )
+                                            Toast.makeText(
+                                                this@RegistrationActivity, "Authentication failed.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            informations.setText(R.string.emailAlreadyUsed)
+                                            //updateUI(null)
+                                        }
+
                                     }
 
-                                }
-
-                            Toast.makeText(
-                                this,
-                                "Vous avez bien été inscrit", Toast.LENGTH_LONG
-                            ).show()
-                            saveNewUser()
-                            return true
+                                Toast.makeText(
+                                    this,
+                                    "Vous avez bien été inscrit", Toast.LENGTH_LONG
+                                ).show()
+                                saveNewUser()
+                                return true
+                            }
                         }
                         }
                     }
@@ -294,23 +324,39 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     }
 
-    fun initializeSpinner(){
+    fun initializeSpinners() {
         val spinner = findViewById<Spinner>(R.id.secretQuestionSpinner)
-    val adapter = ArrayAdapter.createFromResource(this, R.array.secretQuestion,android.R.layout.simple_spinner_item).also{ adapter ->
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Apply the adapter to the spinner
-        spinner.adapter = adapter
-    }
+        val adapter = ArrayAdapter.createFromResource(this, R.array.secretQuestion, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
 
+        // Create an ArrayAdapter using a simple spinner layout and languages array
+        val aaWeight = ArrayAdapter(this, android.R.layout.simple_spinner_item, weightValues)
+        // Set layout to use when the list of choices appear
+        aaWeight.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // Set Adapter to Spinner
+        weightSpinner!!.setAdapter(aaWeight)
+        weightSpinner.setSelection(70)
 
-    secretQuestionSpinner.onItemSelectedListener = this
+        // Create an ArrayAdapter using a simple spinner layout and languages array
+        val aaHeight = ArrayAdapter(this, android.R.layout.simple_spinner_item, heightValues)
+        // Set layout to use when the list of choices appear
+        aaHeight.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // Set Adapter to Spinner
+        heightSpinner!!.setAdapter(aaHeight)
+        heightSpinner.setSelection(90)
 
 
     }
 
     fun onDateChoose(year: Int, month: Int, day: Int) {
+
         dateText.setText(String.format("%02d/%02d/%04d",day,month+1,year))
+
         //Toast.makeText(this, "date : ${dateText.text.toString()}", Toast.LENGTH_LONG).show()
     }
 
@@ -325,7 +371,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     fun saveNewUser(){
         val jsonObj = JSONObject()
-        val jsonArray = JSONArray()
+        //val jsonArray = JSONArray()
 
         jsonObj.put("name",nameField.getText().toString())
         jsonObj.put("surname",surnameField.getText())
@@ -335,19 +381,23 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         System.out.println("HASH"+hash)
         jsonObj.put("password",hash)
         jsonObj.put("birthDate",dateText.getText())
+        jsonObj.put("weight",weightSpinner.selectedItem)
+        jsonObj.put("height",heightSpinner.selectedItem)
         jsonObj.put("secretQuestion",secretQuestionSpinner.selectedItem)
         jsonObj.put("secretAnswer",secretQuestionEdit.getText())
+        jsonObj.put("age",age)
+
         if(genderSwitch.isChecked)      jsonObj.put("Gender",genderSwitch.textOn)
         if(!genderSwitch.isChecked)     jsonObj.put("Gender",genderSwitch.textOff)
 
-        jsonArray.put(jsonObj) //just to register in sharedPref
+        //jsonArray.put(jsonObj) //just to register in sharedPref
         val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE) ?: return
         with(sharedNewUser.edit()) {
-            putString("userInfo", jsonArray.toString())
+            putString("userInfo", jsonObj.toString())
             //putBoolean("saveState",true)
             commit()
         }
-        System.out.println("JSON"+jsonArray.toString())
+        System.out.println("JSON"+jsonObj.toString())
     }
 
     fun String.toSHA(): String {
@@ -358,4 +408,28 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     fun ByteArray.toHex(): String {
         return joinToString("") { "%02x".format(it) }
     }
+
+    fun getAge(year: Int, month: Int, day: Int): Int {
+        val currentDate = Date()
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val dateString = formatter.format(currentDate)
+        val components = dateString.split("/")
+
+        var age = components[2].toInt() - year
+        if(components[1].toInt() < month) {
+            age--
+        } else if (components[1].toInt() == month &&
+            components[0].toInt() < day){
+            age --
+        }
+        if(age < 0 || age > 120) {
+            this.age = age
+            return -1
+        }
+        System.out.println("TU AS "+age)
+        // field_age.setText("Vous avez ${getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())} ans")
+        this.age = age
+        return age
+    }
 }
+

@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
         //val user = FirebaseAuth.getInstance().currentUser
 
-        findViewById<Button>(R.id.testButton).setOnClickListener {
+        findViewById<Button>(R.id.goRegisterButton).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -64,6 +64,9 @@ class LoginActivity : AppCompatActivity() {
         newAccountTextView.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
+        }
+        connectWithFacialRecognationButton.setOnClickListener(){
+            //StarActivity.requestPermission
         }
 
     }

@@ -48,14 +48,14 @@
             android:id="@+id/secretQuestionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:text="@string/secretQuestion"
             android:textColor="#000000"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintHorizontal_bias="0.122"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateText" />
+            app:layout_constraintTop_toBottomOf="@+id/weightSpinner" />
 
         <TextView
             android:id="@+id/registrationTitle"
@@ -256,7 +256,8 @@
             android:id="@+id/genderSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="32dp"
             android:checked="false"
             android:fontFamily="@font/alike"
             android:shadowColor="#4C3B3B"
@@ -270,11 +271,8 @@
             android:textOn="F"
             android:thumb="@drawable/thumb_gender"
             android:thumbTextPadding="15dp"
-            app:layout_constraintBottom_toBottomOf="@+id/nameField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/nameField"
-            app:layout_constraintTop_toTopOf="@+id/nameField"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateText"
             app:track="@drawable/track_gender" />
 
         <CheckBox
@@ -283,6 +281,7 @@
             android:layout_height="42dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
+            android:foregroundGravity="center"
             android:text="@string/acceptDiagnosis"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -300,6 +299,59 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/secretQuestionEdit" />
+
+
+        <TextView
+            android:id="@+id/weightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.61"
+            app:layout_constraintStart_toEndOf="@+id/heightText"
+            app:layout_constraintTop_toBottomOf="@+id/dateText" />
+
+        <Spinner
+            android:id="@+id/weightSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/heightText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/heightText"
+            app:layout_constraintTop_toBottomOf="@+id/heightText" />
+
+        <TextView
+            android:id="@+id/heightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/weight"
+            app:layout_constraintStart_toEndOf="@+id/genderSwitch"
+            app:layout_constraintTop_toBottomOf="@+id/dateText" />
+        <Spinner
+            android:id="@+id/heightSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/weightText"
+            app:layout_constraintTop_toBottomOf="@+id/weightText" />
+
+        <TextView
+            android:id="@+id/ageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/dateText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/dateText"
+            app:layout_constraintTop_toTopOf="@+id/dateText" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
