@@ -5,4 +5,5 @@ class AppointmentModel {
     var surname:String? = null
     var date:String? = null
     var type:String? = null
+    var time:String? = null
 }

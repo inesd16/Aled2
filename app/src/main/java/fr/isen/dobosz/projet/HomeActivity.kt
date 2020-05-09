@@ -376,6 +376,7 @@ private fun isExternalStorageWritable():Boolean{
         }
             R.id.nav_edit_profile -> intent = Intent(this, UserInfoActivity::class.java)
             R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
+            R.id.nav_appointment -> intent = Intent(this, AppointmentActivity::class.java)
             R.id.policy -> {}
             R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
             //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()

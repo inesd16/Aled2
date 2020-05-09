@@ -197,6 +197,7 @@
     <string name="are_you_nauseous">Êtes-vous nauséeux ?</string>
     <string name="are_you_dehydrated">Êtes-vous désydraté ?</string>
     <string name="do_you_have_diarrhea">Avez-vous la diarrhée ?</string>
+    <string name="appointment">Rendez-vous</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>
