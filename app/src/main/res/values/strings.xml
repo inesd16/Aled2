@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Aled 2</string>
-    <string name="connection">Connection</string>
-    <string name="subscribe">Subscribe</string>
+    <string name="app_name">Medical Desertification</string>
+    <string name="connection">Connexion</string>
+    <string name="subscribe">S\'inscrire</string>
     <string name="this_is_imageview">Image</string>
-    <string name="prompt_email">Username</string>
-    <string name="prompt_password">Password</string>
-    <string name="invalid_username">Invalid username</string>
-    <string name="invalid_password">Invalid password</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="apply">Apply</string>
+    <string name="prompt_email">Nom d\'utilisateur</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="invalid_username">Nom d\'utilisateur invalide</string>
+    <string name="invalid_password">Mot de passe invalide</string>
+    <string name="login_failed">"Connexion échouée"</string>
+    <string name="apply">Se connecter</string>
     <string name="hello">Bonjour</string>
     <string name="life_cycle">Cycle de vie</string>
     <string name="save">Sauvegarde</string>
@@ -20,15 +21,125 @@
     <string name="this_is_web_services_view">Bouton web services</string>
     <string name="on_start_state">Application en fonctionnement</string>
     <string name="disconnect">Déconnexion</string>
-    <string name="name">Name</string>
-    <string name="surname">Surname</string>
+    <string name="name">Prénom</string>
+    <string name="surname">Nom de famille</string>
     <string name="date_of_birth">Date de naissance</string>
     <string name="informations">Accéder aux informations</string>
     <string name="picture">Prendre une photo</string>
     <string name="number_tel">Numéro</string>
-    <string name="registration">Registration</string>
-    <string name="register">Register</string>
-    <string name="passw">Password</string>
-    <string name="confirmPassw">Confirm Password</string>
-    <string name="email">E-mail Address</string>
+    <string name="registration">Enregistrement</string>
+    <string name="register">Inscrivez - vous !</string>
+    <string name="passw">Mot de passe</string>
+    <string name="confirmPassw">Confirmer le mot de passe</string>
+    <string name="email">Adresse E-mail</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="contact_data">contact@aled.com</string>
+    <string name="newAccount">Vous n\'avez pas encore de compte ?</string>
+    <string name="do_diagnostic">Faire Mon Diagnostic</string>
+    <string name="titleALEDWeb">Site "ALED"</string>
+    <string name="titleCustomerService">Service Client</string>
+    <string name="titleContact">Contact</string>
+    <string name="titleAboutUs">Sur nous</string>
+    <string name="faq">Questions fréquentes</string>
+    <!--    <string name="webSiteDescription">Medical Desertification is a website where you can do your own diagnosis to help for the organisation of doctor\'s days</string>-->
+    <string name="webSiteDescription">Medical Desertification est un site web sur lequel vous pouvez faire votre propre diagnostic. Cela prévient la pénurie de médecin en vous permettant d\'avoir un pre-diagnostic rapide, gratuit, et aide dans l\'organisation de la journée de visites à domicile. </string>
+    <string name="contactInfo">Informations</string>
+    <string name="myAccount">Mon compte</string>
+    <string name="generalPolicy">Conditions Générales</string>
+    <string name="welcome"><u>Medical Desertification</u>\n<b>Bienvenue</b></string>
+    <string name="welcomeConnected"><u>Medical Desertification</u>\n<b>Bienvenue</b></string>
+    <string name="feelSick">Remplir le formulaire pour avoir un pré-diagnostic :</string>
+    <string name="accessForm">Accéder au formulaire</string>
+    <string name="notAsRealDoctor">En aucun cas les résultats donnés ne remplacent un vrai médecin</string>
+    <string name="testFollowLine"><u>Etape 1</u> : Test de mouvement\nSuivez la forme en commençant par le point rouge en haut à gauche\n
+                                        Une fois le test commencé, une vidéo de vous est prise</string>
+    <string name="next">Suivant</string>
+    <string name="edit">Edit</string>
+    <string name="start">Commencez</string>
+    <string name="starToFollow">Etoile à contourner</string>
+    <string name="emergencyCall">Appel d\'urgence</string>
+    <string name="camera">Camera</string>
+    <string name="emergency">C\'est une urgence \nAppuyez sur le bouton !</string>
+    <string name="goHomePage">Aller sur la page d\'accueil</string>
+    <string name="seeMap">Lancer la carte</string>
+    <string name="history">Voir l\'historique</string>
+    <string name="stringPasswordInfo">Le mot de passe doit contenir au moins un nombre et une majuscule</string>
+    <string name="emailError">S\'il vous plaît entrez un email valide</string>
+    <string name="noSpace">Il ne faut pas d\'espace au prénom et nom de famille</string>
+    <string name="noSpaceSecretAnswer">Evitez de mettre plusieurs mots pour mieux vous souvenir de votre réponse secrète</string>
+    <string name="ok">Tout est  OK</string>
+    <string name="emailAlreadyUsed">Cet eMail est déjà utilisé</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="callDoctorNow">Applez un medecin maintenant</string>
+    <string name="modifyContactInfo">Modifier vos informations personnelles</string>
+    <string name="secretQuestion">Question Secrete</string>
+    <string name="editProfile">Modifier son profil</string>
+    <string name="toDisconnect">Se déconnecter</string>
+    <string name="account">Compte</string>
+    <string name="health">Santé</string>
+    <string name="callDoctor">Appeler un médecin</string>
+    <string name="doDiagnosis">Avoir un diagnostic</string>
+    <string name="connect">Se connecter</string>
+    <string name="createAccount">Créer un compte</string>
+    <string name="contact">Contact</string>
+    <string name="about">A propos</string>
+    <string name="policy">Mentions Légales</string>
+    <string name="clientService">Service Client</string>
+    <string name="customerService">Service Client</string>
+    <string name="callWithoutConn">Appelez d\'urgence sans être connecté</string>
+    <string name="app_name_website">Medical Desertification Website</string>
+    <string name="phoneContact">+33 6 12 34 56 78</string>
+    <string name="sosDescription">Appuyez pour appeler un médecin immédiatement</string>
+    <string name="ines_email">ines.dobosz@hotmail.fr</string>
+    <string name="azerty">azerty</string>
+    <string name="showHideDescription">Afficher / Cacher le mot de passe</string>
+    <string name="yourInfo">Vos Informations personnelles</string>
+    <string name="form">Formulaire</string>
+    <string name="answer">Réponse</string>
+    <string name="male">Homme</string>
+    <string name="gender">Genre</string>
+    <string name="newPassw">Ecrire le nouveau mot de passe</string>
+    <string name="changePassw"><u>Changer votre mot de passe</u></string>
+    <string name="formerPassw">Ancien mot de passe</string>
+    <string name="confirmNewPassw">Confirmer le nouveau mot de passe</string>
+    <string name="confirm">Confirmer</string>
+    <string name="PersInfo">Infos Personnelles</string>
+    <string name="medicalInfo">Infos Médicales</string>
+    <string name="changePersonalInfo"><u>Modifier vos informations personnelles</u></string>
+    <string name="passwEditedSuccessfully">Mot de passe modifié avec succès</string>
+    <string name="acceptPolicy">J\'accepte la <colorBlue>Politique de Confidentialité</colorBlue></string>
+    <string name="acceptDiagnosis">J\'accepte qu\'un pré-diagnostic ne remplace pas un médecin</string>
+    <string name="acceptConditions">Veuillez accepter les conditions</string>
+    <string name="connectWithFacialRecognation">Se Connecter avec Reconnaissance Faciale</string>
+    <string name="height">Taille (cm)</string>
+    <string name="weight">Poids</string>
+    <string name="changeMedicalInfo"><u>Modifier vos informations médicales</u></string>
+    <string name="phoneNumber">Numéro de téléphone</string>
+    <string name="secuNumber">Numéro de sécurité sociale</string>
+    <string name="changePic">Changer votre photo</string>
+    <string name="privatePolicy">Politique de Confidentialité</string>
+    <string name="privatePolicyText">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="generalConditionsText">" Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</string>
+    <string name="incorrectSecuNo">Numéro de Sécurite sociale incorrect\nIl n\'a pas été modifié</string>
+    <string name="incorrectPhoneNo">Numéro de téléphone incorrect\nIl n\'a pas été modifié</string>
+    <string name="allEdited">Tous les champs remplis ont été modifiés</string>
+    <string name="selectFiledsToEdit">Remplissez uniquement les champs que vous voulez modifier</string>
+    <string name="nothingEdited">Rien n\'a été modifié</string>
+    <string name="secuNoHint">2 97 11 92 072 278 04</string>
+    <string name="yourProfilePic">Votre photo de profile</string>
+    <string name="womenTextOn">F</string>
+    <string name="menTextOff">H</string>
+    <string-array name="secretQuestion">
+        <item>Quelle est la chanson que je déteste le plus ?</item>
+        <item>Quel est le nom de mon medecin traitant d\'enfance</item>
+        <item>Quel est le nom de famille de mon premier amour ?</item>
+        <item>Quel est le nom de mon premier animal domestique ?</item>
+        <item>Quel est le nom de mon professeur de primaire ?</item>
+    </string-array>
+    <integer-array name="height">
+        <item>1</item>
+    </integer-array>
 </resources>
