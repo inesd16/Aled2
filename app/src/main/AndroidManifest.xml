@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,LockedOrientationActivity">
+        <activity android:name=".AppointmentActivity"></activity>
         <activity android:name=".form.form22" />
         <activity android:name=".form.form21" />
         <activity android:name=".form.form20" />
@@ -47,7 +48,6 @@
         <activity android:name=".form.form3" />
         <activity android:name=".form.form2" />
         <activity android:name=".form.form1" />
-        tools:ignore="AllowBackup">
         <activity android:name=".form.FormActivity" />
         <activity
             android:name=".Policy"
@@ -98,10 +98,12 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".RegistrationActivity"
+            android:finishOnTaskLaunch="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".LoginActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 

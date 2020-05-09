@@ -22,6 +22,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import fr.isen.dobosz.projet.form.FormActivity
 import kotlinx.android.synthetic.main.activity_star.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -54,7 +55,7 @@ class StarActivity : AppCompatActivity() {
     private var mCamera: Camera? = null
     val camFront:Int = Camera.CameraInfo.CAMERA_FACING_FRONT
     private var mPreview: CameraPreview? = null
-     var mediaRecorder: MediaRecorder? = null
+    var mediaRecorder: MediaRecorder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,13 +95,15 @@ class StarActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener(){
-//            info.facing = mCamera.CameraInfo.CAMERA_FACING_FRONT
+            //            info.facing = mCamera.CameraInfo.CAMERA_FACING_FRONT
 //            mCamera.CameraInfo().facing
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:"" //posArray
             writeFile(posArray.toString(),"", this)
             videoButton.performClick()
             read()
+            var intent = Intent(this, FormActivity::class.java)
+            startActivity(intent)
         }
 
         var isRecording = false
@@ -108,41 +111,41 @@ class StarActivity : AppCompatActivity() {
             requestPermission(Manifest.permission.CAMERA, cameraRequestCode){
                 System.out.println("permission ok")
 
-        if (isRecording) {
-            System.out.println("RECPRDINF")
-            // stop recording and release camera
-            mediaRecorder?.stop() // stop the recording
-            mediaRecorder?.release()// release the MediaRecorder object
-            mCamera?.lock() // take camera access back from MediaRecorder
+                if (isRecording) {
+                    System.out.println("RECPRDINF")
+                    // stop recording and release camera
+                    mediaRecorder?.stop() // stop the recording
+                    mediaRecorder?.release()// release the MediaRecorder object
+                    mCamera?.lock() // take camera access back from MediaRecorder
 
-            // inform the user that recording has stopped
-            //setCaptureButtonText("Capture")
-            videoButton.setText("capture")
-            //videoView.setVideoURI()
-            isRecording = false
-        } else {
+                    // inform the user that recording has stopped
+                    //setCaptureButtonText("Capture")
+                    videoButton.setText("capture")
+                    //videoView.setVideoURI()
+                    isRecording = false
+                } else {
 
-            System.out.println("NOT RECORDING")
-            if (prepareVideoRecorder()) {
-                System.out.println("PREPARE RECORDING")
-                // Camera is available and unlocked, MediaRecorder is prepared,
-                // now you can start recording
-                mediaRecorder?.start()
+                    System.out.println("NOT RECORDING")
+                    if (prepareVideoRecorder()) {
+                        System.out.println("PREPARE RECORDING")
+                        // Camera is available and unlocked, MediaRecorder is prepared,
+                        // now you can start recording
+                        mediaRecorder?.start()
 
-                // inform the user that recording has started
-                //setCaptureButtonText("Stop")
-                videoButton.setText("stop")
-                isRecording = true
+                        // inform the user that recording has started
+                        //setCaptureButtonText("Stop")
+                        videoButton.setText("stop")
+                        isRecording = true
 
-            } else {
-                // prepare didn't work, release the camera
-                mediaRecorder?.release()
-                // inform user
+                    } else {
+                        // prepare didn't work, release the camera
+                        mediaRecorder?.release()
+                        // inform user
+                    }
+                }
+
             }
-        }
-
-    }
-          //  }
+            //  }
         }
 
 
@@ -160,32 +163,36 @@ class StarActivity : AppCompatActivity() {
                         firstRedPoint = true
                         if(!isRecording) //if not recording, begin
                             videoButton.performClick() // Video launched when clicked on fisrt red button
-                        startTextColor.setTextColor(getResources().getColor(R.color.colorConnect))
+                       // startTextColor.setTextColor(getResources().getColor(R.color.colorConnect))
+                        startTextColor.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorConnect))
 
-                    System.out.println("POSITION")
-                    System.out.println("x : " + x)
-                    System.out.println("y : " + y)
-                    System.out.println("NEwtIME "+newTimeStar)
-                    val jsonArrayVoid = JSONArray()
-                    if(newTimeStar){
-                        // is very first time (click down)
-                        val jsonArray = JSONArray() //create new
-                        val jsonObj = JSONObject()
-                        jsonArray.put("etoile") //from starAct
-                        jsonObj.put("image_x", starImageView.width)
-                        jsonObj.put("image_y", starImageView.height)
-                        jsonArray.put(jsonObj) //put dimensions
-                        posArray.add(nmbOfMoveOnStarImage++,jsonArray.toString()) //Have to put image info
-                        saveInJSON(jsonArrayVoid, x, y)
-                        newTimeStar = false
-                    } else{
+
+                        System.out.println("POSITION")
+                        System.out.println("x : " + x)
+                        System.out.println("y : " + y)
+                        System.out.println("NEwtIME "+newTimeStar)
+                        val jsonArrayVoid = JSONArray()
+                        if(newTimeStar){
+                            // is very first time (click down)
+                            val jsonArray = JSONArray() //create new
+                            val jsonObj = JSONObject()
+                            jsonArray.put("etoile") //from starAct
+                            jsonObj.put("image_x", starImageView.width)
+                            jsonObj.put("image_y", starImageView.height)
+                            jsonArray.put(jsonObj) //put dimensions
+                            posArray.add(nmbOfMoveOnStarImage++,jsonArray.toString()) //Have to put image info
+                            saveInJSON(jsonArrayVoid, x, y)
+                            newTimeStar = false
+                        } else{
                             saveInJSON(jsonArrayVoid,x,y)
                             //saveInJSON(readPreviousClick(),x,y)
                         }
                     }
                     else {
                         firstRedPoint = false
-                        startTextColor.setTextColor(resources.getColor(R.color.colorPrimaryDark))
+                        //startTextColor.setTextColor(resources.getColor(R.color.colorPrimaryDark))
+                        startTextColor.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
+
                     }
 
                 }
@@ -210,28 +217,31 @@ class StarActivity : AppCompatActivity() {
 
                 MotionEvent.ACTION_UP -> {
 
-                   if(firstRedPoint){
+                    if(firstRedPoint){
 
-                    // var newTime:Boolean = true
-                    val x = Math.round(event.x)
-                    val y = Math.round(event.y)
-                    if(starImageView.width-100<x && x<starImageView.width && starImageView.height-100<y && y<starImageView.height){
-                        startTextColor.setTextColor(getResources().getColor(R.color.colorGreen))
-                        //saveInJSON(readPreviousClick(), x,y)
-                        val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
-                        val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
-                        nextButton.visibility = View.VISIBLE
-                        System.out.println("READSTRING "+readString)
-                        posArray.add(nmbOfMoveOnStarImage,readString) //pos array contient toutes les series de move -> {sharedPrefPos1,sharedPrefPos2 ..}
-                        nmbOfMoveOnStarImage++
-                        System.out.println(posArray) //pour vérifier
-                   }
-                }
+                        // var newTime:Boolean = true
+                        val x = Math.round(event.x)
+                        val y = Math.round(event.y)
+                        if(starImageView.width-100<x && x<starImageView.width && starImageView.height-100<y && y<starImageView.height){
+                            //startTextColor.setTextColor(getResources().getColor(R.color.colorGreen))
+
+                            startTextColor.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorGreen))
+                            //saveInJSON(readPreviousClick(), x,y)
+                            val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
+                            val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
+                            nextButton.visibility = View.VISIBLE
+                            System.out.println("READSTRING "+readString)
+                            posArray.add(nmbOfMoveOnStarImage,readString) //pos array contient toutes les series de move -> {sharedPrefPos1,sharedPrefPos2 ..}
+                            nmbOfMoveOnStarImage++
+                            System.out.println(posArray) //pour vérifier
+                        }
+                    }
                     else{
-                       startTextColor.setTextColor(resources.getColor(R.color.colorPrimaryDark))
+                        //startTextColor.setTextColor(resources.getColor(R.color.colorPrimaryDark))
+                        startTextColor.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
 
-                   }
-            }
+                    }
+                }
 
 
                 MotionEvent.ACTION_CANCEL -> {
@@ -447,15 +457,15 @@ class StarActivity : AppCompatActivity() {
             }
 
         }
-            if (requestCode == cameraRequestCode) {
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
-                    //resume tasks needing this permission
-                    //SharePdfFile();
-                    startCall()
-                }
-                System.out.println("PERMISSION CAMERA")
+        if (requestCode == cameraRequestCode) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
+                //resume tasks needing this permission
+                //SharePdfFile();
+                startCall()
             }
+            System.out.println("PERMISSION CAMERA")
+        }
 //        if(requestCode == writeESRequestCode) {
 //            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
 //                Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0])
@@ -494,14 +504,14 @@ class StarActivity : AppCompatActivity() {
                     file.createNewFile()
                     file.writeText(coords1)
                     //System.out.println(file.readText())
-                   /* val fOut = FileOutputStream(file)
-                    val myOutWriter =  OutputStreamWriter(fOut)
-                    myOutWriter.append(coords1)
-                    System.out.println("MYTEXT "+myOutWriter.toString())
+                    /* val fOut = FileOutputStream(file)
+                     val myOutWriter =  OutputStreamWriter(fOut)
+                     myOutWriter.append(coords1)
+                     System.out.println("MYTEXT "+myOutWriter.toString())
 
-                    val outputStreamWriter = OutputStreamWriter(context.openFileOutput("clickPos.txt", Context.MODE_PRIVATE))
-                    outputStreamWriter.write(coords1)
-                    outputStreamWriter.close()*/
+                     val outputStreamWriter = OutputStreamWriter(context.openFileOutput("clickPos.txt", Context.MODE_PRIVATE))
+                     outputStreamWriter.write(coords1)
+                     outputStreamWriter.close()*/
 
                     /*val fos = FileOutputStream(file)
                     fos.write(readString!!.toByteArray())
@@ -519,8 +529,8 @@ class StarActivity : AppCompatActivity() {
             }
         }
     }
-        fun read(){
-    requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
+    fun read(){
+        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
 
             val root = getExternalFilesDir("DataToSend")
             val dir = File(root!!.absolutePath)
@@ -529,9 +539,9 @@ class StarActivity : AppCompatActivity() {
             val read = file.readText()
             System.out.println("VALEUR READ "+read)
 
-        //Read text from file
+            //Read text from file
 
-           // val iStream = openFileInput(dir.toString())
+            // val iStream = openFileInput(dir.toString())
 
 
         }
@@ -581,8 +591,8 @@ class StarActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun prepareVideoRecorder(): Boolean {
         mediaRecorder = MediaRecorder()
-    //mCamera!!.Size(200,200)
-       // mediaRecorder!!.setVideoSize(200,200)
+        //mCamera!!.Size(200,200)
+        // mediaRecorder!!.setVideoSize(200,200)
         System.out.println("MEDIARECORDER "+mediaRecorder)
         System.out.println("CAMERA "+mCamera)
 
@@ -604,7 +614,7 @@ class StarActivity : AppCompatActivity() {
                 //setOutputFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
                 setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString())
 
-                        // Step 5: Set the preview output
+                // Step 5: Set the preview output
                 setPreviewDisplay(mPreview?.holder?.surface)
                 try{
                     setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -657,13 +667,13 @@ class StarActivity : AppCompatActivity() {
     fun isReadStoragePermissionGranted():Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v("TAG","Permission is granted1");
-                return true;
+                == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted1")
+                return true
             } else {
 
-                Log.v("TAG","Permission is revoked1");
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), readESRequestCode);
+                Log.v("TAG","Permission is revoked1")
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), readESRequestCode)
                 return false
             }
         }
@@ -676,7 +686,7 @@ class StarActivity : AppCompatActivity() {
     fun isWriteStoragePermissionGranted():Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
+                == PackageManager.PERMISSION_GRANTED) {
                 Log.v("TAG","Permission is granted2")
                 return true
             } else {

@@ -1,5 +1,6 @@
 package fr.isen.dobosz.projet
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -40,6 +41,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
 
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +61,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             override fun onClick(widget: View) {
                 // We display a Toast. You could do anything you want here.
                 Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
-                val intent:Intent = Intent(this@RegistrationActivity, Policy::class.java)
+                val intent = Intent(this@RegistrationActivity, Policy::class.java)
                 startActivity(intent)
             }
         }
@@ -126,6 +128,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         registerButton.setOnClickListener() {
             if(checkForm()){
                 val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
 
@@ -409,6 +412,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         return joinToString("") { "%02x".format(it) }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getAge(year: Int, month: Int, day: Int): Int {
         val currentDate = Date()
         val formatter = SimpleDateFormat("dd/MM/yyyy")

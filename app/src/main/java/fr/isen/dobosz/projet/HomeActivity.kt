@@ -23,9 +23,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu_connected.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
 
 
 //import java.sql.Time
@@ -80,61 +77,15 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,HomeConnectedFragment()).commit()
                 //navigationView.setCheckedItem(R.id.nav_connect)
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
-            }/*
-
-
-            //          homeButton.setOnClickListener {
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent)
-//
-//            }
-
-
-            findViewById<TextView>(R.id.accessFormTextViewClickable).setOnClickListener{
-                val intent = Intent(this, StarActivity::class.java)
-                startActivity(intent)
             }
-
-
-
-
-//            sosButton.setOnTouchListener(View.OnTouchListener() {
-//
-//
-//                fun onTouch(v:View, event:MotionEvent):Boolean {
-//                    when(event.getAction()) {
-//                        MotionEvent.ACTION_DOWN ->{
-//
-//
-//                            return true
-//                        }
-//                        MotionEvent.ACTION_UP -> {
-//
-//
-//                            return true
-//
-//                        }
-//                    }
-//                    return false
-//                }
-//                return@OnTouchListener true
-//
-//                }
-
-
-
-
-
-
-
-
-
-            mapButton.setOnClickListener{
-
-            }
-            */
-
-
+//            val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE) ?: return
+//            val readString = sharedNewUser.getString("userInfo", "") ?: ""
+//            var jsonO = JSONObject(readString)
+//            var totName = jsonO.getString("name").toString()
+//            totName = totName + " "+jsonO.getString("surname").toString().toUpperCase()
+//            findViewById<TextView>(R.id.nameUserTextView).setText(totName)
+//            var email = jsonO.getString("email")
+//            findViewById<TextView>(R.id.emailUserTextView).setText(email)
 
         }
         else{
@@ -159,6 +110,8 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
         }
 
+//            nameUserTextView.visibility = View.INVISIBLE
+//            emailUserTextView.visibility = View.INVISIBLE
         }
 
     }
@@ -429,14 +382,32 @@ private fun isExternalStorageWritable():Boolean{
             R.id.nav_client -> {}
         }
         startActivity(intent)
-        drawer_layout.closeDrawer(GravityCompat.START)
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(!stateConnection){
+        drawer_layout.closeDrawer(GravityCompat.START)}
+        else if(stateConnection){
+        drawer_layout_conn.closeDrawer(GravityCompat.START)}
         return true
+
     }
     override fun onBackPressed() {
-        if(drawer_layout.isDrawerOpen(GravityCompat.START)){
-            drawer_layout.isDrawerOpen(GravityCompat.START)
-        } else
-            super.onBackPressed()
+
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(stateConnection) {
+            if (drawer_layout_conn.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout_conn.closeDrawer(GravityCompat.START)
+            } else
+                super.onBackPressed()
+        }
+        else if(!stateConnection) {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
+            } else
+                super.onBackPressed()
+        }
+        else super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -494,70 +465,6 @@ private fun isExternalStorageWritable():Boolean{
         return true
         //return super.onOptionsItemSelected(item)
     }
-    fun writeFile(coords1: String, coords2: String){
-        System.out.println(readString)
-        val state = Environment.getExternalStorageState()
-        var success = true
-        val root = Environment.getExternalStorageDirectory()
-
-        if(Environment.MEDIA_MOUNTED.equals((state))){
-            val dir = File(root.absolutePath+"/myAppFile")
-            System.out.println(dir)
-            if(!dir.exists()){
-                success = dir.mkdir()
-                System.out.println("does not exists yet")
-            }
-            else{
-                System.out.println("exists")
-            }
-            if (success) {
-                //val file = File(dir, "clickPos.txt")
-                try {
-                    /*val fos = FileOutputStream(file)
-                    fos.write(readString!!.toByteArray())
-                    fos.close()*/
-                    File(dir.name).writeText(coords1)
-                    File(dir.name).writeText(coords2)
-                    System.out.println("SAVED")
-                } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-//
-//    fun save(){ //write in the save file
-//        if(fNameField.text.toString().isNotEmpty() &&
-//            nameField.text.toString().isNotEmpty() &&
-//            dateField.text.toString().isNotEmpty()){
-//            Toast.makeText(this,R.string.register, Toast.LENGTH_LONG).show()
-//
-//            val jsonObj =  JSONObject()
-//            jsonObj.put(kfirstName, fNameField.text.toString())
-//            jsonObj.put(kName, nameField.text.toString())
-//            jsonObj.put(kBirth, dateField.text.toString())
-//            val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFileName)
-//            file.writeText(jsonObj.toString())
-//        }
-//        else
-//            Toast.makeText(this,R.string.fields_empty, Toast.LENGTH_LONG).show()
-//    }
-//    fun read(){
-//        val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFileName)
-//        val readString = file.readText()
-//        val jsonObj = JSONObject(readString)
-//
-//        val dateString = jsonObj.getString(SaveActivity.kBirth)
-//
-//        val components = dateString.split("/")
-//        Toast.makeText(this,jsonObj.getString(SaveActivity.kBirth), Toast.LENGTH_LONG).show()
-//        var age = getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())
-//        field_age.setText("Vous avez ${age} ans")
-//        //Toast.makeText(this,"vous avez ${age} ans", Toast.LENGTH_LONG).show()
-//    }
-
 
 
 }

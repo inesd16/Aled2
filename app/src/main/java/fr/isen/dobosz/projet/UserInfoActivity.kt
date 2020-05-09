@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_user_info.*
 
 class UserInfoActivity : AppCompatActivity() {
@@ -24,22 +25,29 @@ class UserInfoActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.editFragment,EditPasswordFragment()).commit()
         }
         editPasswButton.setOnClickListener(){
-            editPasswButton.setBackgroundColor(resources.getColor(R.color.colorEditButton))
-            editMedicalInfoButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
-            editPersonalInfoButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
+            //editPasswButton.setBackgroundColor(resources.getColor(R.color.colorEditButton))
+            editPasswButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorEditButton))
+            editMedicalInfoButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorDefaultButton))
+            editPersonalInfoButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorDefaultButton))
+
+            //editMedicalInfoButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
+            //editPersonalInfoButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
             supportFragmentManager.beginTransaction().replace(R.id.editFragment,EditPasswordFragment()).commit()
 
         }
         editMedicalInfoButton.setOnClickListener(){
-            editMedicalInfoButton.setBackgroundColor(resources.getColor(R.color.colorEditButton))
-            editPersonalInfoButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
-            editPasswButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
+
+
+            editPasswButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorDefaultButton))
+            editMedicalInfoButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorEditButton))
+            editPersonalInfoButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorDefaultButton))
             supportFragmentManager.beginTransaction().replace(R.id.editFragment,EditMedicalInfoFragment()).commit()
         }
         editPersonalInfoButton.setOnClickListener(){
-            editPersonalInfoButton.setBackgroundColor(resources.getColor(R.color.colorEditButton))
-            editPasswButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
-            editMedicalInfoButton.setBackgroundColor(resources.getColor(R.color.colorDefaultButton))
+
+            editPasswButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorDefaultButton))
+            editMedicalInfoButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorDefaultButton))
+            editPersonalInfoButton.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorEditButton))
             supportFragmentManager.beginTransaction().replace(R.id.editFragment,EditPersInfoActivity()).commit()
         }
 //
