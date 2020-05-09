@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form11">
+
+    <SeekBar
+        android:id="@+id/form11_seekBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form11_switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you have a recent emotional pain ?" />
+
+    <Switch
+        android:id="@+id/form11_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you feel weary ?" />
+
+    <SeekBar
+        android:id="@+id/form11_seekBar4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form11_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you have a loss of strength ?" />
+
+    <Button
+        android:id="@+id/form11_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

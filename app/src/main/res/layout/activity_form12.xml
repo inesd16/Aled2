@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form12">
+
+    <Switch
+        android:id="@+id/form12_switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is your temperature over 38°C/100,4°F ?" />
+
+    <Switch
+        android:id="@+id/form12_switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you feeling cold/having chills?" />
+
+    <Switch
+        android:id="@+id/form12_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you take drugs?" />
+
+    <Switch
+        android:id="@+id/form12_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you have muscular pain/headache?" />
+
+    <Switch
+        android:id="@+id/form12_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Have you lost your appetite?" />
+
+    <Button
+        android:id="@+id/form12_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

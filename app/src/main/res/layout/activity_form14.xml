@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form14">
+
+    <SeekBar
+        android:id="@+id/form14_seekBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <SeekBar
+        android:id="@+id/form14_seekBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form14_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you take drugs ?" />
+
+    <Switch
+        android:id="@+id/form14_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you have a recent injury?" />
+
+    <Switch
+        android:id="@+id/form14_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you dizzy?" />
+
+    <Switch
+        android:id="@+id/form14_switch6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you feel nauseous?" />
+
+    <Button
+        android:id="@+id/form14_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

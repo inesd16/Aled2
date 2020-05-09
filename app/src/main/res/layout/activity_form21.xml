@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form21">
+
+    <SeekBar
+        android:id="@+id/form21_seekBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form21_switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you have a recent emotional pain?" />
+
+    <Switch
+        android:id="@+id/form21_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you have a recent injury" />
+
+    <Switch
+        android:id="@+id/form21_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is your tremor uncontrollable?" />
+
+    <Switch
+        android:id="@+id/form21_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do your tremors lessen with rest?" />
+
+    <Button
+        android:id="@+id/form21_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form19">
+
+    <SeekBar
+        android:id="@+id/form19_seekBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form19_switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you have a recent emotional pain?" />
+
+    <Switch
+        android:id="@+id/form19_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did you have a recent injury?" />
+
+    <Switch
+        android:id="@+id/form19_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loss of sensitivity in the zone" />
+
+    <Switch
+        android:id="@+id/form19_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you have IBS (irritable bowel syndrome)?" />
+
+    <Switch
+        android:id="@+id/form19_switch6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="If woman: Are you having menstrual cramps?" />
+
+    <Button
+        android:id="@+id/form19_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
