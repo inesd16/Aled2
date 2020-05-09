@@ -30,8 +30,8 @@ class form1 : AppCompatActivity() {
         val form = intent
         val extras = form.extras
         ret1 = extras!!.getInt("val")
-        Go.setOnClickListener(object : OnClickListener() {
-            fun onClick(v: View?) {
+        Go?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
                 when (ret1) {
                     1 -> {
                         val form1Activity = Intent(this@form1, form1::class.java)

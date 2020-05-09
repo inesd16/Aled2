@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,25 +22,25 @@
         android:id="@+id/form9_switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have a loss of sensitivity in the zone ?" />
+        android:text="@string/do_you_have_a_loss_of_sensitivity_in_the_zone" />
 
     <Switch
         android:id="@+id/form9_switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you having unusual gas ?" />
+        android:text="@string/are_you_having_unusual_gas" />
 
     <Switch
         android:id="@+id/form9_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have diarrhea ?" />
+        android:text="@string/do_you_have_diarrhea" />
 
     <Button
         android:id="@+id/form9_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

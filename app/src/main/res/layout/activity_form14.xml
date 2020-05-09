@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,31 +22,31 @@
         android:id="@+id/form14_switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you take drugs ?" />
+        android:text="@string/do_you_take_drugs" />
 
     <Switch
         android:id="@+id/form14_switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Did you have a recent injury?" />
+        android:text="@string/did_you_have_a_recent_injury" />
 
     <Switch
         android:id="@+id/form14_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you dizzy?" />
+        android:text="@string/are_you_dizzy" />
 
     <Switch
         android:id="@+id/form14_switch6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you feel nauseous?" />
+        android:text="@string/do_you_feel_nauseous" />
 
     <Button
         android:id="@+id/form14_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

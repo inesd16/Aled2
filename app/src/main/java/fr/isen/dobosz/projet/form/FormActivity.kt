@@ -42,7 +42,7 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form0)
-        this.mNext = findViewById(R.id.activity_form0)
+        this.mNext = findViewById(R.id.activity_form0_button1)
         i = 0
         while (i < table.size) {
             name = genename + i
@@ -52,10 +52,10 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
             table[i]?.setTag(i)
             i++
         }
-        mNext.setClickable(false)
+        mNext?.setClickable(false)
         table[0]!!.isCheckable = false
-        mNext.setOnClickListener(object : View.OnClickListener() {
-            fun onClick(v: View?) {
+        mNext?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
                 i = 0
                 while (i < table.size) {
                     if (table[i]!!.isChecked) {

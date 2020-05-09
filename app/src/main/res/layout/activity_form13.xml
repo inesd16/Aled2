@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,31 +16,31 @@
         android:id="@+id/form13_switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have stomach cramps?" />
+        android:text="@string/do_you_have_stomach_cramps" />
 
     <Switch
         android:id="@+id/form13_switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you often have indigestions?" />
+        android:text="@string/do_you_often_have_indigestions" />
 
     <Switch
         android:id="@+id/form13_switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you constipated?" />
+        android:text="@string/are_you_constipated" />
 
     <Switch
         android:id="@+id/form13_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have IBS (irritable bowel syndrome)?" />
+        android:text="@string/do_you_have_ibs_irritable_bowel_syndrome" />
 
     <Button
         android:id="@+id/form13_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
