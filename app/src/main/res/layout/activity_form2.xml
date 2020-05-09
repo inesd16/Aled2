@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form2">
+
+    <SeekBar
+        android:id="@+id/form2_seekBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form2_switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/did_you_have_a_recent_injury" />
+
+    <Switch
+        android:id="@+id/form2_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/do_you_have_a_broken_bone_in_your_arm" />
+
+    <Switch
+        android:id="@+id/form2_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/do_you_have_a_loss_of_sensitivity_in_the_zone" />
+
+    <Switch
+        android:id="@+id/form2_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/do_you_practice_sport_at_a_high_intensity" />
+
+    <Button
+        android:id="@+id/form2_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

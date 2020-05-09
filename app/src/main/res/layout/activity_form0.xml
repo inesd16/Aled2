@@ -1,9 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context=".form.Form0Activity">
+    android:orientation="vertical"
+    tools:context=".form.FormActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_form0_chip0"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:text="@string/none"
+        />
+
+    <Button
+        android:id="@+id/activity_form0_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next" />
+
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_form0_chip1"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:text="@string/anxiety"
+        />
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip2"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm_pain" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip3"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_pain" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip4"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/breathing_difficulties" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip5"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chills" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip6"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cough" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip7"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delusions" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip8"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diarrhea" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip9"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/distended_belly" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip10"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ear_pain" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip11"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tiredness" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip12"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fever" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip13"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/flatulence" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip14"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/headache" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip15"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nausea" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip16"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/neck_pain" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip17"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nosebleed" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip18"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/permanent_thrist" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip19"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stomachache" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip20"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sweat" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip21"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tremor" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/activity_form0_chip22"
+        style="@style/Widget.MaterialComponents.Chip.Filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vertigo" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

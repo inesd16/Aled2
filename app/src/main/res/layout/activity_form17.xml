@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form17">
+
+    <SeekBar
+        android:id="@+id/form17_seekBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <SeekBar
+        android:id="@+id/form17_seekBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form17_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/do_you_take_drugs" />
+
+    <Switch
+        android:id="@+id/form17_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loss_of_sensitivity_in_the_zone" />
+
+    <Switch
+        android:id="@+id/form17_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/have_you_picked_your_nose_pushed_an_object_up_your_nose" />
+
+    <Button
+        android:id="@+id/form17_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok" />
+</androidx.appcompat.widget.LinearLayoutCompat>
