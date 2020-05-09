@@ -24,8 +24,12 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,LockedOrientationActivity">
-        <activity android:name=".AppointmentActivity"></activity>
+
+        tools:ignore="AllowBackup">
+        <activity
+            android:name=".AppointmentActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity android:name=".form.form22" />
         <activity android:name=".form.form21" />
         <activity android:name=".form.form20" />
