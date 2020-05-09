@@ -23,16 +23,9 @@
         android:roundIcon="@drawable/avatar"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".form.Form0Activity"></activity>
-        <activity android:name=".form.FormActivity" />
-        <activity android:name=".SubscribeActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LoginActivity">
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,LockedOrientationActivity">
+        tools:ignore="AllowBackup">
+        <activity android:name=".form.FormActivity" />
         <activity
             android:name=".Policy"
             android:screenOrientation="portrait"
