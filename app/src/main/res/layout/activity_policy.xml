@@ -10,12 +10,12 @@
         android:id="@+id/privatePolicy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:text="@string/privatePolicy"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,13 +23,13 @@
         android:id="@+id/generalConditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="298dp"
+        android:layout_marginTop="32dp"
         android:text="@string/generalPolicy"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/privatePolicy" />
+        app:layout_constraintTop_toBottomOf="@+id/privatePolicyText" />
 
     <TextView
         android:id="@+id/privatePolicyText"
@@ -44,17 +44,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/privatePolicy" />
 
-    <TextView
-        android:id="@+id/generalConditionsText"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="10dp"
-        android:foregroundGravity="center"
-        android:text="@string/generalConditionsText"
-        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generalConditions" />
+        app:layout_constraintTop_toBottomOf="@+id/generalConditions"
+        app:layout_constraintVertical_bias="0.241">
+
+        <TextView
+            android:id="@+id/generalConditionsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="10dp"
+            android:foregroundGravity="center"
+            android:text="@string/generalConditionsText"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/generalConditions" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,6 +53,7 @@ class StarActivity : AppCompatActivity() {
     //var secondRedPoint:Boolean = false
 
     private var mCamera: Camera? = null
+    //private var emCamera: CameraManager? = null
     val camFront:Int = Camera.CameraInfo.CAMERA_FACING_FRONT
     private var mPreview: CameraPreview? = null
     var mediaRecorder: MediaRecorder? = null
@@ -60,7 +61,10 @@ class StarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_star)
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            emCamera = getSystemService(Context.CAMERA_SERVICE) as CameraManager?
+//
+//        }
 
         // Create an instance of Camera
         mCamera = getCameraInstance(camFront)

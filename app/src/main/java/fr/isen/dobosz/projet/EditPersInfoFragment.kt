@@ -47,6 +47,11 @@ class EditPersInfoActivity : Fragment() {
             try{
             val picButt = view.findViewById<ImageButton>(R.id.changePicButton)
                 picButt.setImageURI(Uri.parse(file.toString()))
+
+                //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+                val json = JSONObject()
+                json.put("profilePic", Uri.parse(file.toString()))
+                System.out.println(json.get("profilePic").toString())
             } catch(e:Exception){
                 e.printStackTrace()
             }

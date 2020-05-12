@@ -1,22 +1,23 @@
 package fr.isen.dobosz.projet
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_registration.*
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +39,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
      var password: String = ""
      var email: String = ""
     private var mAuth: FirebaseAuth? = null
+    var keyBordStrings:String = ""
 
     var weightValues = arrayOfNulls<String>(151)
     var heightValues = arrayOfNulls<String>(151)
@@ -47,6 +53,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         super.onCreate(savedInstanceState)
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
+
         setContentView(R.layout.activity_registration)
         var i = 0
         while (i<=150){
@@ -120,6 +127,10 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                 System.out.println("isNOTchecked "+genderSwitch.text)
             }
 
+        }
+
+        changePicButton.setOnClickListener(){
+            onChangePhoto()
         }
 
         var database = FirebaseDatabase.getInstance()
@@ -434,6 +445,134 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         // field_age.setText("Vous avez ${getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())} ans")
         this.age = age
         return age
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == StarActivity.cameraRequestCode &&
+            resultCode == Activity.RESULT_OK) {
+
+
+            val imageFileName = "profilePic.jpg"
+            val bytearrayoutputstream = ByteArrayOutputStream()
+            val state = Environment.getExternalStorageState()
+            var success = true
+            val root = this.getExternalFilesDir("ProfileInfo")
+
+            if(data?.data != null) { // Gallery
+
+                val pathURI = data.data!!.getPath()
+                System.out.println("CHEMIN "+pathURI.toString())
+                //val bitmap = data?.extras?.get("data") as? Bitmap
+                //bitmap!!.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+                if(Environment.MEDIA_MOUNTED.equals((state))){
+                    val dir = File(root!!.absolutePath)
+                    val dirTake = File(pathURI.toString())
+                    System.out.println(dir.toString())
+                    if(!dir.exists()){
+                        success = dir.mkdir()
+                        //System.out.println("does not exists yet")
+                    }
+                    if (success) {
+                        val file = File(dir, imageFileName)
+                        //System.out.println("success true")
+                        try {
+                            file.createNewFile()
+                            //var a = dirTake.readBytes()
+                            file.writeBytes(dirTake.readBytes())
+                            System.out.println("SAVED")
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                changePicButton.setImageURI(data.data)
+            } else { // Camera
+                val bitmap = data?.extras?.get("data") as? Bitmap
+
+                bitmap?.let {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+
+
+                    if(Environment.MEDIA_MOUNTED.equals((state))){
+                        val dir = File(root!!.absolutePath)
+                        System.out.println(dir.toString())
+                        if(!dir.exists()){
+                            success = dir.mkdir()
+                            //System.out.println("does not exists yet")
+                        }
+                        if (success) {
+                            val file = File(dir, imageFileName)
+                            //System.out.println("success true")
+                            try {
+                                file.createNewFile()
+                                file.writeBytes(bytearrayoutputstream.toByteArray())
+                                //System.out.println("SAVED")
+                            } catch (e: FileNotFoundException) {
+                                e.printStackTrace()
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }
+                    changePicButton.setImageBitmap(it)
+                }
+            }
+        }
+    }
+    fun onChangePhoto() {/*
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "IMAGE$timeStamp.jpg"
+        val storageDir: File = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES
+        )
+        var pictureImagePath = storageDir.getAbsolutePath().toString() + "/" + imageFileName
+        val file = File(pictureImagePath)
+        val outputFileUri: Uri = Uri.fromFile(file)*/
+        val galleryIntent = Intent(Intent.ACTION_PICK)
+        galleryIntent.type = "image/*"
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // val cameraIntent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val intentChooser = Intent.createChooser(galleryIntent, "Choose your picture library")
+        //var picture = Intent.EXTRA_INITIAL_INTENTS
+        //cameraIntent2.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
+        //intentChooser.putExtra(picture, arrayOf(cameraIntent))
+        //intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+        intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+
+        startActivityForResult(intentChooser, StarActivity.cameraRequestCode)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        System.out.println(keyCode)
+        return super.onKeyDown(keyCode, event)
+    }
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+        var jsonKeyboard = JSONObject()
+        keyBordStrings = keyBordStrings+keyCode.toString()
+        return when (keyCode) {
+            KeyEvent.KEYCODE_D -> {
+                System.out.println("D APPUYE")
+                true
+            }
+            KeyEvent.KEYCODE_F -> {
+                true
+            }
+            KeyEvent.KEYCODE_J -> {
+                true
+            }
+            KeyEvent.KEYCODE_K -> {
+                true
+            }
+            else -> { System.out.println(keyBordStrings)
+                super.onKeyUp(keyCode, event)}
+        }
     }
 }
 

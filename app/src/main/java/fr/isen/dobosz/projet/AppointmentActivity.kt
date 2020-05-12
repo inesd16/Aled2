@@ -1,6 +1,10 @@
 package fr.isen.dobosz.projet
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_appointment.*
@@ -21,6 +25,7 @@ class AppointmentActivity : AppCompatActivity() {
 //        jsonO = JSONObject(app2)
 //        jsonArray.put(jsonO)
         val a:ArrayList<AppointmentModel> = arrayListOf()
+        //System.out.println(array.toString())
         var i = 0
         while(i<3){
             a.add(AppointmentModel())
@@ -37,5 +42,17 @@ class AppointmentActivity : AppCompatActivity() {
         appRecycleView.adapter = AppointmentAdapter(a)
 
         System.out.println(a.count())
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            R.id.action_home -> intent = Intent(this, HomeActivity::class.java)
+        }
+        startActivity(intent)
+        return true
     }
 }
