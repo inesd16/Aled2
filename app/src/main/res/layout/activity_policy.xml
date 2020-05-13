@@ -31,41 +31,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/privatePolicyText" />
 
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
     <TextView
         android:id="@+id/privatePolicyText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="10dp"
         android:foregroundGravity="fill_horizontal"
         android:text="@string/privatePolicyText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/privatePolicy" />
+</androidx.core.widget.NestedScrollView>
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+   <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/generalConditions"
-        app:layout_constraintVertical_bias="0.241">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/generalConditionsText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="24dp"
             android:layout_marginEnd="10dp"
             android:foregroundGravity="center"
+            android:scrollbars="vertical"
             android:text="@string/generalConditionsText"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/generalConditions" />
-    </ScrollView>
+            app:layout_constraintTop_toBottomOf="@+id/generalConditions"
+            app:layout_constraintVertical_bias="0.09" />
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

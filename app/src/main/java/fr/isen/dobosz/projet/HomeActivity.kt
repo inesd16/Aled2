@@ -3,10 +3,12 @@ package fr.isen.dobosz.projet
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -46,7 +48,8 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
             )
@@ -55,8 +58,16 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.readESRequestCode
             )
         }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.cameraRequestCode
+            )
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.callRequestCode
+            )
+        }
 
-
+        //stateConnection = true
         if(stateConnection) {
             setTheme(R.style.AppTheme_NoActionBar)
             setContentView(R.layout.activity_menu_connected)
@@ -379,6 +390,7 @@ private fun isExternalStorageWritable():Boolean{
             R.id.nav_appointment -> intent = Intent(this, AppointmentActivity::class.java)
             R.id.policy -> {intent = Intent(this, Policy::class.java)}
             R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
+           // R.id.nav_call_doctor -> launchPopUpStartCall()
             //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
 
         }
@@ -465,6 +477,27 @@ private fun isExternalStorageWritable():Boolean{
         startActivity(intent)
         return true
         //return super.onOptionsItemSelected(item)
+    }
+    fun launchPopUpStartCall(){
+        val builder = AlertDialog.Builder(this)
+            .setTitle("Lancer un appel")
+            .setMessage("Voulez-vous vraiment appelez un médecin?")
+        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            startCall()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+        }
+        builder.show()
+    }
+
+    fun startCall() {
+        val intentcall = Intent()
+        intentcall.action = Intent.ACTION_CALL
+        intentcall.data = Uri.parse("tel:+33698305732") // set the Uri
+        startActivity(intentcall)
     }
 
 

@@ -22,10 +22,10 @@
         </item>
     <item android:title="@string/health">
         <menu>
-            <item
-                android:id="@+id/nav_call_doctor"
-                android:icon="@drawable/common_full_open_on_phone"
-                android:title="@string/callDoctor" />
+<!--            <item-->
+<!--                android:id="@+id/nav_call_doctor"-->
+<!--                android:icon="@drawable/common_full_open_on_phone"-->
+<!--                android:title="@string/callDoctor" />-->
             <item
                 android:id="@+id/nav_do_diagnosis"
                 android:icon="@drawable/form_logo"

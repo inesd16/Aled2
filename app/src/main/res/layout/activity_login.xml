@@ -11,7 +11,7 @@
         android:id="@+id/connectionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="20dp"
         android:text="@string/connection"
         android:textColor="@color/colorConnect"
         android:textSize="25sp"
@@ -52,34 +52,34 @@
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="30dp"
+        android:autofillHints="@string/email"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:text="@string/ines_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connectionText"
-        android:autofillHints="@string/email" />
+        app:layout_constraintTop_toBottomOf="@+id/connectionText" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="30dp"
+        android:autofillHints="@string/passw"
         android:ems="10"
         android:hint="@string/passw"
         android:inputType="textPassword"
         android:text="@string/azerty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
-        android:autofillHints="@string/passw" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
     <TextView
         android:id="@+id/newAccountTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:clickable="true"
         android:focusable="true"
@@ -100,7 +100,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newAccountTextView"
-        app:layout_constraintVertical_bias="0.048"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/heartsosresized" />
 
     <ImageButton

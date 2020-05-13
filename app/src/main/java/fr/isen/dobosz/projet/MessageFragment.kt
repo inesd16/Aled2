@@ -25,11 +25,7 @@ class MessageFragment: Fragment() {
         launchPopUpStartCall()
     }
 
-        val historyButon:ImageButton = view.findViewById(R.id.historyButton)
-        historyButon.setOnClickListener(){
-            val intent = Intent(context, AppointmentActivity::class.java)
-            startActivity(intent)
-        }
+
     return view
 }
 

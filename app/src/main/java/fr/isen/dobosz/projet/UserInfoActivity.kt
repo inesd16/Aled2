@@ -18,9 +18,13 @@ class UserInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_info)
-        homeButton.setOnClickListener {
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
+        historyButton.setOnClickListener {
+            val intent = Intent(this, AppointmentActivity::class.java)
+            startActivity(intent)
+        }
+            homeButton.setOnClickListener {
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
 //            supportFragmentManager.beginTransaction().replace(R.id.editFragment,BlankFragment()).commit()
             supportFragmentManager.beginTransaction().replace(R.id.editFragment,EditPasswordFragment()).commit()
         }
