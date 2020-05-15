@@ -4,12 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import fr.isen.dobosz.projet.R
-import kotlinx.android.synthetic.main.activity_form1.*
 import kotlinx.android.synthetic.main.activity_form2.*
 import kotlinx.android.synthetic.main.activity_form2.button
 import kotlinx.android.synthetic.main.activity_form2.text1
