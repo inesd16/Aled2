@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,37 +10,37 @@
         android:id="@+id/form12_switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Is your temperature over 38°C/100,4°F ?" />
+        android:text="@string/is_your_temperature_over_38_c_100_4_f" />
 
     <Switch
         android:id="@+id/form12_switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you feeling cold/having chills?" />
+        android:text="@string/are_you_feeling_cold_having_chills" />
 
     <Switch
         android:id="@+id/form12_switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you take drugs?" />
+        android:text="@string/do_you_take_drugs" />
 
     <Switch
         android:id="@+id/form12_switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have muscular pain/headache?" />
+        android:text="@string/do_you_have_muscular_pain_headache" />
 
     <Switch
         android:id="@+id/form12_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Have you lost your appetite?" />
+        android:text="@string/have_you_lost_your_appetite" />
 
     <Button
         android:id="@+id/form12_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

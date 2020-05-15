@@ -35,7 +35,16 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
         val intent = Intent(activity!!.application, StarActivity::class.java)
         startActivity(intent)
         }
+        val sosButton:ImageButton = view.findViewById(R.id.sosButton)
+        sosButton.setOnClickListener(){
+            startCall()
+        }
 
+        val historyButon:ImageButton = view.findViewById(R.id.historyButton)
+        historyButon.setOnClickListener(){
+            val intent = Intent(context, AppointmentActivity::class.java)
+            startActivity(intent)
+        }
 
         val layout:View = view.findViewById(R.id.layout)
         layout.setOnTouchListener { v, event ->
@@ -123,10 +132,7 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
                 }
             }
 
-            val sosButton:ImageButton = view.findViewById(R.id.sosButton)
-            sosButton.setOnClickListener(){
-                startCall()
-            }
+
             true
         }
 

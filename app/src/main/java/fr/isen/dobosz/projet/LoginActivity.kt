@@ -1,8 +1,10 @@
 package fr.isen.dobosz.projet
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.InputType.*
 import android.util.Log
@@ -13,6 +15,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -23,10 +27,26 @@ class LoginActivity : AppCompatActivity() {
     val goodPassword = ""
     private var mAuth: FirebaseAuth? = null
 
-
+    fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
+        if(ContextCompat.checkSelfPermission(this, permissionToRequest) != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissionToRequest)) {
+                //display toast
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(permissionToRequest), requestCode)
+            }
+        } else {
+            handler()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        requestPermission(Manifest.permission.RECORD_AUDIO, StarActivity.audioRequestCode) {
+        }
+        requestPermission(Manifest.permission.RECORD_AUDIO, StarActivity.videoRequestCode) {
+        }
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
         findViewById<Button>(R.id.validateButton).setOnClickListener {
@@ -97,6 +117,8 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                     //updateUI(user)
                 } else { // If sign in fails, display a message to the user.
+
+                    finishAffinity()
                     Log.w("login", "signInWithEmail:failure", task.exception)
                     Toast.makeText(
                         this@LoginActivity, "Authentication failed.",

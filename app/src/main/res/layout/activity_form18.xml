@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,13 +34,13 @@
         android:id="@+id/form18_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Have you lost weight recently?" />
+        android:text="@string/have_you_lost_weight_recently" />
 
     <Button
         android:id="@+id/form18_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,31 +16,31 @@
         android:id="@+id/form10_switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you feel like your ear is clogged? / Do you have a loss in hearing ?" />
+        android:text="@string/do_you_feel_like_your_ear_is_clogged_do_you_have_a_loss_in_hearing" />
 
     <Switch
         android:id="@+id/form10_switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Is there oozing of your ear ?" />
+        android:text="@string/is_there_oozing_of_your_ear" />
 
     <Switch
         android:id="@+id/form10_switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have a fever (>38°C/100,4°F) ?" />
+        android:text="@string/do_you_have_a_fever_38_c_100_4_f" />
 
     <Switch
         android:id="@+id/form10_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you feel dizzy ?" />
+        android:text="@string/do_you_feel_dizzy" />
 
     <Button
         android:id="@+id/form10_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
+import java.util.regex.Pattern
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,6 +48,11 @@ class EditPersInfoActivity : Fragment() {
             try{
             val picButt = view.findViewById<ImageButton>(R.id.changePicButton)
                 picButt.setImageURI(Uri.parse(file.toString()))
+
+                //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+                val json = JSONObject()
+                json.put("profilePic", Uri.parse(file.toString()))
+                System.out.println(json.get("profilePic").toString())
             } catch(e:Exception){
                 e.printStackTrace()
             }
@@ -101,8 +107,10 @@ class EditPersInfoActivity : Fragment() {
                 view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
             }
             if (!email.getText().toString().equals("")) {
-                jsonObj.put("email", email.getText())
-                view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
+                if(checkMail()){
+                    jsonObj.put("email", email.getText())
+                    view.findViewById<TextView>(R.id.info).setText(R.string.allEdited)
+                }
             }
             if (!phoneNo.getText().toString().equals("")) {
                 if (phoneNo.length() < 10) {
@@ -238,5 +246,20 @@ class EditPersInfoActivity : Fragment() {
         intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
         startActivityForResult(intentChooser, StarActivity.cameraRequestCode)
+    }
+
+    fun checkMail(): Boolean {
+        val masque =
+            "^[a-zA-Z]+[a-zA-Z0-9\\._-]*[a-zA-Z0-9]@[a-zA-Z]+" + "[a-zA-Z0-9\\._-]*[a-zA-Z0-9]+\\.[a-zA-Z]{2,4}$"
+        val pattern = Pattern.compile(masque)
+        val controler = pattern.matcher(view!!.findViewById<TextView>(R.id.emailEditText).getText().toString())
+        if (controler.matches()) {
+            //System.out.println("Ok")
+            return true
+
+        } else {
+            view!!.findViewById<TextView>(R.id.info).setText(R.string.emailError)
+            return false
+        }
     }
 }

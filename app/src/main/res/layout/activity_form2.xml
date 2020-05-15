@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,31 +16,31 @@
         android:id="@+id/form2_switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Did you have a recent injury" />
+        android:text="@string/did_you_have_a_recent_injury" />
 
     <Switch
         android:id="@+id/form2_switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have a broken bone in your arm" />
+        android:text="@string/do_you_have_a_broken_bone_in_your_arm" />
 
     <Switch
         android:id="@+id/form2_switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you have a loss of sensitivity in the zone" />
+        android:text="@string/do_you_have_a_loss_of_sensitivity_in_the_zone" />
 
     <Switch
         android:id="@+id/form2_switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you practice sport at a high intensity" />
+        android:text="@string/do_you_practice_sport_at_a_high_intensity" />
 
     <Button
         android:id="@+id/form2_button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok" />
+        android:text="@string/ok" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

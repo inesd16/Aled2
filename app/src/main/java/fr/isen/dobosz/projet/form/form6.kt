@@ -2,6 +2,7 @@ package fr.isen.dobosz.projet.form
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.Switch
@@ -19,8 +20,8 @@ class form6 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form6)
-        Seekbar1 = findViewById(R.id.form6_seekBar1)
-        Switch2 = findViewById(R.id.form6_switch2)
+        Seekbar1 = findViewById(R.id.form6_seekBar2)
+        Switch2 = findViewById(R.id.form6_switch1)
         Switch3 = findViewById(R.id.form6_switch3)
         Switch4 = findViewById(R.id.form6_switch4)
         Switch5 = findViewById(R.id.form6_switch5)
@@ -28,8 +29,8 @@ class form6 : AppCompatActivity() {
         val form = intent
         val extras = form.extras
         ret1 = extras!!.getInt("val")
-        Go.setOnClickListener(object : OnClickListener() {
-            fun onClick(v: View?) {
+        Go?.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
                 when (ret1) {
                     1 -> {
                         val form1Activity = Intent(this@form6, form1::class.java)
