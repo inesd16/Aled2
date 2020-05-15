@@ -8,6 +8,7 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
 import fr.isen.dobosz.projet.R
+import org.json.JSONObject
 
 
 class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener {
@@ -15,7 +16,7 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
     private var mNext: Button? = null
     private var count = 0
     private var ID = 0
-    private val genename = "activity_form0_chip"
+    private val genename = "activity_form0"
     private var name: String? = null
     private var i = 0
     private var ret1 = 0
