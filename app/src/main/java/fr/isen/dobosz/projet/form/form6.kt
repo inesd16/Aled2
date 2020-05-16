@@ -8,28 +8,19 @@ import android.widget.SeekBar
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import fr.isen.dobosz.projet.R
+import kotlinx.android.synthetic.main.activity_form6.*
 
 class form6 : AppCompatActivity() {
-    private var Seekbar1: SeekBar? = null
-    private var Switch2: Switch? = null
-    private var Switch3: Switch? = null
-    private var Switch4: Switch? = null
-    private var Switch5: Switch? = null
-    private var Go: Button? = null
+    var writeESRequestCode = 9
+    var readESRequestCode = 10
     private var ret1 = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form6)
-        Seekbar1 = findViewById(R.id.form6_seekBar2)
-        Switch2 = findViewById(R.id.form6_switch1)
-        Switch3 = findViewById(R.id.form6_switch3)
-        Switch4 = findViewById(R.id.form6_switch4)
-        Switch5 = findViewById(R.id.form6_switch5)
-        Go = findViewById(R.id.form6_button1)
         val form = intent
         val extras = form.extras
         ret1 = extras!!.getInt("val")
-        Go?.setOnClickListener(object : View.OnClickListener{
+        button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 when (ret1) {
                     1 -> {

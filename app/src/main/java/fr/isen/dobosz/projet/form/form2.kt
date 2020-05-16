@@ -14,13 +14,10 @@ import androidx.core.content.ContextCompat
 import fr.isen.dobosz.projet.StarActivity
 import kotlinx.android.synthetic.main.activity_form2.*
 import kotlinx.android.synthetic.main.activity_form2.button
-import kotlinx.android.synthetic.main.activity_form2.text1
-import kotlinx.android.synthetic.main.activity_form2.text2
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-
 
 class form2 : AppCompatActivity() {
     private var ret1 = 0
@@ -46,7 +43,7 @@ class form2 : AppCompatActivity() {
                 when (ret1) {
                     1 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form1Activity = Intent(this@form2, form1::class.java)
                         form1Activity.putExtra("val", 0)
@@ -54,7 +51,7 @@ class form2 : AppCompatActivity() {
                     }
                     2 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form2Activity = Intent(this@form2, form2::class.java)
                         form2Activity.putExtra("val", 0)
@@ -62,7 +59,7 @@ class form2 : AppCompatActivity() {
                     }
                     3 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form3Activity = Intent(this@form2, form3::class.java)
                         form3Activity.putExtra("val", 0)
@@ -70,7 +67,7 @@ class form2 : AppCompatActivity() {
                     }
                     4 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form4Activity = Intent(this@form2, form4::class.java)
                         form4Activity.putExtra("val", 0)
@@ -78,7 +75,7 @@ class form2 : AppCompatActivity() {
                     }
                     5 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form5Activity = Intent(this@form2, form5::class.java)
                         form5Activity.putExtra("val", 0)
@@ -86,7 +83,7 @@ class form2 : AppCompatActivity() {
                     }
                     6 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form6Activity = Intent(this@form2, form6::class.java)
                         form6Activity.putExtra("val", 0)
@@ -94,7 +91,7 @@ class form2 : AppCompatActivity() {
                     }
                     7 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form7Activity = Intent(this@form2, form7::class.java)
                         form7Activity.putExtra("val", 0)
@@ -102,7 +99,7 @@ class form2 : AppCompatActivity() {
                     }
                     8 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form8Activity = Intent(this@form2, form8::class.java)
                         form8Activity.putExtra("val", 0)
@@ -110,7 +107,7 @@ class form2 : AppCompatActivity() {
                     }
                     9 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form9Activity = Intent(this@form2, form9::class.java)
                         form9Activity.putExtra("val", 0)
@@ -118,7 +115,7 @@ class form2 : AppCompatActivity() {
                     }
                     10 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form10Activity = Intent(this@form2, form10::class.java)
                         form10Activity.putExtra("val", 0)
@@ -126,7 +123,7 @@ class form2 : AppCompatActivity() {
                     }
                     11 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form11Activity = Intent(this@form2, form11::class.java)
                         form11Activity.putExtra("val", 0)
@@ -134,7 +131,7 @@ class form2 : AppCompatActivity() {
                     }
                     12 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form12Activity = Intent(this@form2, form12::class.java)
                         form12Activity.putExtra("val", 0)
@@ -142,7 +139,7 @@ class form2 : AppCompatActivity() {
                     }
                     13 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form13Activity = Intent(this@form2, form13::class.java)
                         form13Activity.putExtra("val", 0)
@@ -150,7 +147,7 @@ class form2 : AppCompatActivity() {
                     }
                     14 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form14Activity = Intent(this@form2, form14::class.java)
                         form14Activity.putExtra("val", 0)
@@ -158,7 +155,7 @@ class form2 : AppCompatActivity() {
                     }
                     15 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form15Activity = Intent(this@form2, form15::class.java)
                         form15Activity.putExtra("val", 0)
@@ -166,7 +163,7 @@ class form2 : AppCompatActivity() {
                     }
                     16 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form16Activity = Intent(this@form2, form16::class.java)
                         form16Activity.putExtra("val", 0)
@@ -174,7 +171,7 @@ class form2 : AppCompatActivity() {
                     }
                     17 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form17Activity = Intent(this@form2, form17::class.java)
                         form17Activity.putExtra("val", 0)
@@ -182,7 +179,7 @@ class form2 : AppCompatActivity() {
                     }
                     18 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form18Activity = Intent(this@form2, form18::class.java)
                         form18Activity.putExtra("val", 0)
@@ -190,7 +187,7 @@ class form2 : AppCompatActivity() {
                     }
                     19 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form19Activity = Intent(this@form2, form19::class.java)
                         form19Activity.putExtra("val", 0)
@@ -198,7 +195,7 @@ class form2 : AppCompatActivity() {
                     }
                     20 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form20Activity = Intent(this@form2, form20::class.java)
                         form20Activity.putExtra("val", 0)
@@ -206,7 +203,7 @@ class form2 : AppCompatActivity() {
                     }
                     21 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form21Activity = Intent(this@form2, form21::class.java)
                         form21Activity.putExtra("val", 0)
@@ -214,7 +211,7 @@ class form2 : AppCompatActivity() {
                     }
                     22 -> {
                         saveData()
-                        writeFile(text1.text.toString(), text2.text.toString(), text3.text.toString(), text4.text.toString(), this)
+                        writeFile(text12.text.toString(), text22.text.toString(), text32.text.toString(), text42.text.toString(), this)
                         read()
                         val form22Activity = Intent(this@form2, form22::class.java)
                         form22Activity.putExtra("val", 0)
@@ -229,10 +226,10 @@ class form2 : AppCompatActivity() {
 
     fun saveData(){
         val jsonObj = JSONObject()
-        jsonObj.put("reponse 1", text1.text.toString())
-        jsonObj.put("reponse 2", text2.text.toString())
-        jsonObj.put("reponse 3", text3.text.toString())
-        jsonObj.put("reponse 4", text4.text.toString())
+        jsonObj.put("reponse 1", text12.text.toString())
+        jsonObj.put("reponse 2", text22.text.toString())
+        jsonObj.put("reponse 3", text32.text.toString())
+        jsonObj.put("reponse 4", text42.text.toString())
         val sharedNewAnswer = this.getSharedPreferences("sharedNewAnswer", Context.MODE_PRIVATE) ?: return
         with(sharedNewAnswer.edit()) {
             putString("userResponse2", jsonObj.toString())
