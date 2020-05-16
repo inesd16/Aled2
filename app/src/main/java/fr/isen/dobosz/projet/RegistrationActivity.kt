@@ -1,10 +1,12 @@
 package fr.isen.dobosz.projet
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
@@ -21,6 +23,8 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_registration.*
@@ -50,6 +54,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
@@ -60,6 +65,12 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             weightValues.set(i,i.toString()+" kg")
             heightValues.set(i,(i+70).toString()+" cm")
             i++
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.cameraRequestCode
+            )
+        }
+        requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
         }
 
         val spannable = SpannableString(acceptPolicyCheckBox.getText())
@@ -130,7 +141,9 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         }
 
         changePicButton.setOnClickListener(){
-            onChangePhoto()
+            requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
+                onChangePhoto()
+            }
         }
         nameField.setOnKeyListener{v, keyCode, event ->
             System.out.println(("FIELD"))
@@ -288,7 +301,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     fun checkForm(): Boolean{
         if (checkFields() && checkNames() && checkMail() && checkPasswords() && checkSecretAnswer() && checkBoxes() && checkBirthDate()) {
-            var returne = false
+            //var returne = false
             System.out.println("SAnswer OK")
             // change activity
             password = passwField.getText().toString()
@@ -307,8 +320,9 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                             "Vous avez bien été inscrit", Toast.LENGTH_LONG
                         ).show()
                         saveNewUser()
-                        returne = true
-                        //return@addOnCompleteListener
+                        val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        return@addOnCompleteListener
 
                     } else { // If sign in fails, display a message to the user.
                         val TAG = "EmailPassword"
@@ -317,17 +331,19 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                             task.exception
                         )
                         Toast.makeText(
-                            this@RegistrationActivity, "Authentication failed. \n"+R.string.emailAlreadyUsed.toString(),
+                            this@RegistrationActivity, "Authentication failed.",
                             Toast.LENGTH_SHORT
                         ).show()
                         informations.setText(R.string.emailAlreadyUsed)
                         //updateUI(null)
+                        return@addOnCompleteListener
+                        //returne = false
                     }
 
                 }
 
             //if checkPasswords()
-            return true
+            return false
         }
         else
             return false
@@ -599,6 +615,18 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                 super.onKeyUp(keyCode, event)}
         }
         return true
+    }
+
+    fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
+        if(ContextCompat.checkSelfPermission(this, permissionToRequest) != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissionToRequest)) {
+                //display toast
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(permissionToRequest), requestCode)
+            }
+        } else {
+            handler()
+        }
     }
 }
 

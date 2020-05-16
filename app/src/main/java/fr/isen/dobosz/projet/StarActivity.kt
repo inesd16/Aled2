@@ -79,8 +79,8 @@ class StarActivity : AppCompatActivity() {
             val preview: FrameLayout = findViewById(R.id.camera_preview)
             preview.addView(it)
         }
-        requestPermission(Manifest.permission.RECORD_AUDIO, audioRequestCode) {
-        }
+//        requestPermission(Manifest.permission.RECORD_AUDIO, audioRequestCode) {
+//        }
         if(isWriteStoragePermissionGranted()){
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, writeESRequestCode) {
 
@@ -90,6 +90,7 @@ class StarActivity : AppCompatActivity() {
         if(isReadStoragePermissionGranted()){
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
             }
+
         }
 
         emergencyCallButton.setOnClickListener{
@@ -99,6 +100,8 @@ class StarActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener(){
+            //            info.facing = mCamera.CameraInfo.CAMERA_FACING_FRONT
+//            mCamera.CameraInfo().facing
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:"" //posArray
             writeFile(posArray.toString(),"", this)
