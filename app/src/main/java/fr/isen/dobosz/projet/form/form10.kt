@@ -335,7 +335,7 @@ class form10 : AppCompatActivity() {
             } else {
 
                 Log.v("TAG","Permission is revoked1")
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     StarActivity.readESRequestCode
                 )
                 return false
@@ -349,14 +349,14 @@ class form10 : AppCompatActivity() {
 
     fun isWriteStoragePermissionGranted():Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
                 Log.v("TAG","Permission is granted2")
                 return true
             } else {
 
                 Log.v("TAG","Permission is revoked2")
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     StarActivity.writeESRequestCode
                 );
                 return false
