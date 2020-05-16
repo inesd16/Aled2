@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import fr.isen.dobosz.projet.R
 import fr.isen.dobosz.projet.StarActivity
-import fr.isen.dobosz.projet.StarActivity.Companion.readESRequestCode
 import kotlinx.android.synthetic.main.activity_form7.*
 import kotlinx.android.synthetic.main.activity_form7.button
 import org.json.JSONObject
@@ -241,7 +240,7 @@ class form7 : AppCompatActivity() {
     }
 
     fun read() {
-        requestPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
+        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
             val root = getExternalFilesDir("DataToSend")
             val dir = File(root!!.absolutePath)
             val file = File(dir, "answerForm7.txt")
