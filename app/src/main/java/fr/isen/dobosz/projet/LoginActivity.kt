@@ -69,15 +69,16 @@ class LoginActivity : AppCompatActivity(), View.OnTouchListener {
         requestPermission(Manifest.permission.RECORD_AUDIO, StarActivity.audioRequestCode) {
         }
         requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
+            // Create an instance of Camera
+            mCamera = getCameraInstance(camFront)
+            //mCamera!!.setDisplayOrientation(90)
+            mPreview = mCamera?.let {
+                // Create our Preview view
+                CameraPreview(this, it)
+            }
+
         }
 
-        // Create an instance of Camera
-        mCamera = getCameraInstance(camFront)
-        //mCamera!!.setDisplayOrientation(90)
-        mPreview = mCamera?.let {
-            // Create our Preview view
-            CameraPreview(this, it)
-        }
 
         // Set the Preview view as the content of our activity.
        // mPreview?.also {
@@ -511,7 +512,7 @@ val width = displayMetrics.widthPixels
                 setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString())
 
                 // Step 5: Set the preview output
-                setPreviewDisplay(mPreview?.holder?.surface)
+                //setPreviewDisplay(mPreview?.holder?.surface)
                 try{
                     setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                     setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
