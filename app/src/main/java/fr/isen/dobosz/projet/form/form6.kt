@@ -26,7 +26,6 @@ class form6 : AppCompatActivity() {
         var writeESRequestCode = 9
         var readESRequestCode = 10
     }
-    private var ret1 = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form6)
@@ -38,12 +37,11 @@ class form6 : AppCompatActivity() {
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, StarActivity.readESRequestCode) {
             }
         }
-        val form = intent
-        val extras = form.extras
-        ret1 = extras!!.getInt("val")
+        val form: Intent ?= intent
+        val extras: Bundle ?= form?.extras
         button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                when (ret1) {
+                when (Log.d("ret1", extras?.getInt("val").toString())) {
                     1 -> {
                         saveData()
                         writeFile(text16.text.toString(), text26.text.toString(), text36.text.toString(), text46.text.toString(), this)

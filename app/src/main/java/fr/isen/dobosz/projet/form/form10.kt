@@ -22,7 +22,6 @@ import java.io.FileNotFoundException
 import java.io.IOException
 
 class form10 : AppCompatActivity() {
-    private var ret1 = 0
     companion object{
         var writeESRequestCode = 9
         var readESRequestCode = 10
@@ -38,12 +37,11 @@ class form10 : AppCompatActivity() {
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, StarActivity.readESRequestCode) {
             }
         }
-        val form = intent
-        val extras = form.extras
-        ret1 = extras!!.getInt("val")
+        val form: Intent ?= intent
+        val extras: Bundle ?= form?.extras
         button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                when (ret1) {
+                when (Log.d("ret1", extras?.getInt("val").toString())) {
                     1 -> {
                         saveData()
                         writeFile(text110.text.toString(), text210.text.toString(), text310.text.toString(), text410.text.toString(), this)
