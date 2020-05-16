@@ -112,15 +112,17 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 val dir = File(root!!.absolutePath)
                 val file = File(dir, "ProfilePic.jpg")
                 val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
-                try{
-                    imageUserDrawer.setImageURI(Uri.parse(file.toString()))
+                if(file.exists()){
+                    try{
+                        imageUserDrawer.setImageURI(Uri.parse(file.toString()))
 
-                    //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
-                    val json = JSONObject()
-                    json.put("profilePic", Uri.parse(file.toString()))
-                    System.out.println(json.get("profilePic").toString())
-                } catch(e:Exception){
-                    e.printStackTrace()
+                        //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+                        val json = JSONObject()
+                        json.put("profilePic", Uri.parse(file.toString()))
+                        System.out.println(json.get("profilePic").toString())
+                    } catch(e:Exception){
+                        e.printStackTrace()
+                    }
                 }
 
                 //val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
