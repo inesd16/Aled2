@@ -242,7 +242,7 @@ class form12 : AppCompatActivity() {
     }
 
     fun read() {
-        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, form6.readESRequestCode) {
+        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
             val root = getExternalFilesDir("DataToSend")
             val dir = File(root!!.absolutePath)
             val file = File(dir, "answerForm12.txt")

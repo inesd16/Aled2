@@ -16,7 +16,6 @@ import fr.isen.dobosz.projet.R
 import fr.isen.dobosz.projet.StarActivity
 import kotlinx.android.synthetic.main.activity_form10.*
 import kotlinx.android.synthetic.main.activity_form10.button
-import kotlinx.android.synthetic.main.activity_form6.*
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
@@ -242,7 +241,7 @@ class form10 : AppCompatActivity() {
     }
 
     fun read() {
-        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, form6.readESRequestCode) {
+        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
             val root = getExternalFilesDir("DataToSend")
             val dir = File(root!!.absolutePath)
             val file = File(dir, "answerForm10.txt")
