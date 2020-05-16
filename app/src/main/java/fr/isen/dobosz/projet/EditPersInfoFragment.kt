@@ -41,7 +41,6 @@ class EditPersInfoActivity : Fragment() {
         }
     }
     fun read(view: View){
-
             val root = context!!.getExternalFilesDir("ProfileInfo")
             val dir = File(root!!.absolutePath)
             val file = File(dir, "ProfilePic.jpg")

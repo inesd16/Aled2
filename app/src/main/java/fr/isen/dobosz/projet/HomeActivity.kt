@@ -3,6 +3,7 @@ package fr.isen.dobosz.projet
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu_connected.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.util.*
 
 
@@ -45,11 +50,12 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
@@ -93,14 +99,29 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 val emailUserDrawer = header.findViewById<TextView>(R.id.emailUserTextView)
                 val sharedNewUser = this.getSharedPreferences("sharedNewUser",Context.MODE_PRIVATE)
                 val readString = sharedNewUser.getString("userInfo", "") ?:""
-                System.out.println(readString.toString())
+                System.out.println(readString)
                 val jsonObj = JSONObject(readString)
                 val localName= jsonObj.getString("name")
                 val localSurname = jsonObj.getString("surname").toUpperCase(Locale.ROOT)
 
                 nameUserDrawer.text = "$localName $localSurname"
-                var localEmail= jsonObj.getString("email")
-                emailUserDrawer.text = "$localEmail"
+                val localEmail= jsonObj.getString("email")
+                emailUserDrawer.text = localEmail
+
+                val root = this.getExternalFilesDir("ProfileInfo")
+                val dir = File(root!!.absolutePath)
+                val file = File(dir, "ProfilePic.jpg")
+                val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
+                try{
+                    imageUserDrawer.setImageURI(Uri.parse(file.toString()))
+
+                    //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+                    val json = JSONObject()
+                    json.put("profilePic", Uri.parse(file.toString()))
+                    System.out.println(json.get("profilePic").toString())
+                } catch(e:Exception){
+                    e.printStackTrace()
+                }
 
                 //val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
                 //imageUserDrawer.setImage
@@ -144,8 +165,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
                val mail = header.findViewById(R.id.emailUserTextView) as TextView
                val name= header.findViewById(R.id.nameUserTextView) as TextView
-            mail.text = "currentMail"
-            //System.out.println("EMAIL "+h)
 
             name.visibility = View.INVISIBLE
             mail.visibility = View.INVISIBLE
@@ -529,6 +548,57 @@ private fun isExternalStorageWritable():Boolean{
         startActivity(intentcall)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == StarActivity.cameraRequestCode &&
+            resultCode == Activity.RESULT_OK
+        ) {
+            val navigationView = findViewById<NavigationView>(R.id.nav_view_conn)
+            navigationView.setNavigationItemSelectedListener(this)
+
+            val header = navigationView.getHeaderView(0)
+            val imageUser = header.findViewById<ImageView>(R.id.imageUser)
+
+            val imageFileName = "profilePic.jpg"
+            //val bytearrayoutputstream = ByteArrayOutputStream()
+            val state = Environment.getExternalStorageState()
+            var success = true
+            val root = this.getExternalFilesDir("ProfileInfo")
+
+            if (data?.data != null) { // Gallery
+
+                val pathURI = data.data!!.getPath()
+                System.out.println("CHEMIN " + pathURI.toString())
+                //val bitmap = data?.extras?.get("data") as? Bitmap
+                //bitmap!!.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+                if (Environment.MEDIA_MOUNTED.equals((state))) {
+                    val dir = File(root!!.absolutePath)
+                    val dirTake = File(pathURI.toString())
+                    System.out.println(dir.toString())
+                    if (!dir.exists()) {
+                        success = dir.mkdir()
+                        //System.out.println("does not exists yet")
+                    }
+                    if (success) {
+                        val file = File(dir, imageFileName)
+                        //System.out.println("success true")
+                        try {
+                            file.createNewFile()
+                            //var a = dirTake.readBytes()
+                            file.writeBytes(dirTake.readBytes())
+                            System.out.println("SAVED")
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                    imageUser.setImageURI(data.data)
+            }
+        }
+    }
 
 }
 
