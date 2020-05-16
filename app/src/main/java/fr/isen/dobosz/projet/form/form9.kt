@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import fr.isen.dobosz.projet.R
 import fr.isen.dobosz.projet.StarActivity
-import kotlinx.android.synthetic.main.activity_form4.*
 import kotlinx.android.synthetic.main.activity_form9.*
 import kotlinx.android.synthetic.main.activity_form9.button
 import org.json.JSONObject
@@ -227,6 +226,7 @@ class form9 : AppCompatActivity() {
             }
         })
     }
+
     fun saveData(){
         val jsonObj = JSONObject()
         jsonObj.put("reponse 1", text19.text.toString())
