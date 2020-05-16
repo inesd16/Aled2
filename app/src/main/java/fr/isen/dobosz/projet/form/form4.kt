@@ -1,35 +1,27 @@
 package fr.isen.dobosz.projet.form
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import fr.isen.dobosz.projet.R
+import kotlinx.android.synthetic.main.activity_form4.button
+import kotlinx.android.synthetic.main.activity_form4.text1
+import kotlinx.android.synthetic.main.activity_form4.text2
+import kotlinx.android.synthetic.main.activity_form4.text3
+import org.json.JSONObject
 
 class form4 : AppCompatActivity() {
-    private var Seekbar1: SeekBar? = null
-    private var Seekbar2: SeekBar? = null
-    private var Switch3: Switch? = null
-    private var Switch4: Switch? = null
-    private var Switch5: Switch? = null
-    private var Go: Button? = null
     private var ret1 = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form4)
-        Seekbar1 = findViewById(R.id.form4_seekBar1)
-        Seekbar2 = findViewById(R.id.form4_seekBar2)
-        Switch3 = findViewById(R.id.form4_switch3)
-        Switch4 = findViewById(R.id.form4_switch4)
-        Switch5 = findViewById(R.id.form4_switch5)
-        Go = findViewById(R.id.form4_button1)
         val form = intent
         val extras = form.extras
         ret1 = extras!!.getInt("val")
-        Go?.setOnClickListener(object : View.OnClickListener{
+        saveData()
+        button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 when (ret1) {
                     1 -> {
@@ -147,6 +139,18 @@ class form4 : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    fun saveData(){
+        val jsonObj = JSONObject()
+        jsonObj.put("reponse 1", text1.text.toString())
+        jsonObj.put("reponse 2", text2.text.toString())
+        jsonObj.put("reponse 3", text3.text.toString())
+        val sharedNewAnswer = this.getSharedPreferences("sharedNewAnswer", Context.MODE_PRIVATE) ?: return
+        with(sharedNewAnswer.edit()) {
+            putString("userResponse4", jsonObj.toString())
+            commit()
+        }
     }
 }
 
