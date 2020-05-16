@@ -6,6 +6,7 @@ class AppointmentModel() {
     var date:String? = null
     var type:String? = null
     var time:String? = null
+    var past:Boolean? = false
 //    constructor(name: String, surname:String, date:String, type:String, time:String):this(){
 //
 //        this.name = name

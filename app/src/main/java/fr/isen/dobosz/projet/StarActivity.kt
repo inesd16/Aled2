@@ -99,8 +99,6 @@ class StarActivity : AppCompatActivity() {
         }
 
         nextButton.setOnClickListener(){
-            //            info.facing = mCamera.CameraInfo.CAMERA_FACING_FRONT
-//            mCamera.CameraInfo().facing
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:"" //posArray
             writeFile(posArray.toString(),"", this)
@@ -297,7 +295,7 @@ class StarActivity : AppCompatActivity() {
                 File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
             }
             MEDIA_TYPE_VIDEO -> {
-                File("${mediaStorageDir.path}${File.separator}VID_Behavious_Analysis.mp4")
+                File("${mediaStorageDir.path}${File.separator}VID_Behaviour_Analysis.mp4")
                 //File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
             }
             else -> null

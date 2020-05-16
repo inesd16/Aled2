@@ -11,8 +11,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.*
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu_connected.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 
 //import java.sql.Time
@@ -86,6 +87,23 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             if(savedInstanceState == null){
 
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,HomeConnectedFragment()).commit()
+
+                val header = navigationView.getHeaderView(0)
+                val nameUserDrawer = header.findViewById<TextView>(R.id.nameUserTextView)
+                val emailUserDrawer = header.findViewById<TextView>(R.id.emailUserTextView)
+                val sharedNewUser = this.getSharedPreferences("sharedNewUser",Context.MODE_PRIVATE)
+                val readString = sharedNewUser.getString("userInfo", "") ?:""
+                System.out.println(readString.toString())
+                val jsonObj = JSONObject(readString)
+                val localName= jsonObj.getString("name")
+                val localSurname = jsonObj.getString("surname").toUpperCase(Locale.ROOT)
+
+                nameUserDrawer.text = "$localName $localSurname"
+                var localEmail= jsonObj.getString("email")
+                emailUserDrawer.text = "$localEmail"
+
+                //val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
+                //imageUserDrawer.setImage
                 //navigationView.setCheckedItem(R.id.nav_connect)
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
             }
@@ -121,8 +139,16 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
         }
 
-//            nameUserTextView.visibility = View.INVISIBLE
-//            emailUserTextView.visibility = View.INVISIBLE
+            val header = navigationView.getHeaderView(0)
+/*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+            /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+               val mail = header.findViewById(R.id.emailUserTextView) as TextView
+               val name= header.findViewById(R.id.nameUserTextView) as TextView
+            mail.text = "currentMail"
+            //System.out.println("EMAIL "+h)
+
+            name.visibility = View.INVISIBLE
+            mail.visibility = View.INVISIBLE
         }
 
     }
@@ -201,7 +227,6 @@ private fun isExternalStorageWritable():Boolean{
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
         System.out.println("jsonArray"+jsonArray)
-        Log.d("DungeonCardActivityREAD", jsonArray.toString())
         //System.out.println(jsonArray)
         //System.out.println("READ"+readString)
         return(jsonArray)
@@ -234,7 +259,6 @@ private fun isExternalStorageWritable():Boolean{
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         when (view) {
             homeButton -> {
-                Log.d("next", "yeyy")
                 when (event.action){
                     MotionEvent.ACTION_DOWN -> {
 
@@ -374,6 +398,7 @@ private fun isExternalStorageWritable():Boolean{
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var drawerPb = false
         when(item.getItemId()){
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
@@ -383,6 +408,8 @@ private fun isExternalStorageWritable():Boolean{
             putBoolean("isConn", false)
             commit()
         }
+            drawer_layout_conn.closeDrawer(GravityCompat.START)
+                drawerPb = true
             intent = Intent(this, HomeActivity::class.java)
         }
             R.id.nav_edit_profile -> intent = Intent(this, UserInfoActivity::class.java)
@@ -392,13 +419,14 @@ private fun isExternalStorageWritable():Boolean{
             R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
            // R.id.nav_call_doctor -> launchPopUpStartCall()
             //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
-
         }
+
         startActivity(intent)
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
         if(!stateConnection){
-        drawer_layout.closeDrawer(GravityCompat.START)}
+            if(!drawerPb){
+                drawer_layout.closeDrawer(GravityCompat.START)}}
         else if(stateConnection){
         drawer_layout_conn.closeDrawer(GravityCompat.START)}
         return true
@@ -478,6 +506,7 @@ private fun isExternalStorageWritable():Boolean{
         return true
         //return super.onOptionsItemSelected(item)
     }
+
     fun launchPopUpStartCall(){
         val builder = AlertDialog.Builder(this)
             .setTitle("Lancer un appel")

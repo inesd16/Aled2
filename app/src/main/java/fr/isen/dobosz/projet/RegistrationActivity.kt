@@ -35,7 +35,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,View.OnKeyListener {
      var password: String = ""
      var email: String = ""
     private var mAuth: FirebaseAuth? = null
@@ -132,6 +132,14 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         changePicButton.setOnClickListener(){
             onChangePhoto()
         }
+        nameField.setOnKeyListener{v, keyCode, event ->
+            System.out.println(("FIELD"))
+            onKey(v,keyCode,event)
+        }
+        nameField.setOnKeyListener{v, keyCode, event ->
+            System.out.println(("FIELD"))
+            onKeyDown(keyCode,event)
+        }
 
         var database = FirebaseDatabase.getInstance()
 //        var myRef = database.getReferenceFromUrl("user/Email")
@@ -145,6 +153,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
             System.out.println(passwField.getText().toString() + confirmPasswField.getText().toString())
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -265,11 +274,12 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     fun checkBoxes():Boolean{
-        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked){
-            informations.setText(R.string.acceptConditions)
+        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked) {
             return true
         }
-        return false
+        else{
+            informations.setText(R.string.acceptConditions)
+        return false}
     }
     fun checkBirthDate():Boolean{
         return(age!!>0)
@@ -277,64 +287,50 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
 
     fun checkForm(): Boolean{
-        if (checkFields()) {
-            if (checkNames()) {
-                if (checkMail()) {
-                    if (checkPasswords()) {
-                        if (checkSecretAnswer()) {
-                            if (checkBoxes()) {
-                                if (checkBirthDate()){
+        if (checkFields() && checkNames() && checkMail() && checkPasswords() && checkSecretAnswer() && checkBoxes() && checkBirthDate()) {
+            var returne = false
+            System.out.println("SAnswer OK")
+            // change activity
+            password = passwField.getText().toString()
+            email = emailField.getText().toString()
 
-                                System.out.println("SAnswer OK")
-                                // change activity
-                                password = passwField.getText().toString()
-                                email = emailField.getText().toString()
+            mAuth = FirebaseAuth.getInstance()
+            mAuth!!.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
+                        //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
+                        informations.setText(R.string.ok)
+                        val user = mAuth!!.currentUser
+                        //updateUI(user)
+                        Toast.makeText(
+                            this,
+                            "Vous avez bien été inscrit", Toast.LENGTH_LONG
+                        ).show()
+                        saveNewUser()
+                        returne = true
+                        //return@addOnCompleteListener
 
-                                mAuth = FirebaseAuth.getInstance()
-                                mAuth!!.createUserWithEmailAndPassword(
-                                    email,
-                                    password
-                                )
-                                    .addOnCompleteListener(
-                                        this
-                                    ) { task ->
-                                        if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
-                                            //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
-                                            informations.setText(R.string.ok)
-                                            val user = mAuth!!.currentUser
-
-                                            //updateUI(user)
-                                        } else { // If sign in fails, display a message to the user.
-                                            val TAG = "EmailPassword"
-                                            Log.w(
-                                                TAG, "createUserWithEmail:failure",
-                                                task.exception
-                                            )
-                                            Toast.makeText(
-                                                this@RegistrationActivity, "Authentication failed.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            informations.setText(R.string.emailAlreadyUsed)
-                                            //updateUI(null)
-                                        }
-
-                                    }
-
-                                Toast.makeText(
-                                    this,
-                                    "Vous avez bien été inscrit", Toast.LENGTH_LONG
-                                ).show()
-                                saveNewUser()
-                                return true
-                            }
-                        }
-                        }
+                    } else { // If sign in fails, display a message to the user.
+                        val TAG = "EmailPassword"
+                        Log.w(
+                            TAG, "createUserWithEmail:failure",
+                            task.exception
+                        )
+                        Toast.makeText(
+                            this@RegistrationActivity, "Authentication failed. \n"+R.string.emailAlreadyUsed.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        informations.setText(R.string.emailAlreadyUsed)
+                        //updateUI(null)
                     }
+
                 }
-            }
+
             //if checkPasswords()
+            return true
         }
-    return false
+        else
+            return false
 
     }
 
@@ -550,11 +546,17 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        System.out.println("D APPUYE")
         System.out.println(keyCode)
+
         return super.onKeyDown(keyCode, event)
     }
+
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+
         var jsonKeyboard = JSONObject()
+        System.out.println("D APPUYE")
         keyBordStrings = keyBordStrings+keyCode.toString()
         return when (keyCode) {
             KeyEvent.KEYCODE_D -> {
@@ -573,6 +575,30 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             else -> { System.out.println(keyBordStrings)
                 super.onKeyUp(keyCode, event)}
         }
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        var jsonKeyboard = JSONObject()
+        System.out.println("D APPUYE")
+        keyBordStrings = keyBordStrings+keyCode.toString()
+        return when (keyCode) {
+            KeyEvent.KEYCODE_D -> {
+                System.out.println("D APPUYE")
+                true
+            }
+            KeyEvent.KEYCODE_F -> {
+                true
+            }
+            KeyEvent.KEYCODE_J -> {
+                true
+            }
+            KeyEvent.KEYCODE_K -> {
+                true
+            }
+            else -> { System.out.println(keyBordStrings)
+                super.onKeyUp(keyCode, event)}
+        }
+        return true
     }
 }
 

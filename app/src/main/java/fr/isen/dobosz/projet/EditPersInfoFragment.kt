@@ -224,6 +224,7 @@ class EditPersInfoActivity : Fragment() {
             }
         }
     }
+
     fun onChangePhoto() {/*
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "IMAGE$timeStamp.jpg"
