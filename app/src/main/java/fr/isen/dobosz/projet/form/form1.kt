@@ -26,7 +26,6 @@ class form1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form1)
-
         if(isWriteStoragePermissionGranted()){
             requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, StarActivity.writeESRequestCode) {
             }
@@ -36,7 +35,6 @@ class form1 : AppCompatActivity() {
                 android.Manifest.permission.READ_EXTERNAL_STORAGE, StarActivity.readESRequestCode) {
             }
         }
-
         val form = intent
         val extras = form.extras
         ret1 = extras!!.getInt("val")
@@ -264,7 +262,7 @@ class form1 : AppCompatActivity() {
                 System.out.println("exists")
             }
             if (success) {
-                val file = File(dir, "answerForm.txt")
+                val file = File(dir, "answerForm1.txt")
                 System.out.println("success true")
                 try {
                     file.createNewFile()
