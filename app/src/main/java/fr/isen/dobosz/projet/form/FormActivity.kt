@@ -8,7 +8,6 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
 import fr.isen.dobosz.projet.R
-import org.json.JSONObject
 
 
 class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener {
@@ -21,24 +20,6 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
     private var i = 0
     private var ret1 = 0
     private var ret2 = 0
-    private fun shrek(chipu: Chip?) {
-        count = if (chipu!!.isChecked) count + 1 else count - 1
-        if (count == 2) {
-            i = 0
-            while (i < table.size) {
-                if (!table[i]!!.isChecked) table[i]!!.isCheckable = false
-                mNext?.setClickable(true)
-                i++
-            }
-        } else {
-            i = 0
-            while (i < table.size) {
-                table[i]!!.isCheckable = true
-                i++
-            }
-        }
-        if (count == 1) table[0]!!.isCheckable = true else table[0]!!.isCheckable = false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,6 +162,25 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
                 }
             }
         })
+    }
+
+    private fun shrek(chipu: Chip?) {
+        count = if (chipu!!.isChecked) count + 1 else count - 1
+        if (count == 2) {
+            i = 0
+            while (i < table.size) {
+                if (!table[i]!!.isChecked) table[i]!!.isCheckable = false
+                mNext?.setClickable(true)
+                i++
+            }
+        } else {
+            i = 0
+            while (i < table.size) {
+                table[i]!!.isCheckable = true
+                i++
+            }
+        }
+        if (count == 1) table[0]!!.isCheckable = true else table[0]!!.isCheckable = false
     }
 
     override fun onCheckedChanged(

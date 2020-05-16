@@ -9,15 +9,11 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import fr.isen.dobosz.projet.R
 import fr.isen.dobosz.projet.StarActivity
-import kotlinx.android.synthetic.main.activity_form12.*
 import kotlinx.android.synthetic.main.activity_form19.*
 import kotlinx.android.synthetic.main.activity_form19.button
 import org.json.JSONObject

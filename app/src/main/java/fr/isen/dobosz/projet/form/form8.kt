@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import fr.isen.dobosz.projet.R
 import fr.isen.dobosz.projet.StarActivity
-import kotlinx.android.synthetic.main.activity_form7.*
 import kotlinx.android.synthetic.main.activity_form8.*
 import kotlinx.android.synthetic.main.activity_form8.button
 import org.json.JSONObject

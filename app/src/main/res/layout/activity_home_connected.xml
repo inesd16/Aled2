@@ -9,7 +9,6 @@
     android:theme="@style/AppTheme"
     tools:context=".HomeConnectedActivity">
 
-
     <TextView
         android:id="@+id/connectedTitle"
         android:layout_width="wrap_content"
