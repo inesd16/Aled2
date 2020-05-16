@@ -1,5 +1,6 @@
 package fr.isen.dobosz.projet.form
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -21,19 +22,20 @@ import java.io.FileNotFoundException
 import java.io.IOException
 
 class form6 : AppCompatActivity() {
-    var writeESRequestCode = 9
-    var readESRequestCode = 10
+    companion object{
+        var writeESRequestCode = 9
+        var readESRequestCode = 10
+    }
     private var ret1 = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form6)
         if(isWriteStoragePermissionGranted()){
-            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, StarActivity.writeESRequestCode) {
+            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, StarActivity.writeESRequestCode) {
             }
         }
         if(isReadStoragePermissionGranted()){
-            requestPermission(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE, StarActivity.readESRequestCode) {
+            requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, StarActivity.readESRequestCode) {
             }
         }
         val form = intent
@@ -233,7 +235,7 @@ class form6 : AppCompatActivity() {
         jsonObj.put("reponse 4", text46.text.toString())
         val sharedNewAnswer = this.getSharedPreferences("sharedNewAnswer", Context.MODE_PRIVATE) ?: return
         with(sharedNewAnswer.edit()) {
-            putString("userResponse3", jsonObj.toString())
+            putString("userResponse6", jsonObj.toString())
             commit()
         }
     }
