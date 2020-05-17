@@ -35,12 +35,12 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
             i++
         }
         mNext?.setClickable(false)
-        table[0]!!.isCheckable = false
+        table[0]?.isCheckable = false
         mNext?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 i = 0
                 while (i < table.size) {
-                    if (table[i]!!.isChecked) {
+                    if (table[i]?.isChecked!!) {
                         ret2 = ret1
                         ret1 = i
                     }
@@ -165,22 +165,26 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
     }
 
     private fun shrek(chipu: Chip?) {
-        count = if (chipu!!.isChecked) count + 1 else count - 1
+        if (chipu?.isChecked!!) {
+            count + 1
+        } else count - 1
         if (count == 2) {
             i = 0
             while (i < table.size) {
-                if (!table[i]!!.isChecked) table[i]!!.isCheckable = false
+                if (!table[i]?.isChecked!!) {
+                    table[i]?.isCheckable = false
+                }
                 mNext?.setClickable(true)
                 i++
             }
         } else {
             i = 0
             while (i < table.size) {
-                table[i]!!.isCheckable = true
+                table[i]?.isCheckable = true
                 i++
             }
         }
-        if (count == 1) table[0]!!.isCheckable = true else table[0]!!.isCheckable = false
+        table[0]?.isCheckable = count == 1
     }
 
     override fun onCheckedChanged(
