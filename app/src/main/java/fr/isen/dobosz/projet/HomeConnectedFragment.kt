@@ -35,7 +35,7 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
 
         val forM: TextView = view.findViewById(R.id.accessFormTextViewClickable)
         forM.setOnClickListener(){
-        val intent = Intent(context, form5::class.java)
+        val intent = Intent(context, form1::class.java)
         startActivity(intent)
         }
         val sosButton:ImageButton = view.findViewById(R.id.sosButton)

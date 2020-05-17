@@ -5,6 +5,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/linearLayoutCompat"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:theme="@style/AppTheme"
 tools:context=".form.form17">
 
     <TextView
@@ -64,7 +66,8 @@ tools:context=".form.form17">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text117"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +84,8 @@ tools:context=".form.form17">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text217"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +102,8 @@ tools:context=".form.form17">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text317"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

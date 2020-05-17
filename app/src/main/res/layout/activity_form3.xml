@@ -5,6 +5,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/linearLayoutCompat"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:theme="@style/AppTheme"
 tools:context=".form.form3">
 
     <TextView
@@ -74,7 +76,8 @@ tools:context=".form.form3">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text13"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -91,7 +94,8 @@ tools:context=".form.form3">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text23"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +112,8 @@ tools:context=".form.form3">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text33"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -125,7 +130,8 @@ tools:context=".form.form3">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text43"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
