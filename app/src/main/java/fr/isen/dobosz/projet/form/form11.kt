@@ -23,6 +23,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 
 class form11 : AppCompatActivity() {
+    private var ret1 = 0
     var nmbOfMoveOnStarImage:Int = 0
     var posArray = ArrayList<String>()
     companion object{
@@ -40,11 +41,14 @@ class form11 : AppCompatActivity() {
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, StarActivity.readESRequestCode) {
             }
         }
-        val form: Intent ?= intent
-        val extras: Bundle ?= form?.extras
+        /*val form: Intent ?= intent
+        val extras: Bundle ?= form?.extras*/
+        val form = intent
+        val extras = form.extras
+        ret1 = extras!!.getInt("val")
         button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                when (Log.d("ret1", extras?.getInt("val").toString())) {
+                when (ret1 /*Log.d("ret1", extras?.getInt("val").toString())*/) {
                     1 -> {
                         saveData()
                         writeFile(text111.text.toString(), text211.text.toString(), text311.text.toString(), this)
