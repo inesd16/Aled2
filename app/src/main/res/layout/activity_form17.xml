@@ -7,35 +7,35 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".form.form17">
 
-<TextView
-    android:id="@+id/textView2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="36dp"
-    android:text="@string/do_you_take_drugs"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/do_you_take_drugs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<TextView
-    android:id="@+id/textView3"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="30dp"
-    android:text="@string/loss_of_sensitivity_in_the_zone"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/loss_of_sensitivity_in_the_zone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
-<TextView
-    android:id="@+id/textView4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="30dp"
-    android:text="@string/have_you_picked_your_nose_pushed_an_object_up_your_nose"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/have_you_picked_your_nose_pushed_an_object_up_your_nose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
 <Button
     android:id="@+id/button"
@@ -50,55 +50,55 @@ tools:context=".form.form17">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-<com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/textInputLayout2"
-    android:layout_width="409dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="1dp"
-    android:layout_marginTop="30dp"
-    android:layout_marginEnd="1dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView2">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/text117"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text117"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-<com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/textInputLayout3"
-    android:layout_width="409dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="1dp"
-    android:layout_marginTop="30dp"
-    android:layout_marginEnd="1dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView3">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/text217"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text217"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-<com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/textInputLayout"
-    android:layout_width="409dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="1dp"
-    android:layout_marginTop="30dp"
-    android:layout_marginEnd="1dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView4">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/text317"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text317"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

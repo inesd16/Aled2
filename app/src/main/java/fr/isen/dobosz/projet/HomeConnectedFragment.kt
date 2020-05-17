@@ -16,6 +16,7 @@ import fr.isen.dobosz.projet.HomeActivity.Companion.newTime
 import fr.isen.dobosz.projet.R.layout.activity_home_connected
 import fr.isen.dobosz.projet.form.FormActivity
 import fr.isen.dobosz.projet.form.form1
+import fr.isen.dobosz.projet.form.form5
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -34,7 +35,7 @@ class HomeConnectedFragment: Fragment(), View.OnTouchListener{
 
         val forM: TextView = view.findViewById(R.id.accessFormTextViewClickable)
         forM.setOnClickListener(){
-        val intent = Intent(context, form1::class.java)
+        val intent = Intent(context, form5::class.java)
         startActivity(intent)
         }
         val sosButton:ImageButton = view.findViewById(R.id.sosButton)
