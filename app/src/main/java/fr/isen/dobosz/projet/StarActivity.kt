@@ -79,8 +79,8 @@ class StarActivity : AppCompatActivity() {
             val preview: FrameLayout = findViewById(R.id.camera_preview)
             preview.addView(it)
         }
-        requestPermission(Manifest.permission.RECORD_AUDIO, audioRequestCode) {
-        }
+//        requestPermission(Manifest.permission.RECORD_AUDIO, audioRequestCode) {
+//        }
         if(isWriteStoragePermissionGranted()){
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, writeESRequestCode) {
 
@@ -90,6 +90,7 @@ class StarActivity : AppCompatActivity() {
         if(isReadStoragePermissionGranted()){
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, readESRequestCode) {
             }
+
         }
 
         emergencyCallButton.setOnClickListener{
@@ -297,7 +298,7 @@ class StarActivity : AppCompatActivity() {
                 File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
             }
             MEDIA_TYPE_VIDEO -> {
-                File("${mediaStorageDir.path}${File.separator}VID_Behavious_Analysis.mp4")
+                File("${mediaStorageDir.path}${File.separator}VID_Behaviour_Analysis.mp4")
                 //File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
             }
             else -> null

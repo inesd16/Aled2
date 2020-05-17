@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlue"
@@ -16,7 +17,8 @@
         android:layout_width="107dp"
         android:layout_height="131dp"
         android:src="@drawable/avatar"
-        app:srcCompat="@drawable/avatar" />
+        app:srcCompat="@drawable/avatar"
+        android:contentDescription="@string/yourprofilepicture" />
 
     <TextView
         android:id="@+id/nameUserTextView"
@@ -24,14 +26,16 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:text="Coding in flow"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/emailUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="info@codinginfow.com" />
+        android:text="info@codinginfow.com"
+        tools:ignore="HardcodedText" />
 
 
 </LinearLayout>

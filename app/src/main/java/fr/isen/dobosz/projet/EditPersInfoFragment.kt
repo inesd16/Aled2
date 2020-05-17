@@ -41,7 +41,6 @@ class EditPersInfoActivity : Fragment() {
         }
     }
     fun read(view: View){
-
             val root = context!!.getExternalFilesDir("ProfileInfo")
             val dir = File(root!!.absolutePath)
             val file = File(dir, "ProfilePic.jpg")
@@ -224,6 +223,7 @@ class EditPersInfoActivity : Fragment() {
             }
         }
     }
+
     fun onChangePhoto() {/*
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "IMAGE$timeStamp.jpg"

@@ -1,10 +1,12 @@
 package fr.isen.dobosz.projet
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
@@ -21,6 +23,8 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_registration.*
@@ -35,7 +39,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,View.OnKeyListener {
      var password: String = ""
      var email: String = ""
     private var mAuth: FirebaseAuth? = null
@@ -50,6 +54,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
@@ -60,6 +65,12 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             weightValues.set(i,i.toString()+" kg")
             heightValues.set(i,(i+70).toString()+" cm")
             i++
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.cameraRequestCode
+            )
+        }
+        requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
         }
 
         val spannable = SpannableString(acceptPolicyCheckBox.getText())
@@ -130,7 +141,17 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         }
 
         changePicButton.setOnClickListener(){
-            onChangePhoto()
+            requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
+                onChangePhoto()
+            }
+        }
+        nameField.setOnKeyListener{v, keyCode, event ->
+            System.out.println(("FIELD"))
+            onKey(v,keyCode,event)
+        }
+        nameField.setOnKeyListener{v, keyCode, event ->
+            System.out.println(("FIELD"))
+            onKeyDown(keyCode,event)
         }
 
         var database = FirebaseDatabase.getInstance()
@@ -145,6 +166,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
             System.out.println(passwField.getText().toString() + confirmPasswField.getText().toString())
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -265,11 +287,12 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     fun checkBoxes():Boolean{
-        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked){
-            informations.setText(R.string.acceptConditions)
+        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked) {
             return true
         }
-        return false
+        else{
+            informations.setText(R.string.acceptConditions)
+        return false}
     }
     fun checkBirthDate():Boolean{
         return(age!!>0)
@@ -277,64 +300,53 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
 
     fun checkForm(): Boolean{
-        if (checkFields()) {
-            if (checkNames()) {
-                if (checkMail()) {
-                    if (checkPasswords()) {
-                        if (checkSecretAnswer()) {
-                            if (checkBoxes()) {
-                                if (checkBirthDate()){
+        if (checkFields() && checkNames() && checkMail() && checkPasswords() && checkSecretAnswer() && checkBoxes() && checkBirthDate()) {
+            //var returne = false
+            System.out.println("SAnswer OK")
+            // change activity
+            password = passwField.getText().toString()
+            email = emailField.getText().toString()
 
-                                System.out.println("SAnswer OK")
-                                // change activity
-                                password = passwField.getText().toString()
-                                email = emailField.getText().toString()
+            mAuth = FirebaseAuth.getInstance()
+            mAuth!!.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
+                        //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
+                        informations.setText(R.string.ok)
+                        val user = mAuth!!.currentUser
+                        //updateUI(user)
+                        Toast.makeText(
+                            this,
+                            "Vous avez bien été inscrit", Toast.LENGTH_LONG
+                        ).show()
+                        saveNewUser()
+                        val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        return@addOnCompleteListener
 
-                                mAuth = FirebaseAuth.getInstance()
-                                mAuth!!.createUserWithEmailAndPassword(
-                                    email,
-                                    password
-                                )
-                                    .addOnCompleteListener(
-                                        this
-                                    ) { task ->
-                                        if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
-                                            //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
-                                            informations.setText(R.string.ok)
-                                            val user = mAuth!!.currentUser
-
-                                            //updateUI(user)
-                                        } else { // If sign in fails, display a message to the user.
-                                            val TAG = "EmailPassword"
-                                            Log.w(
-                                                TAG, "createUserWithEmail:failure",
-                                                task.exception
-                                            )
-                                            Toast.makeText(
-                                                this@RegistrationActivity, "Authentication failed.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            informations.setText(R.string.emailAlreadyUsed)
-                                            //updateUI(null)
-                                        }
-
-                                    }
-
-                                Toast.makeText(
-                                    this,
-                                    "Vous avez bien été inscrit", Toast.LENGTH_LONG
-                                ).show()
-                                saveNewUser()
-                                return true
-                            }
-                        }
-                        }
+                    } else { // If sign in fails, display a message to the user.
+                        val TAG = "EmailPassword"
+                        Log.w(
+                            TAG, "createUserWithEmail:failure",
+                            task.exception
+                        )
+                        Toast.makeText(
+                            this@RegistrationActivity, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        informations.setText(R.string.emailAlreadyUsed)
+                        //updateUI(null)
+                        return@addOnCompleteListener
+                        //returne = false
                     }
+
                 }
-            }
+
             //if checkPasswords()
+            return false
         }
-    return false
+        else
+            return false
 
     }
 
@@ -550,11 +562,17 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        System.out.println("D APPUYE")
         System.out.println(keyCode)
+
         return super.onKeyDown(keyCode, event)
     }
+
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+
         var jsonKeyboard = JSONObject()
+        System.out.println("D APPUYE")
         keyBordStrings = keyBordStrings+keyCode.toString()
         return when (keyCode) {
             KeyEvent.KEYCODE_D -> {
@@ -572,6 +590,42 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             }
             else -> { System.out.println(keyBordStrings)
                 super.onKeyUp(keyCode, event)}
+        }
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        var jsonKeyboard = JSONObject()
+        System.out.println("D APPUYE")
+        keyBordStrings = keyBordStrings+keyCode.toString()
+        return when (keyCode) {
+            KeyEvent.KEYCODE_D -> {
+                System.out.println("D APPUYE")
+                true
+            }
+            KeyEvent.KEYCODE_F -> {
+                true
+            }
+            KeyEvent.KEYCODE_J -> {
+                true
+            }
+            KeyEvent.KEYCODE_K -> {
+                true
+            }
+            else -> { System.out.println(keyBordStrings)
+                super.onKeyUp(keyCode, event)}
+        }
+        return true
+    }
+
+    fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
+        if(ContextCompat.checkSelfPermission(this, permissionToRequest) != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissionToRequest)) {
+                //display toast
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(permissionToRequest), requestCode)
+            }
+        } else {
+            handler()
         }
     }
 }

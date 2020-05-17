@@ -201,6 +201,8 @@
     <string name="appointment">Rendez-vous</string>
     <string name="explainText">De cet écran, vous pouvez voir vos <b>précedents rendez-vous</b> ou <b>appeler un médecin</b> d\'urgence</string>
     <string name="email_ab_c_de_fg">ab.c@de.fg</string>
+    <string name="formFirstPage"><u>Etape 2</u> : Remplissez vos symptômes (2 maximum).\nCliquez OK une fois terminé.</string>
+    <string name="yourprofilepicture">YourProfilePicture</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>
