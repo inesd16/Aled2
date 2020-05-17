@@ -20,12 +20,15 @@ import fr.isen.dobosz.projet.StarActivity
 import kotlinx.android.synthetic.main.activity_form15.*
 import kotlinx.android.synthetic.main.activity_form21.*
 import kotlinx.android.synthetic.main.activity_form21.button
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 
 class form21 : AppCompatActivity() {
+    var nmbOfMoveOnStarImage:Int = 0
+    var posArray = ArrayList<String>()
     companion object{
         var writeESRequestCode = 9
         var readESRequestCode = 10
@@ -231,10 +234,13 @@ class form21 : AppCompatActivity() {
 
     fun saveData(){
         val jsonObj = JSONObject()
+        val jsonArray = JSONArray()
         jsonObj.put("reponse 1", text121.text.toString())
         jsonObj.put("reponse 2", text221.text.toString())
         jsonObj.put("reponse 3", text321.text.toString())
         jsonObj.put("reponse 4", text421.text.toString())
+        jsonArray.put(jsonObj)
+        posArray.add(nmbOfMoveOnStarImage++,jsonArray.toString())
         val sharedNewAnswer = this.getSharedPreferences("sharedNewAnswer", Context.MODE_PRIVATE) ?: return
         with(sharedNewAnswer.edit()) {
             putString("userResponse21", jsonObj.toString())
@@ -273,10 +279,11 @@ class form21 : AppCompatActivity() {
                 System.out.println("success true")
                 try {
                     file.createNewFile()
-                    file.writeText(coords1)
-                    file.writeText(coords2)
-                    file.writeText(coords3)
-                    file.writeText(coords4)
+                    posArray.add(coords1)
+                    posArray.add(coords2)
+                    posArray.add(coords3)
+                    posArray.add(coords4)
+                    file.writeText(posArray.toString())
                     System.out.println("SAVED")
                 } catch (e: FileNotFoundException) {
                     System.out.println("E1")
