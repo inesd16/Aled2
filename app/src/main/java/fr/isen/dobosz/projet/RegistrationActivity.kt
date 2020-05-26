@@ -78,7 +78,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // We display a Toast. You could do anything you want here.
-                Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@RegistrationActivity, Policy::class.java)
                 startActivity(intent)
             }

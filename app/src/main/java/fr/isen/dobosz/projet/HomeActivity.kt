@@ -76,6 +76,7 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
         //stateConnection = true
         if(stateConnection) {
+
             setTheme(R.style.AppTheme_NoActionBar)
             setContentView(R.layout.activity_menu_connected)
 
@@ -395,7 +396,7 @@ private fun isExternalStorageWritable():Boolean{
                 val x = Math.round(event.x)
                 val y = Math.round(event.y)
 
-                System.out.println("POSITION")
+                System.out.println("POSITION")j
                 System.out.println("x : "+x)
                 System.out.println("y : "+y)
                 if(newTime){

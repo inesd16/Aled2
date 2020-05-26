@@ -58,7 +58,6 @@
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:text="@string/ines_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/connectionText" />
@@ -72,7 +71,6 @@
         android:ems="10"
         android:hint="@string/passw"
         android:inputType="textPassword"
-        android:text="@string/azerty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
