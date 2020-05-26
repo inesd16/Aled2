@@ -706,10 +706,6 @@ class StarActivity : AppCompatActivity() {
             return true
         }
     }
-
-
-
-
 }
 
 

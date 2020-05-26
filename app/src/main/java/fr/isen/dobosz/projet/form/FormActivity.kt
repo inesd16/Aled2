@@ -15,29 +15,11 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
     private var mNext: Button? = null
     private var count = 0
     private var ID = 0
-    private val genename = "activity_form0_chip"
+    private val genename = "activity_form0"
     private var name: String? = null
     private var i = 0
     private var ret1 = 0
     private var ret2 = 0
-    private fun shrek(chipu: Chip?) {
-        count = if (chipu!!.isChecked) count + 1 else count - 1
-        if (count == 2) {
-            i = 0
-            while (i < table.size) {
-                if (!table[i]!!.isChecked) table[i]!!.isCheckable = false
-                mNext?.setClickable(true)
-                i++
-            }
-        } else {
-            i = 0
-            while (i < table.size) {
-                table[i]!!.isCheckable = true
-                i++
-            }
-        }
-        if (count == 1) table[0]!!.isCheckable = true else table[0]!!.isCheckable = false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +35,12 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
             i++
         }
         mNext?.setClickable(false)
-        table[0]!!.isCheckable = false
+        table[0]?.isCheckable = false
         mNext?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 i = 0
                 while (i < table.size) {
-                    if (table[i]!!.isChecked) {
+                    if (table[i]?.isChecked!!) {
                         ret2 = ret1
                         ret1 = i
                     }
@@ -180,6 +162,29 @@ class FormActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
                 }
             }
         })
+    }
+
+    private fun shrek(chipu: Chip?) {
+        if (chipu?.isChecked!!) {
+            count + 1
+        } else count - 1
+        if (count == 2) {
+            i = 0
+            while (i < table.size) {
+                if (!table[i]?.isChecked!!) {
+                    table[i]?.isCheckable = false
+                }
+                mNext?.setClickable(true)
+                i++
+            }
+        } else {
+            i = 0
+            while (i < table.size) {
+                table[i]?.isCheckable = true
+                i++
+            }
+        }
+        table[0]?.isCheckable = count == 1
     }
 
     override fun onCheckedChanged(
