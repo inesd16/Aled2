@@ -3,14 +3,18 @@ package fr.isen.dobosz.projet
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -26,6 +30,7 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
+import java.util.*
 
 
 //import java.sql.Time
@@ -45,11 +50,13 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
             )
@@ -58,9 +65,18 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.readESRequestCode
             )
         }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.cameraRequestCode
+            )
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.callRequestCode
+            )
+        }
 
-
+        //stateConnection = true
         if(stateConnection) {
+
             setTheme(R.style.AppTheme_NoActionBar)
             setContentView(R.layout.activity_menu_connected)
 
@@ -78,63 +94,51 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
             if(savedInstanceState == null){
 
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,HomeConnectedFragment()).commit()
+
+                val header = navigationView.getHeaderView(0)
+                val nameUserDrawer = header.findViewById<TextView>(R.id.nameUserTextView)
+                val emailUserDrawer = header.findViewById<TextView>(R.id.emailUserTextView)
+                val sharedNewUser = this.getSharedPreferences("sharedNewUser",Context.MODE_PRIVATE)
+                val readString = sharedNewUser.getString("userInfo", "") ?:""
+                System.out.println(readString)
+                val jsonObj = JSONObject(readString)
+                val localName= jsonObj.getString("name")
+                val localSurname = jsonObj.getString("surname").toUpperCase(Locale.ROOT)
+
+                nameUserDrawer.text = "$localName $localSurname"
+                val localEmail= jsonObj.getString("email")
+                emailUserDrawer.text = localEmail
+
+                val root = this.getExternalFilesDir("ProfileInfo")
+                val dir = File(root!!.absolutePath)
+                val file = File(dir, "ProfilePic.jpg")
+                val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
+                if(file.exists()){
+                    try{
+                        imageUserDrawer.setImageURI(Uri.parse(file.toString()))
+
+                        //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+                        val json = JSONObject()
+                        json.put("profilePic", Uri.parse(file.toString()))
+                        System.out.println(json.get("profilePic").toString())
+                    } catch(e:Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+                //val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
+                //imageUserDrawer.setImage
                 //navigationView.setCheckedItem(R.id.nav_connect)
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
-            }/*
-
-
-            //          homeButton.setOnClickListener {
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent)
-//
-//            }
-
-
-            findViewById<TextView>(R.id.accessFormTextViewClickable).setOnClickListener{
-                val intent = Intent(this, StarActivity::class.java)
-                startActivity(intent)
             }
-
-
-
-
-//            sosButton.setOnTouchListener(View.OnTouchListener() {
-//
-//
-//                fun onTouch(v:View, event:MotionEvent):Boolean {
-//                    when(event.getAction()) {
-//                        MotionEvent.ACTION_DOWN ->{
-//
-//
-//                            return true
-//                        }
-//                        MotionEvent.ACTION_UP -> {
-//
-//
-//                            return true
-//
-//                        }
-//                    }
-//                    return false
-//                }
-//                return@OnTouchListener true
-//
-//                }
-
-
-
-
-
-
-
-
-
-            mapButton.setOnClickListener{
-
-            }
-            */
-
-
+//            val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE) ?: return
+//            val readString = sharedNewUser.getString("userInfo", "") ?: ""
+//            var jsonO = JSONObject(readString)
+//            var totName = jsonO.getString("name").toString()
+//            totName = totName + " "+jsonO.getString("surname").toString().toUpperCase()
+//            findViewById<TextView>(R.id.nameUserTextView).setText(totName)
+//            var email = jsonO.getString("email")
+//            findViewById<TextView>(R.id.emailUserTextView).setText(email)
 
         }
         else{
@@ -159,6 +163,14 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
         }
 
+            val header = navigationView.getHeaderView(0)
+/*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+            /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+               val mail = header.findViewById(R.id.emailUserTextView) as TextView
+               val name= header.findViewById(R.id.nameUserTextView) as TextView
+
+            name.visibility = View.INVISIBLE
+            mail.visibility = View.INVISIBLE
         }
 
     }
@@ -237,7 +249,6 @@ private fun isExternalStorageWritable():Boolean{
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
         System.out.println("jsonArray"+jsonArray)
-        Log.d("DungeonCardActivityREAD", jsonArray.toString())
         //System.out.println(jsonArray)
         //System.out.println("READ"+readString)
         return(jsonArray)
@@ -270,7 +281,6 @@ private fun isExternalStorageWritable():Boolean{
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         when (view) {
             homeButton -> {
-                Log.d("next", "yeyy")
                 when (event.action){
                     MotionEvent.ACTION_DOWN -> {
 
@@ -386,7 +396,7 @@ private fun isExternalStorageWritable():Boolean{
                 val x = Math.round(event.x)
                 val y = Math.round(event.y)
 
-                System.out.println("POSITION")
+                System.out.println("POSITION")j
                 System.out.println("x : "+x)
                 System.out.println("y : "+y)
                 if(newTime){
@@ -410,6 +420,7 @@ private fun isExternalStorageWritable():Boolean{
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var drawerPb = false
         when(item.getItemId()){
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
@@ -419,24 +430,47 @@ private fun isExternalStorageWritable():Boolean{
             putBoolean("isConn", false)
             commit()
         }
+            drawer_layout_conn.closeDrawer(GravityCompat.START)
+                drawerPb = true
             intent = Intent(this, HomeActivity::class.java)
         }
             R.id.nav_edit_profile -> intent = Intent(this, UserInfoActivity::class.java)
             R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
-            R.id.policy -> {}
+            R.id.nav_appointment -> intent = Intent(this, AppointmentActivity::class.java)
+            R.id.policy -> {intent = Intent(this, Policy::class.java)}
             R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
+           // R.id.nav_call_doctor -> launchPopUpStartCall()
             //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
-            R.id.nav_client -> {}
         }
+
         startActivity(intent)
-        drawer_layout.closeDrawer(GravityCompat.START)
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(!stateConnection){
+            if(!drawerPb){
+                drawer_layout.closeDrawer(GravityCompat.START)}}
+        else if(stateConnection){
+        drawer_layout_conn.closeDrawer(GravityCompat.START)}
         return true
+
     }
     override fun onBackPressed() {
-        if(drawer_layout.isDrawerOpen(GravityCompat.START)){
-            drawer_layout.isDrawerOpen(GravityCompat.START)
-        } else
-            super.onBackPressed()
+
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(stateConnection) {
+            if (drawer_layout_conn.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout_conn.closeDrawer(GravityCompat.START)
+            } else
+                super.onBackPressed()
+        }
+        else if(!stateConnection) {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
+            } else
+                super.onBackPressed()
+        }
+        else super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -487,6 +521,7 @@ private fun isExternalStorageWritable():Boolean{
                 commit()
             }
                 intent = Intent(this, HomeActivity::class.java)
+                //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             }
             R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
         }
@@ -494,71 +529,80 @@ private fun isExternalStorageWritable():Boolean{
         return true
         //return super.onOptionsItemSelected(item)
     }
-    fun writeFile(coords1: String, coords2: String){
-        System.out.println(readString)
-        val state = Environment.getExternalStorageState()
-        var success = true
-        val root = Environment.getExternalStorageDirectory()
 
-        if(Environment.MEDIA_MOUNTED.equals((state))){
-            val dir = File(root.absolutePath+"/myAppFile")
-            System.out.println(dir)
-            if(!dir.exists()){
-                success = dir.mkdir()
-                System.out.println("does not exists yet")
-            }
-            else{
-                System.out.println("exists")
-            }
-            if (success) {
-                //val file = File(dir, "clickPos.txt")
-                try {
-                    /*val fos = FileOutputStream(file)
-                    fos.write(readString!!.toByteArray())
-                    fos.close()*/
-                    File(dir.name).writeText(coords1)
-                    File(dir.name).writeText(coords2)
-                    System.out.println("SAVED")
-                } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
-                } catch (e: IOException) {
-                    e.printStackTrace()
+    fun launchPopUpStartCall(){
+        val builder = AlertDialog.Builder(this)
+            .setTitle("Lancer un appel")
+            .setMessage("Voulez-vous vraiment appelez un médecin?")
+        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            startCall()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+        }
+        builder.show()
+    }
+
+    fun startCall() {
+        val intentcall = Intent()
+        intentcall.action = Intent.ACTION_CALL
+        intentcall.data = Uri.parse("tel:+33698305732") // set the Uri
+        startActivity(intentcall)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == StarActivity.cameraRequestCode &&
+            resultCode == Activity.RESULT_OK
+        ) {
+            val navigationView = findViewById<NavigationView>(R.id.nav_view_conn)
+            navigationView.setNavigationItemSelectedListener(this)
+
+            val header = navigationView.getHeaderView(0)
+            val imageUser = header.findViewById<ImageView>(R.id.imageUser)
+
+            val imageFileName = "profilePic.jpg"
+            //val bytearrayoutputstream = ByteArrayOutputStream()
+            val state = Environment.getExternalStorageState()
+            var success = true
+            val root = this.getExternalFilesDir("ProfileInfo")
+
+            if (data?.data != null) { // Gallery
+
+                val pathURI = data.data!!.getPath()
+                System.out.println("CHEMIN " + pathURI.toString())
+                //val bitmap = data?.extras?.get("data") as? Bitmap
+                //bitmap!!.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+                if (Environment.MEDIA_MOUNTED.equals((state))) {
+                    val dir = File(root!!.absolutePath)
+                    val dirTake = File(pathURI.toString())
+                    System.out.println(dir.toString())
+                    if (!dir.exists()) {
+                        success = dir.mkdir()
+                        //System.out.println("does not exists yet")
+                    }
+                    if (success) {
+                        val file = File(dir, imageFileName)
+                        //System.out.println("success true")
+                        try {
+                            file.createNewFile()
+                            //var a = dirTake.readBytes()
+                            file.writeBytes(dirTake.readBytes())
+                            System.out.println("SAVED")
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
+
+                    imageUser.setImageURI(data.data)
             }
         }
     }
-//
-//    fun save(){ //write in the save file
-//        if(fNameField.text.toString().isNotEmpty() &&
-//            nameField.text.toString().isNotEmpty() &&
-//            dateField.text.toString().isNotEmpty()){
-//            Toast.makeText(this,R.string.register, Toast.LENGTH_LONG).show()
-//
-//            val jsonObj =  JSONObject()
-//            jsonObj.put(kfirstName, fNameField.text.toString())
-//            jsonObj.put(kName, nameField.text.toString())
-//            jsonObj.put(kBirth, dateField.text.toString())
-//            val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFileName)
-//            file.writeText(jsonObj.toString())
-//        }
-//        else
-//            Toast.makeText(this,R.string.fields_empty, Toast.LENGTH_LONG).show()
-//    }
-//    fun read(){
-//        val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFileName)
-//        val readString = file.readText()
-//        val jsonObj = JSONObject(readString)
-//
-//        val dateString = jsonObj.getString(SaveActivity.kBirth)
-//
-//        val components = dateString.split("/")
-//        Toast.makeText(this,jsonObj.getString(SaveActivity.kBirth), Toast.LENGTH_LONG).show()
-//        var age = getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())
-//        field_age.setText("Vous avez ${age} ans")
-//        //Toast.makeText(this,"vous avez ${age} ans", Toast.LENGTH_LONG).show()
-//    }
-
-
 
 }
 

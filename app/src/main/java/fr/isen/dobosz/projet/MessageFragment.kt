@@ -19,14 +19,14 @@ class MessageFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-    val view = inflater.inflate(fr.isen.dobosz.projet.R.layout.activity_home, container, false)
-    val sosButton: ImageButton = view.findViewById(fr.isen.dobosz.projet.R.id.sosButton)
+    val view = inflater.inflate(R.layout.activity_home, container, false)
+    val sosButton: ImageButton = view.findViewById(R.id.sosButton)
     sosButton.setOnClickListener(){
         launchPopUpStartCall()
     }
-    true
 
-        return view
+
+    return view
 }
 
     fun launchPopUpStartCall(){

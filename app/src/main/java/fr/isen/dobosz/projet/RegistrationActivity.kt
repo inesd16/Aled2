@@ -1,38 +1,49 @@
 package fr.isen.dobosz.projet
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_registration.*
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 
 
-class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,View.OnKeyListener {
      var password: String = ""
      var email: String = ""
     private var mAuth: FirebaseAuth? = null
+    var keyBordStrings:String = ""
 
     var weightValues = arrayOfNulls<String>(151)
     var heightValues = arrayOfNulls<String>(151)
@@ -40,11 +51,14 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
 
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
+
         setContentView(R.layout.activity_registration)
         var i = 0
         while (i<=150){
@@ -52,14 +66,20 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             heightValues.set(i,(i+70).toString()+" cm")
             i++
         }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.cameraRequestCode
+            )
+        }
+        requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
+        }
 
         val spannable = SpannableString(acceptPolicyCheckBox.getText())
 
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // We display a Toast. You could do anything you want here.
-                Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
-                val intent:Intent = Intent(this@RegistrationActivity, Policy::class.java)
+                //Toast.makeText(this@RegistrationActivity, "Clicked", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@RegistrationActivity, Policy::class.java)
                 startActivity(intent)
             }
         }
@@ -120,17 +140,33 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
         }
 
+        changePicButton.setOnClickListener(){
+            requestPermission(Manifest.permission.CAMERA, StarActivity.videoRequestCode) {
+                onChangePhoto()
+            }
+        }
+        nameField.setOnKeyListener{v, keyCode, event ->
+            System.out.println(("FIELD"))
+            onKey(v,keyCode,event)
+        }
+        nameField.setOnKeyListener{v, keyCode, event ->
+            System.out.println(("FIELD"))
+            onKeyDown(keyCode,event)
+        }
+
         var database = FirebaseDatabase.getInstance()
 //        var myRef = database.getReferenceFromUrl("user/Email")
   //      myRef.setValue("HelloWorld");
         registerButton.setOnClickListener() {
             if(checkForm()){
                 val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
 
             System.out.println(passwField.getText().toString() + confirmPasswField.getText().toString())
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -251,11 +287,12 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     fun checkBoxes():Boolean{
-        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked){
-            informations.setText(R.string.acceptConditions)
+        if(acceptDiagnosisCheckBox.isChecked && acceptPolicyCheckBox.isChecked) {
             return true
         }
-        return false
+        else{
+            informations.setText(R.string.acceptConditions)
+        return false}
     }
     fun checkBirthDate():Boolean{
         return(age!!>0)
@@ -263,64 +300,53 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
 
     fun checkForm(): Boolean{
-        if (checkFields()) {
-            if (checkNames()) {
-                if (checkMail()) {
-                    if (checkPasswords()) {
-                        if (checkSecretAnswer()) {
-                            if (checkBoxes()) {
-                                if (checkBirthDate()){
+        if (checkFields() && checkNames() && checkMail() && checkPasswords() && checkSecretAnswer() && checkBoxes() && checkBirthDate()) {
+            //var returne = false
+            System.out.println("SAnswer OK")
+            // change activity
+            password = passwField.getText().toString()
+            email = emailField.getText().toString()
 
-                                System.out.println("SAnswer OK")
-                                // change activity
-                                password = passwField.getText().toString()
-                                email = emailField.getText().toString()
+            mAuth = FirebaseAuth.getInstance()
+            mAuth!!.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
+                        //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
+                        informations.setText(R.string.ok)
+                        val user = mAuth!!.currentUser
+                        //updateUI(user)
+                        Toast.makeText(
+                            this,
+                            "Vous avez bien été inscrit", Toast.LENGTH_LONG
+                        ).show()
+                        saveNewUser()
+                        val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        return@addOnCompleteListener
 
-                                mAuth = FirebaseAuth.getInstance()
-                                mAuth!!.createUserWithEmailAndPassword(
-                                    email,
-                                    password
-                                )
-                                    .addOnCompleteListener(
-                                        this
-                                    ) { task ->
-                                        if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
-                                            //Log.d(FragmentActivity.TAG, "createUserWithEmail:success")
-                                            informations.setText(R.string.ok)
-                                            val user = mAuth!!.currentUser
-
-                                            //updateUI(user)
-                                        } else { // If sign in fails, display a message to the user.
-                                            val TAG = "EmailPassword"
-                                            Log.w(
-                                                TAG, "createUserWithEmail:failure",
-                                                task.exception
-                                            )
-                                            Toast.makeText(
-                                                this@RegistrationActivity, "Authentication failed.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            informations.setText(R.string.emailAlreadyUsed)
-                                            //updateUI(null)
-                                        }
-
-                                    }
-
-                                Toast.makeText(
-                                    this,
-                                    "Vous avez bien été inscrit", Toast.LENGTH_LONG
-                                ).show()
-                                saveNewUser()
-                                return true
-                            }
-                        }
-                        }
+                    } else { // If sign in fails, display a message to the user.
+                        val TAG = "EmailPassword"
+                        Log.w(
+                            TAG, "createUserWithEmail:failure",
+                            task.exception
+                        )
+                        Toast.makeText(
+                            this@RegistrationActivity, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        informations.setText(R.string.emailAlreadyUsed)
+                        //updateUI(null)
+                        return@addOnCompleteListener
+                        //returne = false
                     }
+
                 }
-            }
+
             //if checkPasswords()
+            return false
         }
-    return false
+        else
+            return false
 
     }
 
@@ -409,6 +435,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         return joinToString("") { "%02x".format(it) }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getAge(year: Int, month: Int, day: Int): Int {
         val currentDate = Date()
         val formatter = SimpleDateFormat("dd/MM/yyyy")
@@ -430,6 +457,176 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         // field_age.setText("Vous avez ${getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())} ans")
         this.age = age
         return age
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == StarActivity.cameraRequestCode &&
+            resultCode == Activity.RESULT_OK) {
+
+
+            val imageFileName = "profilePic.jpg"
+            val bytearrayoutputstream = ByteArrayOutputStream()
+            val state = Environment.getExternalStorageState()
+            var success = true
+            val root = this.getExternalFilesDir("ProfileInfo")
+
+            if(data?.data != null) { // Gallery
+
+                val pathURI = data.data!!.getPath()
+                System.out.println("CHEMIN "+pathURI.toString())
+                //val bitmap = data?.extras?.get("data") as? Bitmap
+                //bitmap!!.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+                if(Environment.MEDIA_MOUNTED.equals((state))){
+                    val dir = File(root!!.absolutePath)
+                    val dirTake = File(pathURI.toString())
+                    System.out.println(dir.toString())
+                    if(!dir.exists()){
+                        success = dir.mkdir()
+                        //System.out.println("does not exists yet")
+                    }
+                    if (success) {
+                        val file = File(dir, imageFileName)
+                        //System.out.println("success true")
+                        try {
+                            file.createNewFile()
+                            //var a = dirTake.readBytes()
+                            file.writeBytes(dirTake.readBytes())
+                            System.out.println("SAVED")
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                changePicButton.setImageURI(data.data)
+            } else { // Camera
+                val bitmap = data?.extras?.get("data") as? Bitmap
+
+                bitmap?.let {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+
+
+                    if(Environment.MEDIA_MOUNTED.equals((state))){
+                        val dir = File(root!!.absolutePath)
+                        System.out.println(dir.toString())
+                        if(!dir.exists()){
+                            success = dir.mkdir()
+                            //System.out.println("does not exists yet")
+                        }
+                        if (success) {
+                            val file = File(dir, imageFileName)
+                            //System.out.println("success true")
+                            try {
+                                file.createNewFile()
+                                file.writeBytes(bytearrayoutputstream.toByteArray())
+                                //System.out.println("SAVED")
+                            } catch (e: FileNotFoundException) {
+                                e.printStackTrace()
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }
+                    changePicButton.setImageBitmap(it)
+                }
+            }
+        }
+    }
+    fun onChangePhoto() {/*
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "IMAGE$timeStamp.jpg"
+        val storageDir: File = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES
+        )
+        var pictureImagePath = storageDir.getAbsolutePath().toString() + "/" + imageFileName
+        val file = File(pictureImagePath)
+        val outputFileUri: Uri = Uri.fromFile(file)*/
+        val galleryIntent = Intent(Intent.ACTION_PICK)
+        galleryIntent.type = "image/*"
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // val cameraIntent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val intentChooser = Intent.createChooser(galleryIntent, "Choose your picture library")
+        //var picture = Intent.EXTRA_INITIAL_INTENTS
+        //cameraIntent2.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
+        //intentChooser.putExtra(picture, arrayOf(cameraIntent))
+        //intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+        intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+
+        startActivityForResult(intentChooser, StarActivity.cameraRequestCode)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        System.out.println("D APPUYE")
+        System.out.println(keyCode)
+
+        return super.onKeyDown(keyCode, event)
+    }
+
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+
+        var jsonKeyboard = JSONObject()
+        System.out.println("D APPUYE")
+        keyBordStrings = keyBordStrings+keyCode.toString()
+        return when (keyCode) {
+            KeyEvent.KEYCODE_D -> {
+                System.out.println("D APPUYE")
+                true
+            }
+            KeyEvent.KEYCODE_F -> {
+                true
+            }
+            KeyEvent.KEYCODE_J -> {
+                true
+            }
+            KeyEvent.KEYCODE_K -> {
+                true
+            }
+            else -> { System.out.println(keyBordStrings)
+                super.onKeyUp(keyCode, event)}
+        }
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        var jsonKeyboard = JSONObject()
+        System.out.println("D APPUYE")
+        keyBordStrings = keyBordStrings+keyCode.toString()
+        return when (keyCode) {
+            KeyEvent.KEYCODE_D -> {
+                System.out.println("D APPUYE")
+                true
+            }
+            KeyEvent.KEYCODE_F -> {
+                true
+            }
+            KeyEvent.KEYCODE_J -> {
+                true
+            }
+            KeyEvent.KEYCODE_K -> {
+                true
+            }
+            else -> { System.out.println(keyBordStrings)
+                super.onKeyUp(keyCode, event)}
+        }
+        return true
+    }
+
+    fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
+        if(ContextCompat.checkSelfPermission(this, permissionToRequest) != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissionToRequest)) {
+                //display toast
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(permissionToRequest), requestCode)
+            }
+        } else {
+            handler()
+        }
     }
 }
 

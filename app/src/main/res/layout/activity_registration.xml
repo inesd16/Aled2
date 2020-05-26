@@ -29,7 +29,8 @@
             app:layout_constraintHorizontal_bias="0.323"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/secretQuestionSpinner"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="Autofill" />
 
         <TextView
             android:id="@+id/birthText"
@@ -164,7 +165,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.32"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameText" />
+            app:layout_constraintTop_toBottomOf="@+id/nameText"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/surnameField"
@@ -176,16 +178,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.32"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/surnameText" />
+            app:layout_constraintTop_toBottomOf="@+id/surnameText"
+            tools:ignore="Autofill" />
 
         <EditText
             android:id="@+id/emailField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:text="ab.c@de.fg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.32"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,11 +200,11 @@
             android:ems="10"
             android:hint="@string/passw"
             android:inputType="textPassword"
-            android:text="Azertyuiop1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.32"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwText" />
+            app:layout_constraintTop_toBottomOf="@+id/passwText"
+            tools:ignore="Autofill" />
 
         <EditText
             android:id="@+id/confirmPasswField"
@@ -211,7 +213,6 @@
             android:ems="10"
             android:hint="@string/confirmPassw"
             android:inputType="textPassword"
-            android:text="Azertyuiop1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.323"
             app:layout_constraintStart_toStartOf="parent"
@@ -227,6 +228,19 @@
             app:layout_constraintHorizontal_bias="0.323"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/birthText" />
+
+        <ImageButton
+            android:id="@+id/changePicButton"
+            android:layout_width="135dp"
+            android:layout_height="113dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/yourProfilePic"
+            android:text="@string/changePic"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
         <TextView
             android:id="@+id/informations"
@@ -257,7 +271,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="33dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="10dp"
             android:checked="false"
             android:fontFamily="@font/alike"
             android:shadowColor="#4C3B3B"
@@ -272,7 +286,7 @@
             android:thumb="@drawable/thumb_gender"
             android:thumbTextPadding="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateText"
+            app:layout_constraintTop_toBottomOf="@+id/changePicButton"
             app:track="@drawable/track_gender" />
 
         <CheckBox
@@ -305,12 +319,11 @@
             android:id="@+id/weightText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="@string/height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.61"
             app:layout_constraintStart_toEndOf="@+id/heightText"
-            app:layout_constraintTop_toBottomOf="@+id/dateText" />
+            app:layout_constraintTop_toTopOf="@+id/heightText" />
 
         <Spinner
             android:id="@+id/weightSpinner"
@@ -327,10 +340,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="52dp"
-            android:layout_marginTop="16dp"
             android:text="@string/weight"
             app:layout_constraintStart_toEndOf="@+id/genderSwitch"
-            app:layout_constraintTop_toBottomOf="@+id/dateText" />
+            app:layout_constraintTop_toTopOf="@+id/genderSwitch" />
         <Spinner
             android:id="@+id/heightSpinner"
             android:layout_width="wrap_content"

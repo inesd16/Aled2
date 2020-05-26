@@ -119,6 +119,7 @@
         android:shadowColor="#4C3B3B"
         android:shadowRadius="55"
         android:switchPadding="5dp"
+        android:showText="true"
         android:textAlignment="textStart"
         android:textColor="#605959"
         android:textOff="@string/menTextOff"
@@ -129,7 +130,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
-        app:track="@drawable/track_gender" />
+        app:track="@drawable/track_gender"
+        tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/phoneNumberText"

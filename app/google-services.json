@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "541886792717-8ps2phgl07pak294cdf9vvijrf0bfirn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.dobosz.projet",
+            "certificate_hash": "2b7ae7f1645b8795ba4087be8f2cb9a9a8ffd261"
+          }
+        },
+        {
           "client_id": "541886792717-djrvlagp3ajieudq337f29ubutkueu4n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
