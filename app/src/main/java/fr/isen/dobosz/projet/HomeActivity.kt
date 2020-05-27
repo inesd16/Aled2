@@ -1,44 +1,44 @@
 package fr.isen.dobosz.projet
 
 
-import android.view.MotionEvent
-import kotlinx.android.synthetic.main.activity_main.*
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GestureDetectorCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home_connected.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_menu_connected.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.util.*
 
 
 //import java.sql.Time
 
 class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.OnNavigationItemSelectedListener{
-    private val FILE_NAME:String = "ClickPosition.txt"
+    //private val FILE_NAME:String = "ClickPosition.txt"
     //var jsonArray = JSONArray()
-    lateinit var gestureDet:GestureDetectorCompat
-    var mVelocityTracker: VelocityTracker? = null
+    //lateinit var gestureDet:GestureDetectorCompat
 
     companion object{
         var newTime:Boolean = true
@@ -50,154 +50,96 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        System.out.println("newtime :"+newTime)
+
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),StarActivity.writeESRequestCode
+            )
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.readESRequestCode
+            )
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.cameraRequestCode
+            )
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),StarActivity.callRequestCode
+            )
+        }
+
+        //stateConnection = true
         if(stateConnection) {
-//            val toolbar = findViewById<Toolbar>(R.id.toolbar)
-//            setSupportActionBar(toolbar)
-            setContentView(R.layout.activity_home_connected)
+
+            setTheme(R.style.AppTheme_NoActionBar)
+            setContentView(R.layout.activity_menu_connected)
 
             super.onCreate(savedInstanceState)
-            homeButton.setOnClickListener {
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+            val toolbar_conn = findViewById<Toolbar>(R.id.toolbar_conn)
+            setSupportActionBar(toolbar_conn)
 
-            }
-            findViewById<TextView>(R.id.accessFormTextViewClickable).setOnClickListener{
-                val intent = Intent(this, StarActivity::class.java)
-                startActivity(intent)
-            }
+            val toggle = ActionBarDrawerToggle(this,drawer_layout_conn, toolbar_conn,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+            val navigationView = findViewById<NavigationView>(R.id.nav_view_conn)
+            navigationView.setNavigationItemSelectedListener(this)
 
+            drawer_layout_conn.addDrawerListener(toggle)
+            toggle.syncState()
 
+            if(savedInstanceState == null){
 
-            layout.setOnTouchListener { v, event ->
-                val action = event.action
-                when(action){
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_conn,HomeConnectedFragment()).commit()
 
-                    MotionEvent.ACTION_DOWN -> {
-                        System.out.println("BUTTON ACTION Down")
-                    }
+                val header = navigationView.getHeaderView(0)
+                val nameUserDrawer = header.findViewById<TextView>(R.id.nameUserTextView)
+                val emailUserDrawer = header.findViewById<TextView>(R.id.emailUserTextView)
+                val sharedNewUser = this.getSharedPreferences("sharedNewUser",Context.MODE_PRIVATE)
+                val readString = sharedNewUser.getString("userInfo", "") ?:""
+                System.out.println(readString)
+                val jsonObj = JSONObject(readString)
+                val localName= jsonObj.getString("name")
+                val localSurname = jsonObj.getString("surname").toUpperCase(Locale.ROOT)
 
+                nameUserDrawer.text = "$localName $localSurname"
+                val localEmail= jsonObj.getString("email")
+                emailUserDrawer.text = localEmail
 
-                    MotionEvent.ACTION_MOVE -> {
+                val root = this.getExternalFilesDir("ProfileInfo")
+                val dir = File(root!!.absolutePath)
+                val file = File(dir, "ProfilePic.jpg")
+                val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
+                if(file.exists()){
+                    try{
+                        imageUserDrawer.setImageURI(Uri.parse(file.toString()))
 
-                        System.out.println("ACTION_MOVE")
-                        // var newTime:Boolean = true
-                        val x = Math.round(event.x)
-                        val y = Math.round(event.y)
-
-                        System.out.println("POSITION")
-                        System.out.println("x : " + x)
-                        System.out.println("y : " + y)
-                        if (newTime) {
-                            val jsonArray = JSONArray()
-                            save(jsonArray, x, y)
-                            newTime = false
-                        }
-
-                    }
-
-                    MotionEvent.ACTION_UP -> {
-                        System.out.println("BUTTON ACTION UP")
-                    }
-
-                    MotionEvent.ACTION_CANCEL -> {
-
-                    }
-
-                    else ->{
-
+                        //val encodedImage: String = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+                        val json = JSONObject()
+                        json.put("profilePic", Uri.parse(file.toString()))
+                        System.out.println(json.get("profilePic").toString())
+                    } catch(e:Exception){
+                        e.printStackTrace()
                     }
                 }
-                true
+
+                //val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
+                //imageUserDrawer.setImage
+                //navigationView.setCheckedItem(R.id.nav_connect)
+                //R.id.nav_connect.setOnClickListener(View.OnClickListener())
             }
+//            val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE) ?: return
+//            val readString = sharedNewUser.getString("userInfo", "") ?: ""
+//            var jsonO = JSONObject(readString)
+//            var totName = jsonO.getString("name").toString()
+//            totName = totName + " "+jsonO.getString("surname").toString().toUpperCase()
+//            findViewById<TextView>(R.id.nameUserTextView).setText(totName)
+//            var email = jsonO.getString("email")
+//            findViewById<TextView>(R.id.emailUserTextView).setText(email)
 
-//            sosButton.setOnTouchListener(View.OnTouchListener() {
-//
-//
-//                fun onTouch(v:View, event:MotionEvent):Boolean {
-//                    when(event.getAction()) {
-//                        MotionEvent.ACTION_DOWN ->{
-//
-//
-//                            return true
-//                        }
-//                        MotionEvent.ACTION_UP -> {
-//
-//
-//                            return true
-//
-//                        }
-//                    }
-//                    return false
-//                }
-//                return@OnTouchListener true
-//
-//                }
-
-
-
-
-
-
-
-            historyButton.setOnClickListener(){
-
-            }
-
-
-            mapButton.setOnTouchListener(object : View.OnTouchListener{
-                @SuppressLint("ClickableViewAccessibility")
-                override fun onTouch(v: View?, event: MotionEvent?):Boolean {
-                    //Your code here
-                    when(event!!.action){
-                    MotionEvent.ACTION_MOVE -> {
-
-                        System.out.println("ACTION_MOVE")
-                        // var newTime:Boolean = true
-                        val x = Math.round(event.x)
-                        val y = Math.round(event.y)
-
-                        System.out.println("POSITION")
-                        System.out.println("x : " + x)
-                        System.out.println("y : " + y)
-                        if (newTime) {
-                            val jsonArray = JSONArray()
-                            save(jsonArray, x, y)
-                            newTime = false
-                        }
-                    }
-                    }
-
-                    return true
-                }})
-            mapButton.setOnClickListener{
-
-            }
-            /*val displayMetrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(displayMetrics)
-            height = displayMetrics.heightPixels
-            width = displayMetrics.widthPixels
-            System.out.println("X Y : "+height+" "+width)
-            var b = Bitmap.createBitmap(9*width/10, 4*height/5, Bitmap.Config.ARGB_8888);
-            var c = Canvas(b);
-            var p = Paint();
-
-            // Dessiner l'intérieur d'une figure
-            p.setStyle(Paint.Style.FILL);
-
-            // Dessiner ses contours
-            p.setStyle(Paint.Style.STROKE);
-
-            // Dessiner les deux
-            p.setStyle(Paint.Style.FILL_AND_STROKE);
-
-            var r = Rect()
-            r.set(10,10,10,10)
-            c.drawRect(r,p)*/
         }
         else{
             setTheme(R.style.AppTheme_NoActionBar)
@@ -221,6 +163,14 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                 //R.id.nav_connect.setOnClickListener(View.OnClickListener())
         }
 
+            val header = navigationView.getHeaderView(0)
+/*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+            /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+               val mail = header.findViewById(R.id.emailUserTextView) as TextView
+               val name= header.findViewById(R.id.nameUserTextView) as TextView
+
+            name.visibility = View.INVISIBLE
+            mail.visibility = View.INVISIBLE
         }
 
     }
@@ -232,7 +182,7 @@ private fun isExternalStorageWritable():Boolean{
     }
 
 
-    fun writeFile(coords1: String, coords2: String){
+    fun writeFile(){
         System.out.println(readString)
         val state = Environment.getExternalStorageState()
         var success = true
@@ -264,9 +214,10 @@ private fun isExternalStorageWritable():Boolean{
                 }
             }
         }
+
     }
 
-    fun readFile(){
+   /* fun readFile(){
 
         var myExternalFile = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"), "ClickPositionsFile.txt")
         val filename = "ClickPositionsFile.txt"
@@ -281,7 +232,6 @@ private fun isExternalStorageWritable():Boolean{
         }
         System.out.println("StringBuilder : "+stringBuilder)
         fileInputStream.close()
-
     }
     fun onCapturedPointerEvent(motionEvent: MotionEvent): Boolean {
         // Get the coordinates required by your app
@@ -289,15 +239,14 @@ private fun isExternalStorageWritable():Boolean{
         // Use the coordinates to update your view and return true if the event was
         // successfully processed
         return true
-    }
+    }*/
 
     fun readPreviousClick():JSONArray{
 
-            val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE)
-            val readString = sharedPrefDungeon.getString("backupGameJson", "") ?:""
+            val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition",Context.MODE_PRIVATE)
+            val readString = sharedPrefPosition.getString("backupMicePos", "") ?:""
         val jsonArray = JSONArray(readString)
-        System.out.println(jsonArray)
-        Log.d("DungeonCardActivityREAD", jsonArray.toString())
+        System.out.println("jsonArray"+jsonArray)
         //System.out.println(jsonArray)
         //System.out.println("READ"+readString)
         return(jsonArray)
@@ -316,9 +265,9 @@ private fun isExternalStorageWritable():Boolean{
         jsonObj.put("clickY",y)
         jsonObj.put("timeClickedMillis",millis-1585154297320)
         jsonArray.put(jsonObj)
-        val sharedPrefDungeon = this.getSharedPreferences("sharedPrefDungeon",Context.MODE_PRIVATE) ?: return
-        with(sharedPrefDungeon.edit()) {
-            putString("backupGameJson", jsonArray.toString())
+        val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition",Context.MODE_PRIVATE) ?: return
+        with(sharedPrefPosition.edit()) {
+            putString("backupMicePos", jsonArray.toString())
             //putBoolean("saveState",true)
             commit()
         }
@@ -330,11 +279,8 @@ private fun isExternalStorageWritable():Boolean{
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         when (view) {
             homeButton -> {
-                Log.d("next", "yeyy")
                 when (event.action){
                     MotionEvent.ACTION_DOWN -> {
-
-                        System.out.println("ACTION_DOWN")
 
                         // var newTime:Boolean = true
                         val x = Math.round(event.x)
@@ -383,6 +329,7 @@ private fun isExternalStorageWritable():Boolean{
         return true
     }
 
+/*
 
      @SuppressLint("Recycle")
      override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -390,19 +337,9 @@ private fun isExternalStorageWritable():Boolean{
         when (action) {
                 MotionEvent.ACTION_UP -> {// Return a VelocityTracker object back to be re-used by others.
                     System.out.println("ACTION_UP")
-                    System.out.println(mVelocityTracker)
-                    mVelocityTracker?.recycle()
-                    mVelocityTracker = null
                 }
 
             MotionEvent.ACTION_DOWN -> {
-                // Reset the velocity tracker back to its initial state.
-                this.mVelocityTracker?.clear()
-                // If necessary retrieve a new VelocityTracker object to watch the
-                // velocity of a motion.
-                mVelocityTracker = mVelocityTracker ?: VelocityTracker.obtain()
-                // Add a user's movement to the tracker.
-                mVelocityTracker?.addMovement(event)
                 System.out.println("ACTION_DOWN")
 
                 // var newTime:Boolean = true
@@ -438,18 +375,6 @@ private fun isExternalStorageWritable():Boolean{
                     jsonArray.put("screen_accueil")
                     save(jsonArray, x, y)
                     newTime = false
-                    mVelocityTracker?.apply {
-                        val pointerId: Int = event.getPointerId(event.actionIndex)
-                        addMovement(event)
-                        // When you want to determine the velocity, call
-                        // computeCurrentVelocity(). Then call getXVelocity()
-                        // and getYVelocity() to retrieve the velocity for each pointer ID.
-                        computeCurrentVelocity(1000)
-                        // Log velocity of pixels per second
-                        // Best practice to use VelocityTrackerCompat where possible.
-                        Log.d("", "X velocity: ${getXVelocity(pointerId)}")
-                        Log.d("", "Y velocity: ${getYVelocity(pointerId)}")
-                    }
                 }
 
                 else{
@@ -469,7 +394,7 @@ private fun isExternalStorageWritable():Boolean{
                 val x = Math.round(event.x)
                 val y = Math.round(event.y)
 
-                System.out.println("POSITION")
+                System.out.println("POSITION")j
                 System.out.println("x : "+x)
                 System.out.println("y : "+y)
                 if(newTime){
@@ -489,54 +414,72 @@ private fun isExternalStorageWritable():Boolean{
         }
         return true
     }
+*/
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        if(item.getItemId() == R.id.nav_connect){
-//
-//            //setContentView(R.layout.activity_login)
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//        }
-
+        var drawerPb = false
         when(item.getItemId()){
-            // R.id.nav_connect -> supportFragmentManager.beginTransaction().replace(R.layout.activity_login,MessageFragment()).commit()
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
-
-            R.id.nav_chat -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ChatFragment()).commit()
-            R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
-            //R.id.nav_sign_in -> setContentView(R.layout.activity_registration)
-            //R.id.nav_sign_in -> supportFragmentManager.beginTransaction().replace(R.layout.activity_registration,ProfileFragment()).commit()
-
-            R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
-                //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ContactFragment()).commit()
-            R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
-            //R.id.nav_contact -> Toast.makeText(this,"share", Toast.LENGTH_SHORT).show()
-            //R.id.nav_client -> Toast.makeText(this,"send", Toast.LENGTH_SHORT).show()
+            R.id.nav_do_diagnosis -> intent = Intent(this,StarActivity::class.java)
+            R.id.nav_disconnect ->{val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+                with(sharedPrefLogs.edit()) {
+            putBoolean("isConn", false)
+            commit()
         }
+            drawer_layout_conn.closeDrawer(GravityCompat.START)
+                drawerPb = true
+            intent = Intent(this, HomeActivity::class.java)
+        }
+            R.id.nav_edit_profile -> intent = Intent(this, UserInfoActivity::class.java)
+            R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
+            R.id.nav_appointment -> intent = Intent(this, AppointmentActivity::class.java)
+            R.id.policy -> {intent = Intent(this, Policy::class.java)}
+            R.id.nav_contact -> intent = Intent(this, ContactFragment::class.java)
+           // R.id.nav_call_doctor -> launchPopUpStartCall()
+            //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
+        }
+
         startActivity(intent)
-        drawer_layout.closeDrawer(GravityCompat.START)
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(!stateConnection){
+            if(!drawerPb){
+                drawer_layout.closeDrawer(GravityCompat.START)}}
+        else if(stateConnection){
+        drawer_layout_conn.closeDrawer(GravityCompat.START)}
         return true
+
     }
     override fun onBackPressed() {
-        if(drawer_layout.isDrawerOpen(GravityCompat.START)){
-            drawer_layout.isDrawerOpen(GravityCompat.START)
-        } else
-            super.onBackPressed()
+
+        val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
+        val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+        if(stateConnection) {
+            if (drawer_layout_conn.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout_conn.closeDrawer(GravityCompat.START)
+            } else
+                super.onBackPressed()
+        }
+        else if(!stateConnection) {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
+            } else
+                super.onBackPressed()
+        }
+        else super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.user_menu, menu)
-
-        System.out.println("ONCREATEOPTION")
 
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         val stateConnection = sharedPrefLogs.getBoolean("isConn", false)
-        if(!stateConnection){
+        if(stateConnection){
+            inflater.inflate(R.menu.user_menu, menu)
 
-        val user = FirebaseAuth.getInstance().currentUser
+        //val user = FirebaseAuth.getInstance().currentUser
     /*    if (user != null) { // Name, email address, and profile photo Url
             System.out.println("USER NON NULL")
             val name = user.getDisplayName()
@@ -568,6 +511,7 @@ private fun isExternalStorageWritable():Boolean{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
         //var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
+
         when (item.getItemId()) {
             R.id.log_out -> {with(sharedPrefLogs.edit()) {
                 putBoolean("isConn", false)
@@ -575,13 +519,88 @@ private fun isExternalStorageWritable():Boolean{
                 commit()
             }
                 intent = Intent(this, HomeActivity::class.java)
+                //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             }
+            R.id.action_user_info -> intent = Intent(this, UserInfoActivity::class.java)
         }
         startActivity(intent)
         return true
         //return super.onOptionsItemSelected(item)
     }
 
+    fun launchPopUpStartCall(){
+        val builder = AlertDialog.Builder(this)
+            .setTitle("Lancer un appel")
+            .setMessage("Voulez-vous vraiment appelez un médecin?")
+        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            startCall()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+        }
+        builder.show()
+    }
+
+    fun startCall() {
+        val intentcall = Intent()
+        intentcall.action = Intent.ACTION_CALL
+        intentcall.data = Uri.parse("tel:+33698305732") // set the Uri
+        startActivity(intentcall)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == StarActivity.cameraRequestCode &&
+            resultCode == Activity.RESULT_OK
+        ) {
+            val navigationView = findViewById<NavigationView>(R.id.nav_view_conn)
+            navigationView.setNavigationItemSelectedListener(this)
+
+            val header = navigationView.getHeaderView(0)
+            val imageUser = header.findViewById<ImageView>(R.id.imageUser)
+
+            val imageFileName = "profilePic.jpg"
+            //val bytearrayoutputstream = ByteArrayOutputStream()
+            val state = Environment.getExternalStorageState()
+            var success = true
+            val root = this.getExternalFilesDir("ProfileInfo")
+
+            if (data?.data != null) { // Gallery
+
+                val pathURI = data.data!!.getPath()
+                System.out.println("CHEMIN " + pathURI.toString())
+                //val bitmap = data?.extras?.get("data") as? Bitmap
+                //bitmap!!.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream)
+                if (Environment.MEDIA_MOUNTED.equals((state))) {
+                    val dir = File(root!!.absolutePath)
+                    val dirTake = File(pathURI.toString())
+                    System.out.println(dir.toString())
+                    if (!dir.exists()) {
+                        success = dir.mkdir()
+                        //System.out.println("does not exists yet")
+                    }
+                    if (success) {
+                        val file = File(dir, imageFileName)
+                        //System.out.println("success true")
+                        try {
+                            file.createNewFile()
+                            //var a = dirTake.readBytes()
+                            file.writeBytes(dirTake.readBytes())
+                            System.out.println("SAVED")
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                    imageUser.setImageURI(data.data)
+            }
+        }
+    }
 
 }
 

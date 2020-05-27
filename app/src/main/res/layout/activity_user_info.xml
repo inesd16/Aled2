@@ -1,9 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".UserInfoActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:foregroundGravity="center_horizontal"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/modifyContactInfo"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourInfoText" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:background="@drawable/custom_view">
+
+        <Button
+            android:id="@+id/editPasswButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="#D4C7E8"
+            android:text="@string/passw"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/editPersonalInfoButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="#D3D2D2"
+            android:text="@string/PersInfo"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/editMedicalInfoButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="#D3D2D2"
+            android:text="@string/medicalInfo"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:id="@+id/editFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="#7FC7E4"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/historyButton"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="#8CB5D5"
+            android:contentDescription="@string/history"
+            android:orientation="horizontal"
+            android:src="@drawable/news_logo"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="578dp" />
+
+        <ImageButton
+            android:id="@+id/sosButton"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/heartsosresized"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#8CB5D5"
+            android:contentDescription="@string/goHomePage"
+            android:orientation="horizontal"
+            android:src="@drawable/house" />
+
+    </LinearLayout>
+
+</LinearLayout>

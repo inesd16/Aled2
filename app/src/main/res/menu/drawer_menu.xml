@@ -5,35 +5,30 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_connect"
-            android:icon="@drawable/ic_email"
-            android:title="Se connecter">
+            android:icon="@drawable/signin"
+            android:title="@string/connect">
 
         </item>
-        <item
-            android:id="@+id/nav_chat"
-            android:icon="@drawable/ic_email"
-            android:title="Chat">
 
             <item
                 android:id="@+id/nav_sign_in"
-                android:icon="@drawable/ic_email"
-                android:title="Créer un compte" />
-        </item>
+                android:icon="@drawable/create_account"
+                android:title="@string/createAccount" />
     </group>
-    <item android:title="Contact">
+    <item android:title="@string/contact">
         <menu>
             <item
-                android:id="@+id/nav_about_us"
+                android:id="@+id/policy"
                 android:icon="@drawable/ic_share"
-                android:title="A propos" />
+                android:title="@string/generalPolicy" />
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_share"
-                android:title="Contact" />
-            <item
-                android:id="@+id/nav_client"
-                android:icon="@drawable/ic_share"
-                android:title="Service Client" />
+                android:title="@string/contact" />
+<!--            <item-->
+<!--                android:id="@+id/nav_client"-->
+<!--                android:icon="@drawable/ic_share"-->
+<!--                android:title="@string/customerService" />-->
         </menu>
     </item>
 

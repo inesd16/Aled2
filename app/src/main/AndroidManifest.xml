@@ -6,44 +6,111 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
+    <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature
-        android:name="android.hardware.camera"
+        android:name="android.hardware.Camera.full"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.Camera.CameraInfo"
         android:required="true" />
 
     <application
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/avatar"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/avatar"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+
+        tools:ignore="AllowBackup">
+        <activity
+            android:name=".AppointmentActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".form.form22" />
+        <activity android:name=".form.form21" />
+        <activity android:name=".form.form20" />
+        <activity android:name=".form.form19" />
+        <activity android:name=".form.form18" />
+        <activity android:name=".form.form17" />
+        <activity android:name=".form.form16" />
+        <activity android:name=".form.form15" />
+        <activity android:name=".form.form14" />
+        <activity android:name=".form.form13" />
+        <activity android:name=".form.form12" />
+        <activity android:name=".form.form11" />
+        <activity android:name=".form.form10" />
+        <activity android:name=".form.form9" />
+        <activity android:name=".form.form8" />
+        <activity android:name=".form.form7" />
+        <activity android:name=".form.form6" />
+        <activity android:name=".form.form5" />
+        <activity android:name=".form.form4" />
+        <activity android:name=".form.form3" />
+        <activity android:name=".form.form2" />
+        <activity android:name=".form.form1" />
+        <activity android:name=".form.FormActivity" />
+        <activity
+            android:name=".Policy"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <provider
-            android:authorities="com.video.record.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.video.record.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name=".StarActivity"/>
-        <activity android:name=".UserInfoActivity" />
-        <activity android:name=".ContactFragment" />
-        <activity android:name=".HomeConnectedActivity" />
-        <activity android:name=".SubscribeActivity" />
-        <activity android:name=".HomeActivity">
+
+        <activity
+            android:name=".StarActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".UserInfoActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ContactFragment"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".HomeConnectedActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait"
+
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LoginActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:finishOnTaskLaunch="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

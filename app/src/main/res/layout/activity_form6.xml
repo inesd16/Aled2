@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".form.form6">
+
+    <Switch
+        android:id="@+id/form6_switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/do_you_have_a_fever_38_c_100_4_f" />
+
+    <SeekBar
+        android:id="@+id/form6_seekBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="10"/>
+
+    <Switch
+        android:id="@+id/form6_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/do_you_take_drugs" />
+
+    <Switch
+        android:id="@+id/form6_switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/did_you_have_a_prolonged_immersion_in_water_or_are_you_in_a_cold_environment" />
+
+    <Switch
+        android:id="@+id/form6_switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/did_you_have_a_recent_emotional_pain" />
+
+    <Button
+        android:id="@+id/form6_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

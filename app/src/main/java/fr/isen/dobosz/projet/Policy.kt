@@ -1,12 +1,12 @@
 package fr.isen.dobosz.projet
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
-class SubscribeActivity : AppCompatActivity() {
+class Policy : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_subscribe)
+        setContentView(R.layout.activity_policy)
     }
 }
