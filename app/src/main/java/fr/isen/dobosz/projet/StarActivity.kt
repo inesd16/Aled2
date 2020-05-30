@@ -104,7 +104,7 @@ class StarActivity : AppCompatActivity() {
 //            mCamera.CameraInfo().facing
             val sharedPrefPosition = this.getSharedPreferences("sharedPrefPosition", Context.MODE_PRIVATE)
             val readString = sharedPrefPosition.getString("backupMicePos", "") ?:"" //posArray
-            writeFile(posArray.toString(),"", this)
+            writeFile(posArray.toString())
             videoButton.performClick()
             read()
             var intent = Intent(this, FormActivity::class.java)
@@ -402,9 +402,7 @@ class StarActivity : AppCompatActivity() {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    fun writeFile(coords1: String, coords2: String, context: Context){
-        //System.out.println("WRiTEFile"+coords1)
-        //System.out.println("WRiTEFile"+HomeActivity.readString)
+    fun writeFile(coords1: String){
         val state = Environment.getExternalStorageState()
         var success = true
         //val rootTest = Environment.getExternalStorageDirectory()
