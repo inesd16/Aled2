@@ -388,21 +388,6 @@ val width = displayMetrics.widthPixels
                 try {
                     file.createNewFile()
                     file.writeText(coords1)
-                    //System.out.println(file.readText())
-                    /* val fOut = FileOutputStream(file)
-                     val myOutWriter =  OutputStreamWriter(fOut)
-                     myOutWriter.append(coords1)
-                     System.out.println("MYTEXT "+myOutWriter.toString())
-
-                     val outputStreamWriter = OutputStreamWriter(context.openFileOutput("clickPos.txt", Context.MODE_PRIVATE))
-                     outputStreamWriter.write(coords1)
-                     outputStreamWriter.close()*/
-
-                    /*val fos = FileOutputStream(file)
-                    fos.write(readString!!.toByteArray())
-                    fos.close()*/
-                    //File(dir.name).writeText(coords1)
-                    //File(dir.name).writeText(coords2)
                     System.out.println("SAVED")
                 } catch (e: FileNotFoundException) {
                     System.out.println("E1")
@@ -593,7 +578,7 @@ val width = displayMetrics.widthPixels
                 Log.v("TAG","Permission is revoked2")
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     StarActivity.writeESRequestCode
-                );
+                )
                 return false
             }
         }

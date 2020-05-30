@@ -48,10 +48,10 @@ class EditPasswordFragment : Fragment() {
             val readString = sharedSaveNewUser.getString("userInfo", "") ?: ""
             //var jsonArray = JSONArray(readString)
            // var jsonObj = jsonArray.getJSONObject(0)
-            var jsonObj = JSONObject(readString)
+            val jsonObj = JSONObject(readString)
             System.out.println("JSONOBJET "+jsonObj)
-            var passw = jsonObj.getInt("password")
-            var nom = jsonObj.getString("name")
+            val passw = jsonObj.getInt("password")
+            val nom = jsonObj.getString("name")
             System.out.println(nom)
             System.out.println("NEW "+formerPasswEditText.text.toString().hashCode())
             //val hash = passw.toString().hashCode()
@@ -78,7 +78,7 @@ class EditPasswordFragment : Fragment() {
             else{
 
                 passwEdited.visibility = View.VISIBLE
-                passwEdited.setText("Mot de passe non modifié : ERREUR")
+                passwEdited.setText(getString(R.string.passwModifiedError))
             }
 
         }
@@ -103,9 +103,6 @@ class EditPasswordFragment : Fragment() {
                 var countCapLetter = false //passw does not capital letter
                 for (letter in newPasswEditText.getText().toString()) { //Check number in passw
                     try { //is letter a number ?
-                        // val i = Integer.parseInt(letter.toString())
-                        //System.out.println("C'est un entier")
-                        //informations.setText("")
                         countNumber = true
                     } catch (e: Exception) {
                         //System.out.println("Je ne suis pas un entier, et alors ca te derange ?")
@@ -126,7 +123,6 @@ class EditPasswordFragment : Fragment() {
             }
         } else { //password not same length
 
-            //Toast.makeText(this, "The passwords must be the same", Toast.LENGTH_LONG).show()
             return false
         }
     }

@@ -204,6 +204,9 @@
     <string name="formFirstPage"><u>Etape 2</u> : Remplissez vos symptômes (2 maximum).\nCliquez OK une fois terminé.</string>
     <string name="yourprofilepicture">YourProfilePicture</string>
     <string name="connectionAdvice">Vous n\'avez pas encore de compte ? <b>Créez-en un</b>. \n Si vous avez un compte, <b>connectez-vous</b>.</string>
+    <string name="passwModifiedError">Mot de passe non modifié : ERREUR</string>
+    <string name="isComing">A venir</string>
+    <string name="isPast">Passé</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>

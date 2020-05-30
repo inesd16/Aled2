@@ -18,13 +18,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @SuppressLint("PrivateResource")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*val sharedPrefLogs : SharedPreferences = getSharedPreferences("isConnected", Context.MODE_PRIVATE)
-        var stateConnection = sharedPrefLogs.getBoolean("isConn", false)
-        if(stateConnection){
-
-        }*/
-        //val openDialog = Dialog(this)
-        //openDialog.setContentView(R.layout.custom_dialog)
         setContentView(R.layout.activity_main)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -40,8 +33,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(savedInstanceState == null){
 
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,MessageFragment()).commit()
-        //navigationView.setCheckedItem(R.id.nav_connect)
-        //R.id.nav_connect.setOnClickListener(View.OnClickListener())
             }
 
     }
@@ -54,8 +45,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(item.getItemId()){
             R.id.nav_connect -> intent = Intent(this, LoginActivity::class.java)
             R.id.nav_sign_in -> intent = Intent(this, RegistrationActivity::class.java)
-            //R.id.nav_contact -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
-            //R.id.nav_about_us -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container,LoginFragment()).commit()
 
         }
         startActivity(intent)

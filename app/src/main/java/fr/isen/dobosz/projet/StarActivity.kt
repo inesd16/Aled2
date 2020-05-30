@@ -340,89 +340,7 @@ class StarActivity : AppCompatActivity() {
         }
         //System.out.println(jsonArray)
     }
-/*
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val action = event.action
-        when (action) {
-            MotionEvent.ACTION_UP -> {
-            }
-
-            MotionEvent.ACTION_DOWN -> {
-
-                // var newTime:Boolean = true
-                val x = Math.round(event.x)
-                val y = Math.round(event.y)
-//
-//                System.out.println("POSITION")
-//                System.out.println("x : "+x)
-//                System.out.println("y : "+y)
-                if(newTime){
-                    val jsonArray = JSONArray()
-                    saveInJSON(jsonArray, x, y)
-                    newTime = false
-                }
-
-                else{
-                    saveInJSON(readPreviousClick(), x,y)
-                }
-                //writeFile()
-            }
-            MotionEvent.ACTION_MOVE -> {
-
-                System.out.println("ACTION_MOVE")
-                // var newTime:Boolean = true
-                val x = Math.round(event.x)
-                val y = Math.round(event.y)
-//
-//                System.out.println("POSITION")
-//                System.out.println("x : "+x)
-//                System.out.println("y : "+y)
-                if(newTime){
-                    val jsonArray = JSONArray()
-                    jsonArray.put("screen_accueil")
-                    saveInJSON(jsonArray, x, y)
-                    newTimeStar = false
-
-                }
-
-                else{
-                    saveInJSON(readPreviousClick(), x,y)
-                }
-                //writeFile()
-            }
-            MotionEvent.ACTION_CANCEL -> {
-                System.out.println("ACTION_CANCEL")
-
-            }
-
-            MotionEvent.ACTION_POINTER_DOWN -> {
-
-                System.out.println("ACTION_POINTER_DOWN")
-                // var newTime:Boolean = true
-                val x = Math.round(event.x)
-                val y = Math.round(event.y)
-
-                System.out.println("POSITION")
-                System.out.println("x : "+x)
-                System.out.println("y : "+y)
-                if(newTimeStar){
-                    val jsonArray = JSONArray()
-                    saveInJSON(jsonArray, x, y)
-                    newTimeStar = false
-                }
-
-                else{
-                    saveInJSON(readPreviousClick(), x,y)
-                }
-            }
-
-
-
-        }
-        return true
-    }
-*/
 
 
     fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
@@ -508,21 +426,6 @@ class StarActivity : AppCompatActivity() {
                 try {
                     file.createNewFile()
                     file.writeText(coords1)
-                    //System.out.println(file.readText())
-                    /* val fOut = FileOutputStream(file)
-                     val myOutWriter =  OutputStreamWriter(fOut)
-                     myOutWriter.append(coords1)
-                     System.out.println("MYTEXT "+myOutWriter.toString())
-
-                     val outputStreamWriter = OutputStreamWriter(context.openFileOutput("clickPos.txt", Context.MODE_PRIVATE))
-                     outputStreamWriter.write(coords1)
-                     outputStreamWriter.close()*/
-
-                    /*val fos = FileOutputStream(file)
-                    fos.write(readString!!.toByteArray())
-                    fos.close()*/
-                    //File(dir.name).writeText(coords1)
-                    //File(dir.name).writeText(coords2)
                     System.out.println("SAVED")
                 } catch (e: FileNotFoundException) {
                     System.out.println("E1")
@@ -585,9 +488,6 @@ class StarActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == videoRequestCode && resultCode == Activity.RESULT_OK) {
             System.out.println("PERMISSION VIDEO")
-            //video_view.setVideoUri(videoUri)
-            //video_view.start()
-            //addToGallery()
 
         }
     }
@@ -596,8 +496,6 @@ class StarActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun prepareVideoRecorder(): Boolean {
         mediaRecorder = MediaRecorder()
-        //mCamera!!.Size(200,200)
-        // mediaRecorder!!.setVideoSize(200,200)
         System.out.println("MEDIARECORDER "+mediaRecorder)
         System.out.println("CAMERA "+mCamera)
 
@@ -697,7 +595,7 @@ class StarActivity : AppCompatActivity() {
             } else {
 
                 Log.v("TAG","Permission is revoked2")
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writeESRequestCode);
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writeESRequestCode)
                 return false
             }
         }

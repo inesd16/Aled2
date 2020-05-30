@@ -7,12 +7,4 @@ class AppointmentModel() {
     var type:String? = null
     var time:String? = null
     var past:Boolean? = false
-//    constructor(name: String, surname:String, date:String, type:String, time:String):this(){
-//
-//        this.name = name
-//        this.surname = surname
-//        this.date = date
-//        this.type = type
-//        this.time = time
-//    }
 }

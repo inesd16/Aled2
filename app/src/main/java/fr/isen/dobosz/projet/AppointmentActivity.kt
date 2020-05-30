@@ -76,22 +76,17 @@ class AppointmentActivity : AppCompatActivity() {
         val dateString = formatter.format(currentDate)
         val components = dateString.split("/")
 
-        var age = components[2].toInt() - year
         if(components[2].toInt() < year){
             return false
         }
-        else if(components[1].toInt() < month) {
+        else if(components[1].toInt() < month+1) {
             return false
         }
-        else if (components[1].toInt() == month &&
+        else if (components[1].toInt() == month+1 &&
             components[0].toInt() < day){
             return false
         }
         else return true
 
-//        if(age < 0 || age > 120) {
-//            this.age = age
-//            return -1
-//        }
     }
 }

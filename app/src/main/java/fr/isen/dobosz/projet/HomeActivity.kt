@@ -126,19 +126,7 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
                     }
                 }
 
-                //val imageUserDrawer = header.findViewById<ImageView>(R.id.imageUser)
-                //imageUserDrawer.setImage
-                //navigationView.setCheckedItem(R.id.nav_connect)
-                //R.id.nav_connect.setOnClickListener(View.OnClickListener())
             }
-//            val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE) ?: return
-//            val readString = sharedNewUser.getString("userInfo", "") ?: ""
-//            var jsonO = JSONObject(readString)
-//            var totName = jsonO.getString("name").toString()
-//            totName = totName + " "+jsonO.getString("surname").toString().toUpperCase()
-//            findViewById<TextView>(R.id.nameUserTextView).setText(totName)
-//            var email = jsonO.getString("email")
-//            findViewById<TextView>(R.id.emailUserTextView).setText(email)
 
         }
         else{
@@ -174,74 +162,6 @@ class HomeActivity : AppCompatActivity(), View.OnTouchListener, NavigationView.O
         }
 
     }
-private fun isExternalStorageWritable():Boolean{
-        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
-            return true
-        }
-         else return false
-    }
-
-
-    /*fun writeFile(){
-        System.out.println(readString)
-        val state = Environment.getExternalStorageState()
-        if(Environment.MEDIA_MOUNTED.equals((state))){
-
-            val root = Environment.getExternalStorageDirectory()
-
-            val dir = File(root.absolutePath+"/myAppFile")
-            System.out.println(dir)
-            if(!dir.exists()){
-                dir.mkdir()
-                System.out.println("does not exists yet")
-            }
-            else{
-
-                System.out.println("exists")
-            }
-            val file = File(dir,"clickPos.txt")
-            try {
-                val fos = FileOutputStream(file)
-                fos.write(readString!!.toByteArray())
-                fos.close()
-                System.out.println("SAVED")
-
-            }
-            catch(e: FileNotFoundException){
-                e.printStackTrace()
-            }
-            catch(e: IOException){
-                e.printStackTrace()
-            }
-
-
-        }
-
-    }*/
-
-   /* fun readFile(){
-
-        var myExternalFile = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"), "ClickPositionsFile.txt")
-        val filename = "ClickPositionsFile.txt"
-        myExternalFile = File(getExternalFilesDir("C:\\Users\\inesd\\OneDrive\\Documents\\M1\\Projet"),filename)
-        val fileInputStream = FileInputStream(myExternalFile)
-        val inputStreamReader = InputStreamReader(fileInputStream)
-        val bufferedReader = BufferedReader(inputStreamReader)
-        val stringBuilder: StringBuilder = StringBuilder()
-        var text: String? = null
-        while ({ text = bufferedReader.readLine(); text }() != null) {
-            stringBuilder.append(text)
-        }
-        System.out.println("StringBuilder : "+stringBuilder)
-        fileInputStream.close()
-    }
-    fun onCapturedPointerEvent(motionEvent: MotionEvent): Boolean {
-        // Get the coordinates required by your app
-        //val verticalOffset: Float = motionEvent.y
-        // Use the coordinates to update your view and return true if the event was
-        // successfully processed
-        return true
-    }*/
 
     fun readPreviousClick():JSONArray{
 
@@ -331,92 +251,6 @@ private fun isExternalStorageWritable():Boolean{
         return true
     }
 
-/*
-
-     @SuppressLint("Recycle")
-     override fun onTouchEvent(event: MotionEvent): Boolean {
-        val action = event.action
-        when (action) {
-                MotionEvent.ACTION_UP -> {// Return a VelocityTracker object back to be re-used by others.
-                    System.out.println("ACTION_UP")
-                }
-
-            MotionEvent.ACTION_DOWN -> {
-                System.out.println("ACTION_DOWN")
-
-                // var newTime:Boolean = true
-                val x = Math.round(event.x)
-                val y = Math.round(event.y)
-
-                System.out.println("POSITION")
-                System.out.println("x : "+x)
-                System.out.println("y : "+y)
-                if(newTime){
-                    val jsonArray = JSONArray()
-                    save(jsonArray, x, y)
-                    newTime = false
-                }
-
-                else{
-                    save(readPreviousClick(), x,y)
-                }
-                //writeFile()
-            }
-            MotionEvent.ACTION_MOVE -> {
-
-                System.out.println("ACTION_MOVE")
-                // var newTime:Boolean = true
-                val x = Math.round(event.x)
-                val y = Math.round(event.y)
-
-                System.out.println("POSITION")
-                System.out.println("x : "+x)
-                System.out.println("y : "+y)
-                if(newTime){
-                    val jsonArray = JSONArray()
-                    jsonArray.put("screen_accueil")
-                    save(jsonArray, x, y)
-                    newTime = false
-                }
-
-                else{
-                    save(readPreviousClick(), x,y)
-                }
-                //writeFile()
-            }
-            MotionEvent.ACTION_CANCEL -> {
-                System.out.println("ACTION_CANCEL")
-
-        }
-
-            MotionEvent.ACTION_POINTER_DOWN -> {
-
-                System.out.println("ACTION_POINTER_DOWN")
-                // var newTime:Boolean = true
-                val x = Math.round(event.x)
-                val y = Math.round(event.y)
-
-                System.out.println("POSITION")j
-                System.out.println("x : "+x)
-                System.out.println("y : "+y)
-                if(newTime){
-                    val jsonArray = JSONArray()
-                    save(jsonArray, x, y)
-                    newTime = false
-                }
-
-                else{
-                    save(readPreviousClick(), x,y)
-                }
-                //writeFile()
-            }
-
-
-
-        }
-        return true
-    }
-*/
 
     @SuppressLint("ResourceType")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

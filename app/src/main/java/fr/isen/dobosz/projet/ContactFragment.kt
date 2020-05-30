@@ -2,6 +2,7 @@ package fr.isen.dobosz.projet
 
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.fragment_contact.*
+import org.json.JSONObject
+import java.util.*
 
 
 class ContactFragment: AppCompatActivity(){
@@ -30,13 +33,20 @@ class ContactFragment: AppCompatActivity(){
     protected fun sendEmail() {
         Log.i("Send email", "")
         val TO = arrayOf("contact@aled.com")
-        val CC = arrayOf("ines.dobosz@isen.yncrea.fr")
+        val CC = arrayOf("ines.dobosz@isen.fr")
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO)
         emailIntent.putExtra(Intent.EXTRA_CC, CC)
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject")
+        val sharedNewUser = this.getSharedPreferences("sharedNewUser", Context.MODE_PRIVATE)
+        val readString = sharedNewUser.getString("userInfo", "") ?:""
+        System.out.println(readString)
+        val jsonObj = JSONObject(readString)
+        val localName= jsonObj.getString("name")
+        val localSurname = jsonObj.getString("surname").toUpperCase(Locale.ROOT)
+
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, localName+" "+localSurname)
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here")  // add name user
 
 

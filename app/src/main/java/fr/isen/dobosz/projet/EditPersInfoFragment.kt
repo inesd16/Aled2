@@ -224,25 +224,13 @@ class EditPersInfoActivity : Fragment() {
         }
     }
 
-    fun onChangePhoto() {/*
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "IMAGE$timeStamp.jpg"
-        val storageDir: File = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES
-        )
-        var pictureImagePath = storageDir.getAbsolutePath().toString() + "/" + imageFileName
-        val file = File(pictureImagePath)
-        val outputFileUri: Uri = Uri.fromFile(file)*/
+    fun onChangePhoto() {
         val galleryIntent = Intent(Intent.ACTION_PICK)
         galleryIntent.type = "image/*"
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
        // val cameraIntent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val intentChooser = Intent.createChooser(galleryIntent, "Choose your picture library")
-        //var picture = Intent.EXTRA_INITIAL_INTENTS
-        //cameraIntent2.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
-        //intentChooser.putExtra(picture, arrayOf(cameraIntent))
-        //intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
         intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
         startActivityForResult(intentChooser, StarActivity.cameraRequestCode)

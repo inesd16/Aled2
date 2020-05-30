@@ -169,9 +169,9 @@ class EditMedicalInfoFragment : Fragment() {
         val components = dateString.split("/")
 
         var age = components[2].toInt() - year
-        if(components[1].toInt() < month-1) {
+        if(components[1].toInt() < month) {
             age--
-        } else if (components[1].toInt() == month &&
+        } else if (components[1].toInt() == month+1 &&
             components[0].toInt() < day){
             age --
         }

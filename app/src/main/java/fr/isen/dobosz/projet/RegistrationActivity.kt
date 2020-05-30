@@ -39,7 +39,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,View.OnKeyListener {
+class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
      var password: String = ""
      var email: String = ""
     private var mAuth: FirebaseAuth? = null
@@ -123,7 +123,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
                     },
                     1970,
-                    1,
+                    0,
                     1)
                 dialog.show()
             }
@@ -145,14 +145,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                 onChangePhoto()
             }
         }
-        nameField.setOnKeyListener{v, keyCode, event ->
-            System.out.println(("FIELD"))
-            onKey(v,keyCode,event)
-        }
-        nameField.setOnKeyListener{v, keyCode, event ->
-            System.out.println(("FIELD"))
-            onKeyDown(keyCode,event)
-        }
+
 
         var database = FirebaseDatabase.getInstance()
 //        var myRef = database.getReferenceFromUrl("user/Email")
@@ -443,9 +436,9 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         val components = dateString.split("/")
 
         var age = components[2].toInt() - year
-        if(components[1].toInt() < month) {
+        if(components[1].toInt() < month+1) {
             age--
-        } else if (components[1].toInt() == month &&
+        } else if (components[1].toInt() == month+1 &&
             components[0].toInt() < day){
             age --
         }
@@ -453,7 +446,6 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             this.age = age
             return -1
         }
-        System.out.println("TU AS "+age)
         // field_age.setText("Vous avez ${getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())} ans")
         this.age = age
         return age
@@ -482,6 +474,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                 if(Environment.MEDIA_MOUNTED.equals((state))){
                     val dir = File(root!!.absolutePath)
                     val dirTake = File(pathURI.toString())
+
                     System.out.println(dir.toString())
                     if(!dir.exists()){
                         success = dir.mkdir()
@@ -537,25 +530,13 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             }
         }
     }
-    fun onChangePhoto() {/*
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "IMAGE$timeStamp.jpg"
-        val storageDir: File = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES
-        )
-        var pictureImagePath = storageDir.getAbsolutePath().toString() + "/" + imageFileName
-        val file = File(pictureImagePath)
-        val outputFileUri: Uri = Uri.fromFile(file)*/
+    fun onChangePhoto() {
         val galleryIntent = Intent(Intent.ACTION_PICK)
         galleryIntent.type = "image/*"
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // val cameraIntent2 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val intentChooser = Intent.createChooser(galleryIntent, "Choose your picture library")
-        //var picture = Intent.EXTRA_INITIAL_INTENTS
-        //cameraIntent2.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
-        //intentChooser.putExtra(picture, arrayOf(cameraIntent))
-        //intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
         intentChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
         startActivityForResult(intentChooser, StarActivity.cameraRequestCode)
@@ -592,6 +573,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                 super.onKeyUp(keyCode, event)}
         }
     }
+/*
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         var jsonKeyboard = JSONObject()
@@ -616,6 +598,7 @@ class RegistrationActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         }
         return true
     }
+*/
 
     fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
         if(ContextCompat.checkSelfPermission(this, permissionToRequest) != PackageManager.PERMISSION_GRANTED) {
