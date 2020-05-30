@@ -47,7 +47,7 @@
     <string name="contactInfo">Informations</string>
     <string name="myAccount">Mon compte</string>
     <string name="generalPolicy">Conditions Générales</string>
-    <string name="welcome"><u>Medical Desertification</u>\n<b>Bienvenue</b></string>
+    <string name="welcome"><u><b>Medical Desertification</b></u> vous souhaite la bienvenue sur notre application</string>
     <string name="welcomeConnected"><u>Medical Desertification</u>\n<b>Bienvenue</b></string>
     <string name="feelSick">Remplir le formulaire pour avoir un pré-diagnostic :</string>
     <string name="accessForm">Accéder au formulaire</string>
@@ -203,6 +203,7 @@
     <string name="email_ab_c_de_fg">ab.c@de.fg</string>
     <string name="formFirstPage"><u>Etape 2</u> : Remplissez vos symptômes (2 maximum).\nCliquez OK une fois terminé.</string>
     <string name="yourprofilepicture">YourProfilePicture</string>
+    <string name="connectionAdvice">Vous n\'avez pas encore de compte ? <b>Créez-en un</b>. \n Si vous avez un compte, <b>connectez-vous</b>.</string>
     <string-array name="secretQuestion">
         <item>Quelle est la chanson que je déteste le plus ?</item>
         <item>Quel est le nom de mon medecin traitant d\'enfance</item>
